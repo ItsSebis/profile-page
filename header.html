@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>ItsSebis</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" href="img/title-bar.png">
+</head>
+<style>
+
+    /* Pre defined */
+    * {
+        color: white;
+    }
+    body {
+        background-color: #363636;
+        font-family: "Roboto Mono", monospace;
+        font-size: 11pt;
+    }
+    a {
+        text-decoration: none;
+        color: #00cccc;
+    }
+    a:hover {
+        color: #007777;
+    }
+    a:active {
+        color: #00ff9d;
+    }
+
+    /* Custom Classes */
+    .nav {
+        float: top;
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        margin: 0 auto;
+        background-color: #262626;
+        border: 10px solid #262626;
+        border-radius: 0 0 24px 24px;
+        padding: 0 5px 3px 5px;
+    }
+    .navlinks {
+        text-decoration: none;
+        color: white;
+        transition: 125ms;
+        width: fit-content;
+        margin: 0 5px 0 5px;
+    }
+    .navlinks:hover {
+        border-bottom: 1px solid white;
+        color: white;
+    }
+    .navlinks:active {
+        color: red;
+    }
+    .main {
+        width: 60%;
+        background-color: #262626;
+        float: none;
+        margin: 10px auto;
+        border: 10px solid #262626;
+        border-radius: 20px;
+    }
+</style>
+<body>
+<div class="nav">
+    <a href="/sharky" class="navlinks">Sharky</a>
+    <a href="/projects" class="navlinks">Projects</a>
+    <a href="" class="navlinks">Projects</a>
+</div>
