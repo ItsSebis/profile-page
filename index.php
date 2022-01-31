@@ -5,7 +5,7 @@ include_once "header.html";
 <head><title>ItsSebis ∘ Home</title></head>
 
 <div class="main" style="margin-top: 60px; text-align: center">
-    <h1>ItsSebis</h1><br>
+    <h1>ItsSebis</h1>
     <p>Moin!<br>
         - Sebi (14), programmiert gerne Sachen.<br><br>
         Check doch mal meine Kreationen ab:<br><br>
