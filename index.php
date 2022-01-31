@@ -5,7 +5,12 @@ include_once "header.html";
 <head><title>ItsSebis ∘ Home</title></head>
 
 <div class="main" style="margin-top: 60px; text-align: center">
-    <h1>ItsSebis</h1>
+    <h1>ItsSebis</h1><br>
+    <p>Moin!<br>
+        - Sebi (14), programmiert gerne Sachen.<br><br>
+        Check doch mal meine Kreationen ab:<br><br>
+        <a target="_blank" href="https://github.com/itssebis">-> Main GitHub <-</a>
+    </p><br>
     <h2>Ich kann:</h2>
     <ul style="width: 45%; margin: 0 auto; text-align: left">
         <li>Websites erstellen (PHP, HTML, CSS)</li>
