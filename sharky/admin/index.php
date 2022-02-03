@@ -113,7 +113,6 @@ if (isset($_SESSION["username"]) && isset($_GET["premium"]) && isset($_GET["guil
         border: 10px solid #262626;
         border-radius: 20px;
     }
-
     .login {
         align-items: center;
         text-transform: uppercase;
