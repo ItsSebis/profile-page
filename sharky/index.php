@@ -2,7 +2,7 @@
 
 //require_once "config/dbh.php";
 //require_once "extensions/functions.php";
-//session_start();
+session_start();
 ?>
 
 <html lang="en">
