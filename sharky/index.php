@@ -119,9 +119,9 @@ session_start();
 <a class="invite" href="https://www.sebis.net/bot"><p>Add to Discord</p></a>
 <div class="stats">
     <h2>Statistics</h2>
-    <p>Servers: <?php //echo(getGuildCount()); ?></p>
-    <p>Saved Members: <?php //echo(getMemberCount()); ?></p>
-    <p>Operators: <?php //echo(getOperatorCount()); ?></p>
+    <p>Servers: <?php echo(getGuildCount()); ?></p>
+    <p>Saved Members: <?php echo(getMemberCount()); ?></p>
+    <p>Operators: <?php echo(getOperatorCount()); ?></p>
 </div>
 <div class="main">
     <h1>Features:</h1>
