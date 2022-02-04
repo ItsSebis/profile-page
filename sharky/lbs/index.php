@@ -1,6 +1,6 @@
 <?php
 
-require_once "../config/dbh.php";
+//require_once "../config/dbh.php";
 
 function guildData($id) {
     $sql = "SELECT * FROM guilds WHERE id = ?;";
