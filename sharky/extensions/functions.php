@@ -245,7 +245,7 @@ function echoGuild($id) {
     }
 }
 
-function xpNeeded($lvl): float|int {
+function xpNeeded($lvl) {
     return 50+$lvl*100;
 }
 
