@@ -213,7 +213,7 @@ function getLevelRoleCount($id) {
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
-<!--        <link rel="icon" href="../img/sharky.png">-->
+        <link rel="icon" href="../img/sharky.png">
     </head>
     <style>
         * {
@@ -283,23 +283,23 @@ function getLevelRoleCount($id) {
     <body>
         <a class="invite" href="https://www.sebis.net/bot">Add to Discord</a>
         <?php
-            if (!isset($_GET["guild"]) || guildData($_GET["guild"]) === false) {
+            //if (!isset($_GET["guild"]) || guildData($_GET["guild"]) === false) {
         ?>
                 <a href='../' style='position: absolute; top: 5px; left: 2px;'><- Back</a>
                 <h1>All Sharky-Servers</h1>
                 <div class="all-guilds">
                     <?php
                     if (!isset($_GET["error"])) {
-                        guildDivs();
+                        //guildDivs();
                     } else {
                         echo "<h1 style='color: red; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);'>Internal error!</h1>";
                     }
                     ?>
                 </div>
         <?php
-            } else {
+            /*} else {
                 guildLb($_GET["guild"]);
-            }
+            }*/
         ?>
     </body>
 </html>
