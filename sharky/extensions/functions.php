@@ -6,6 +6,11 @@ function getGuildCount() {
     return extractedCounter($sql);
 }
 
+function getMemberCountGuild($id) {
+    $sql = "SELECT * FROM members WHERE guild=".$id.";";
+    return extractedCounter($sql);
+}
+
 function getMemberCount() {
     $sql = "SELECT * FROM members;";
     return extractedCounter($sql);
@@ -227,7 +232,7 @@ function echoGuild($id) {
             <div class='guild'>
                 <h3><a href='./?guild=".$row["id"]."' class='glink'>".$row['name']."</a></h3>
                 <h5>Premium: ".$premium."</h5>
-                <h5>Members: ".getMemberCount($id)."</h5>
+                <h5>Members: ".getMemberCountGuild($id)."</h5>
                 <h5>XP Multiplier: ".$row['xpMulti']."x</h5>
                 <h5>Level-roles: ".getLevelRoleCount($id)."</h5>
                 <h5>Owner: ".$row['owner']."</h5>
