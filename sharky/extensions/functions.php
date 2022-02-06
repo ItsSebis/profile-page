@@ -235,7 +235,26 @@ function readMessageCount() {
     foreach (allUsersArray() as $data) {
         $msgs = $msgs+$data["msgs"];
     }
+    if ($msgs > 1500000000) {
+        $msgs = round($msgs/1000000000, 2). "G";
+    } elseif ($msgs > 1500000) {
+        $msgs = round($msgs/1000000, 2). "M";
+    } elseif ($msgs > 1500) {
+        $msgs = round($msgs/1000, 2). "K";
+    }
     return $msgs;
+}
+
+function readWordCount() {
+    $words = count(allWordsArray());
+    if ($words > 1500000000) {
+        $words = round($words/1000000000, 2). "G";
+    } elseif ($words > 1500000) {
+        $words = round($words/1000000, 2). "M";
+    } elseif ($words > 1500) {
+        $words = round($words/1000, 2). "K";
+    }
+    return $words;
 }
 
 function guildDivs() {
