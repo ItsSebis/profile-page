@@ -9,5 +9,5 @@ require_once "extensions/functions.php";
     <p>Saved Members: <?php echo(getMemberCount()); ?></p>
     <p>Operators: <?php echo(getOperatorCount()); ?></p>
     <p>Read Messages: <?php echo(readMessageCount()); ?></p>
-    <p>Read Words: <?php echo(count(allWordsArray())); ?></p>
+    <p>Read Words: <?php echo(readWordCount()); ?></p>
 </div>
