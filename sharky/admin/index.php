@@ -180,13 +180,9 @@ if (isset($_SESSION["username"]) && isset($_GET["premium"]) && isset($_GET["guil
 if (isset($_SESSION["username"])) {?>
 
     <a href="?logout" style="position: absolute; top 20px; right: 20px; float: right;">Logout</a>
-    <div class="stats">
-        <h2>Statistics</h2>
-        <p>Servers: <?php echo(getGuildCount()); ?></p>
-        <p>Saved Members: <?php echo(getMemberCount()); ?></p>
-        <p>Operators: <?php echo(getOperatorCount()); ?></p>
-        <p>Read Words: <?php echo(count(allWordsArray())); ?></p>
-    </div>
+    <?php
+    include_once "../stats.php";
+    ?>
     <div class="main">
         <h1>Dashboard</h1>
         <h3>Welcome, <?php echo($_SESSION["username"]); ?></h3>

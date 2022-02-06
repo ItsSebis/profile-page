@@ -117,13 +117,9 @@ session_start();
 </style>
 <body>
 <a class="invite" href="https://www.sebis.net/bot"><p>Add to Discord</p></a>
-<div class="stats">
-    <h2>Statistics</h2>
-    <p>Servers: <?php echo(getGuildCount()); ?></p>
-    <p>Saved Members: <?php echo(getMemberCount()); ?></p>
-    <p>Operators: <?php echo(getOperatorCount()); ?></p>
-    <p>Read Words: <?php echo(count(allWordsArray())); ?></p>
-</div>
+<?php
+include_once "stats.php";
+?>
 <div class="main">
     <h1>Features:</h1>
     <div class="sub">

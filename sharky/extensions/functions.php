@@ -182,7 +182,28 @@ function usersArray($guild) {
     $users = array();
 
     while ($row = $rs->fetch_assoc()) {
-        $users[] = $row["userId"];
+        $users[] = $row;
+    }
+    // in_array($needle, $array) for isTeamerOfTeam
+    return $users;
+}
+
+function allUsersArray() {
+    $sql = "SELECT * FROM members ORDER BY `level` DESC, `xp` DESC, `msgs` DESC, `cmds` DESC, `money` DESC, `userName` ASC;";
+    $con = con();
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=1");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $users = array();
+
+    while ($row = $rs->fetch_assoc()) {
+        $users[] = $row;
     }
     // in_array($needle, $array) for isTeamerOfTeam
     return $users;
@@ -207,6 +228,14 @@ function allWordsArray() {
     }
     // in_array($needle, $array) for isTeamerOfTeam
     return $users;
+}
+
+function readMessageCount() {
+    $msgs = 0;
+    foreach (allUsersArray() as $data) {
+        $msgs++;
+    }
+    return $msgs;
 }
 
 function guildDivs() {
@@ -276,8 +305,7 @@ function guildLb($id) {
     echo "<h1 style='margin-bottom: 2px;'>".$data['name']."</h1>";
     echo "<h3><a href='".$data['invite']."'>JOIN</a></h3><br>";
     $rank = 1;
-    foreach (usersArray($id) as $usrId) {
-        $data = usersGuildData($usrId, $id);
+    foreach (usersArray($id) as $data) {
         $color = "#44bb78";
         if ($rank == 1) {
             $color = "gold";
