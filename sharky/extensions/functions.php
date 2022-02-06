@@ -188,6 +188,27 @@ function usersArray($guild) {
     return $users;
 }
 
+function allWordsArray() {
+    $sql = "SELECT * FROM words ORDER BY `sent` DESC, `word` ASC";
+    $con = con();
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=1");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $users = array();
+
+    while ($row = $rs->fetch_assoc()) {
+        $users[] = $row;
+    }
+    // in_array($needle, $array) for isTeamerOfTeam
+    return $users;
+}
+
 function guildDivs() {
     $sql = "SELECT * FROM guilds ORDER BY `premium` DESC, `name` ASC;";
     $con = con();

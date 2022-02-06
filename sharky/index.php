@@ -122,6 +122,7 @@ session_start();
     <p>Servers: <?php echo(getGuildCount()); ?></p>
     <p>Saved Members: <?php echo(getMemberCount()); ?></p>
     <p>Operators: <?php echo(getOperatorCount()); ?></p>
+    <p>Read Words: <?php echo(count(allWordsArray())); ?></p>
 </div>
 <div class="main">
     <h1>Features:</h1>
