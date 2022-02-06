@@ -123,6 +123,10 @@ include_once "stats.php";
 <div class="main">
     <h1>Features:</h1>
     <div class="sub">
+        <h2>Command Info</h2>
+        <p>before every command comes a prefix, the default is '+'.</p>
+    </div>
+    <div class="sub">
         <h2>Levels</h2>
         <p>You gain xp for every message you sent.<br>If your server is premium-enabled you can set a xp multiplier, which
             applies to every message.<br><br>You can see the leaderboard of every server online <a href="https://www.sebis.net/sharky/lbs">here</a>!<br><br>
@@ -133,6 +137,10 @@ include_once "stats.php";
         <h2>Moderation</h2>
         <p>There are some moderation commands like ban, kick, mute or warn.<br>The amount of warns a user has will decrease the amount of xp for each message!<br>
         You can delete messages with the command 'purge (amount)'</p>
+    </div>
+    <div class="sub">
+        <h2>Counting</h2>
+        <p>You can define multiple TextChannels as "Counters" by using the command 'addCounter'!<br>And you can undefine a "Counter" with the command 'rmCounter'!</p>
     </div>
     <div class="sub">
         <h2>Misc</h2>
