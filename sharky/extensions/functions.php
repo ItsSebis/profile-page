@@ -233,7 +233,7 @@ function allWordsArray() {
 function readMessageCount() {
     $msgs = 0;
     foreach (allUsersArray() as $data) {
-        $msgs++;
+        $msgs = $msgs+$data["msgs"];
     }
     return $msgs;
 }
