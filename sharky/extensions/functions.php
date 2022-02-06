@@ -293,6 +293,18 @@ function readWordCount() {
     return $words;
 }
 
+function allMemberCount() {
+    $words = getMemberCount();
+    if ($words > 1500000000) {
+        $words = round($words/1000000000, 2). "G";
+    } elseif ($words > 1500000) {
+        $words = round($words/1000000, 2). "M";
+    } elseif ($words > 1500) {
+        $words = round($words/1000, 2). "K";
+    }
+    return $words;
+}
+
 function guildDivs() {
     $sql = "SELECT * FROM guilds ORDER BY `premium` DESC, `name` ASC;";
     $con = con();
