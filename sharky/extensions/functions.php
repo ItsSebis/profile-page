@@ -230,6 +230,42 @@ function allWordsArray() {
     return $users;
 }
 
+function counterArray() {
+    $sql = "SELECT * FROM counters";
+    $con = con();
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.php?error=1");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $users = array();
+
+    while ($row = $rs->fetch_assoc()) {
+        $users[] = $row;
+    }
+    // in_array($needle, $array) for isTeamerOfTeam
+    return $users;
+}
+
+function countedNumbers() {
+    $msgs = 0;
+    foreach (counterArray() as $data) {
+        $msgs = $msgs+$data["number"];
+    }
+    if ($msgs > 1500000000) {
+        $msgs = round($msgs/1000000000, 2). "G";
+    } elseif ($msgs > 1500000) {
+        $msgs = round($msgs/1000000, 2). "M";
+    } elseif ($msgs > 1500) {
+        $msgs = round($msgs/1000, 2). "K";
+    }
+    return $msgs;
+}
+
 function readMessageCount() {
     $msgs = 0;
     foreach (allUsersArray() as $data) {
