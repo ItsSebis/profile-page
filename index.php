@@ -1,6 +1,5 @@
 <?php
 include_once "header.html";
-require_once "config.php";
 
 ?>
 
