@@ -81,7 +81,7 @@
             return;
 
         foreach($ffs as $ff){
-            if (strpos($ff, needle: ".") !== 0 && is_dir($ff)) {
+            if (strpos($ff, ".") !== 0 && is_dir($ff)) {
 
                 echo '<a href="'.$dir.'/'.$ff.'">'.$ff.'</a><br>';
 
