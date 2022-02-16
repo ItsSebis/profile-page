@@ -3,6 +3,9 @@ include_once "header.html";
 require_once "config.php";
 
 $curl = curl_init(getLogHook());
+curl_setopt($curl, CURLOPT_POST, 1);
+curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode(array("content" => "Hey")));
+curl_exec($curl);
 
 ?>
 
