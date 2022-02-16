@@ -1,6 +1,6 @@
 <html lang="de">
 <head>
-    <title>SebSurf | Projects</title>
+    <title>ItsSebis | Projects</title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
