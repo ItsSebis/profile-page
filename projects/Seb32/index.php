@@ -105,14 +105,10 @@
 function encode($str) {
     $str = base64_encode($str);
     $str = bin2hex($str);
-    $str = base64_encode($str);
-    $str = bin2hex($str);
     return base64_encode($str);
 }
 
 function decode($str) {
-    $str = base64_decode($str);
-    $str = hex2bin($str);
     $str = base64_decode($str);
     $str = hex2bin($str);
     return base64_decode($str);
