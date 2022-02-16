@@ -5,7 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
-    <link rel="icon" href="icon-title.png">
+    <link rel="icon" href="../img/title-bar.png">
 </head>
 <style>
     * {
@@ -95,10 +95,5 @@
     listFolderFiles('.');
     ?>
 </div>
-<footer>
-    <h2>ItsSebis</h2><br>
-    <p style="color: gray">16.02 - <?php echo(date("d.m")); ?></p>
-    <p style="color: gray">2022 - <?php echo(date("Y")); ?></p>
-</footer>
-</body>
-</html>
+<?php
+include_once "../footer.html";
