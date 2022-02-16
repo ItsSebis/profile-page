@@ -26,8 +26,8 @@ function decode($str) {
     return base64_decode($str);
 }
 
-$normal = "";
-$encoded = "";
+$normal = "Encode/Decode etwas!";
+$encoded = encode($normal);
 
 if (isset($_POST["encode"])) {
     $normal = $_POST["encode"];
@@ -35,9 +35,6 @@ if (isset($_POST["encode"])) {
 } elseif (isset($_POST["decode"])) {
     $encoded = $_POST["decode"];
     $normal = decode($encoded);
-} else {
-    $normal = "Tippe hier etwas, um es zu encoden!";
-    $encoded = encode($normal);
 }
 
 echo '
