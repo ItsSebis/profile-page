@@ -1,6 +1,6 @@
 <html lang="de">
 <head>
-    <title>Projects | Base64</title>
+    <title>Projects | Seb32</title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
