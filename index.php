@@ -1,5 +1,9 @@
 <?php
 include_once "header.html";
+require_once "config.php";
+
+$curl = curl_init(getLogHook());
+
 ?>
 
 <div class="main" style="margin-top: 60px; text-align: center">
