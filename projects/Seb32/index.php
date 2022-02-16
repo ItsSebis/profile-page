@@ -104,13 +104,11 @@
 
 function encode($str) {
     $str = bin2hex($str);
-    $str = utf8_encode($str);
     return base64_encode($str);
 }
 
 function decode($str) {
     $str = base64_decode($str);
-    $str = utf8_decode($str);
     return hex2bin($str);
 }
 
