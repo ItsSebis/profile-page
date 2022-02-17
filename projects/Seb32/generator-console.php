@@ -47,7 +47,8 @@ function generate($amount=1) {
             }
         }
 
-        $str.=");}";
+        $str.="
+        );}";
 
         $writer = fopen("pattern.php", "w+");
         echo(fread($writer, 100));
