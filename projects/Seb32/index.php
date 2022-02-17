@@ -13,7 +13,9 @@
 <div class="main">
     <br>
 <?php
+echo "Loading functions.php";
 require_once "./functions.php";
+echo "Loaded functions.php";
 $normal = "Encode/Decode something!";
 echo "Loaded default \$normal";
 $encoded = encode($normal);
