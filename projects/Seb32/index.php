@@ -15,7 +15,9 @@
 <?php
 require_once "./functions.php";
 $normal = "Encode/Decode something!";
+echo "Loaded default \$normal";
 $encoded = encode($normal);
+echo "Loaded default \$encoded";
 if (isset($_POST["encode"])) {
     $normal = $_POST["encode"];
     $encoded = encode($normal);
