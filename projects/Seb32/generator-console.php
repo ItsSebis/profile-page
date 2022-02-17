@@ -26,9 +26,10 @@ function generate($amount=1) {
     $lines = file("pattern.php");
     $str = "";
     $lineReading = 0;
-    /*while (strpos($lines[$lineReading], ");") === false) {
-        $str.=$lines[$lineReading];
-    }*/
+    while (strpos($lines[$lineReading], ");") === false) {
+        echo $lines[$lineReading];
+        $lineReading++;
+    }
 
     try {
         for ($i=0;$i<$amount;$i++) {
@@ -50,10 +51,10 @@ function generate($amount=1) {
         $str.=");
         }";
 
-        $writer = fopen("pattern.php", "w+");
-        echo(fread($writer, 100));
+        //$writer = fopen("pattern.php", "w+");
+        //echo(fread($writer, 100));
         //fwrite($writer, $str);
-        fclose($writer);
+        //fclose($writer);
 
     } catch (Exception $e) {}
 }
