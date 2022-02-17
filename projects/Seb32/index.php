@@ -14,9 +14,9 @@
     <br>
 <?php
 
-require_once "./config.php";
+require_once "./functions.php";
 
-$normal = "Encode/Decode etwas!";
+$normal = "Encode/Decode something!";
 $encoded = encode($normal);
 
 if (isset($_POST["encode"])) {
