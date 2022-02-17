@@ -27,13 +27,17 @@ function generate($amount=1) {
     $str = "";
     $lineReading = 0;
     while (strpos($lines[$lineReading], ");") === false) {
-        $str .= $lines[$lineReading];
+        $add = "";
+        if (strpos($lines[$lineReading+1], ");") !== false) {
+            $add = ",";
+        }
+        $str .= $lines[$lineReading].$add;
         $lineReading++;
     }
 
     try {
         for ($i=0;$i<$amount;$i++) {
-            $str.=",array(";
+            $str.="        array(";
             foreach (allowedSymbols() as $key => $val) {
                 $str .= "\"$key\" => \"$val\"";
                 $array = allowedSymbols();
