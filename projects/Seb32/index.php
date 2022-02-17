@@ -13,12 +13,9 @@
 <div class="main">
     <br>
 <?php
-
 require_once "./functions.php";
-
 $normal = "Encode/Decode something!";
 $encoded = encode($normal);
-
 if (isset($_POST["encode"])) {
     $normal = $_POST["encode"];
     $encoded = encode($normal);
@@ -26,7 +23,6 @@ if (isset($_POST["encode"])) {
     $encoded = $_POST["decode"];
     $normal = decode($encoded);
 }
-
 echo '
     <h4>Readable:</h4>
     <form action="./" method="post">
