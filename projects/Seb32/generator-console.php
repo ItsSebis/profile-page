@@ -27,7 +27,7 @@ function generate($amount=1) {
     $str = "";
     $lineReading = 0;
     while (strpos($lines[$lineReading], ");") === false) {
-        echo $lines[$lineReading];
+        $str .= $lines[$lineReading];
         $lineReading++;
     }
 
@@ -50,6 +50,8 @@ function generate($amount=1) {
 
         $str.=");
         }";
+
+        echo $str;
 
         //$writer = fopen("pattern.php", "w+");
         //echo(fread($writer, 100));
