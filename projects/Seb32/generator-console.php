@@ -50,7 +50,8 @@ try {
     }
 
     $str.="
-    );}";
+    );
+    }";
 
     $writer = fopen("pattern.php", "w+");
     echo(fread($writer, 100));
