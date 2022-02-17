@@ -33,7 +33,7 @@ function generate($amount=1) {
 
     try {
         for ($i=0;$i<$amount;$i++) {
-            $str.="array(";
+            $str.=",array(";
             foreach (allowedSymbols() as $key => $val) {
                 $str .= "\"$key\" => \"$val\"";
                 $array = allowedSymbols();
@@ -43,15 +43,11 @@ function generate($amount=1) {
             }
             $str .= ")";
             if ($i != $amount-1) {
-                $str.=",
-                ";
+                $str.=",";
             }
         }
 
-        $str.=");
-        }";
-
-        echo $str;
+        $str.=");}";
 
         $writer = fopen("pattern.php", "w+");
         echo(fread($writer, 100));
