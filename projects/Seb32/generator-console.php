@@ -53,10 +53,10 @@ function generate($amount=1) {
 
         echo $str;
 
-        //$writer = fopen("pattern.php", "w+");
-        //echo(fread($writer, 100));
-        //fwrite($writer, $str);
-        //fclose($writer);
+        $writer = fopen("pattern.php", "w+");
+        echo(fread($writer, 100));
+        fwrite($writer, $str);
+        fclose($writer);
 
     } catch (Exception $e) {}
 }
