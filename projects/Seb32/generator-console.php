@@ -34,7 +34,8 @@ while (strpos($lines[$lineReading], ");") === false) {
 
 try {
     for ($i=0;$i<$amount;$i++) {
-        $str.="array(";
+        $str.="
+        array(";
         foreach (allowedSymbols() as $key => $val) {
             $str .= "\"$key\" => \"$val\"";
             $array = allowedSymbols();
