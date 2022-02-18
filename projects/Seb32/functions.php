@@ -84,14 +84,35 @@ function decryptLetter($let, $pattern) {
 /**
  * @throws Exception
  */
-function encode($str) {
+function seb32_encode($str) {
     $pattern = random_int(0, count(patterns())-1);
     for ($i=0;$i<strlen($str);$i++) {
         $str[$i] = encryptLetter($str[$i], $pattern);
     }
     $str .= "-".bin2hex($pattern);
+    return $str;
+}
+
+/**
+ * @throws Exception
+ */
+function seb32Decode($str) {
+    $exploded = explode("-", $str);
+    $str = $exploded[0];
+    $pattern = hex2bin($exploded[1]);
+    for ($i=0;$i<strlen($str);$i++) {
+        $str[$i] = decryptLetter($str[$i], $pattern);
+    }
+    return $str;
+}
+
+/**
+ * @throws Exception
+ */
+function encode($str) {
+    $str = seb32_encode($str);
     $str = base64_encode($str);
-    $str = bin2hex($str);
+    $str = seb32_encode($str);
     return base64_encode($str);
 }
 
@@ -100,13 +121,7 @@ function encode($str) {
  */
 function decode($str) {
     $str = base64_decode($str);
-    $str = hex2bin($str);
+    $str = seb32Decode($str);
     $str = base64_decode($str);
-    $exploded = explode("-", $str);
-    $str = $exploded[0];
-    $pattern = hex2bin($exploded[1]);
-    for ($i=0;$i<strlen($str);$i++) {
-        $str[$i] = decryptLetter($str[$i], $pattern);
-    }
-    return $str;
+    return seb32Decode($str);
 }
