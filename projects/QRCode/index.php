@@ -1,5 +1,5 @@
 <?php
-require_once '../../phpqrcode/qrlib.php';
+require_once 'phpqrcode/phpqrcode.php';
 
 $path = "imgs/";
 $file = $path."latest.png";
