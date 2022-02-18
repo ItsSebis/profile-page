@@ -93,9 +93,9 @@
 
 if (isset($_POST["content"])) {
     require_once 'phpqrcode/qrlib.php';
-    $content = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    $content = $_POST["content"];
 
-    QRcode::png($content);
+    QRcode::png($content, false, QR_ECLEVEL_L, 5);
 } else {
     echo '
         <div class="main">
