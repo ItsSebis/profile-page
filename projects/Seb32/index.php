@@ -13,13 +13,13 @@
 <div class="main">
     <br>
 <?php
-echo "Loading functions.php";
+#echo "Loading functions.php";
 require_once "./functions.php";
-echo "Loaded functions.php";
+#echo "Loaded functions.php";
 $normal = "Encode/Decode something!";
-echo "Loaded default \$normal";
+#echo "Loaded default \$normal";
 $encoded = encode($normal);
-echo "Loaded default \$encoded";
+#echo "Loaded default \$encoded";
 if (isset($_POST["encode"])) {
     $normal = $_POST["encode"];
     $encoded = encode($normal);

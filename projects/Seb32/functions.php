@@ -1,8 +1,8 @@
 <?php
 
-echo "Loading pattern.php";
+#echo "Loading pattern.php";
 require_once "./pattern.php";
-echo "Loaded pattern.php";
+#echo "Loaded pattern.php";
 
 /**
  * @throws Exception
