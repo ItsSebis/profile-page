@@ -1,4 +1,8 @@
 <?php
 require_once '../../phpqrcode/qrlib.php';
 
-QRcode::png("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+$path = "imgs/";
+$file = $path.uniqid().".png";
+
+$content = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+QRcode::png($content, $file);
