@@ -12,7 +12,7 @@ function getStats($key) {
             return $arrayL[1];
         }
     }
-    return "Not set!";
+    return 0;
 }
 
 function getEncodedCount() {
