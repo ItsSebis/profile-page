@@ -12,7 +12,33 @@ function getStats($key) {
             return $arrayL[1];
         }
     }
-    return NULL;
+    return "Not set!";
+}
+
+function getEncodedCount() {
+    $count = getStats("encoded");
+    return reformatBIgInts($count);
+}
+
+function getDecodedCount() {
+    $count = getStats("decoded");
+    return reformatBIgInts($count);
+}
+
+/**
+ * @param string $count
+ * @return string
+ */
+function reformatBIgInts(string $count): string
+{
+    if ($count > 1050000000) {
+        $count = round($count / 1000000000, 2) . "G";
+    } elseif ($count > 1250000) {
+        $count = round($count / 1000000, 2) . "M";
+    } elseif ($count > 1500) {
+        $count = round($count / 1000, 2) . "K";
+    }
+    return $count;
 }
 
 function setStat($key, $val) {
@@ -24,10 +50,10 @@ function setStat($key, $val) {
             $lines[$i] = $key.":".$val;
         }
         $br = "";
-        if (isset($lines[$i+1]) && !empty($lines[$i+1])) {
+        if (isset($lines[$i-1]) && !empty($lines[$i-1])) {
             $br = "\n";
         }
-        $tempFile.=$lines[$i].$br;
+        $tempFile.=$br.$lines[$i];
     }
     $lines=$tempFile;
     $writer = fopen("seb32.stats", "w");

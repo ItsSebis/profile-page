@@ -10,7 +10,7 @@
 </head>
 <a style="position: absolute; top: 10px; left: 10px;" href="..">← Back</a>
 <h1>Seb32 Encoder/Decoder</h1>
-<div class="main">
+<div class="main" style="position: absolute; top: 100px; left: 50%; transform: translate(-50%, -2%)">
     <br>
 <?php
 #echo "Loading functions.php";
@@ -44,5 +44,12 @@ echo '
         <textarea rows="12" cols="60" name="decode">'.$encoded.'</textarea><br>
         <button type="submit">Decode</button>
     </form>
+    </div>
+    
+    <div class="stats">
+        <h2>Statistics</h2><br>
+        <p>Encoded: '.getEncodedCount().'</p>
+        <p>Decoded: '.getDecodedCount().'</p>
+    </div>
     ';
 

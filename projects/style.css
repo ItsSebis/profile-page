@@ -85,3 +85,15 @@ button:hover {
     border: solid rgb(0, 255, 221);
     cursor: crosshair;
 }
+.stats {
+    width: 300px;
+    background-color: #262626;
+    float: left;
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    height: fit-content;
+    padding: 5px;
+    border: 10px solid #262626;
+    border-radius: 20px;
+}
