@@ -46,7 +46,18 @@ echo '
     </form>
     </div>
     
-    <div class="stats">
+    <div class="stats" style="
+        width: 300px;
+        background-color: #262626;
+        float: left;
+        position: fixed;
+        top: 100px;
+        left: 20px;
+        height: fit-content;
+        padding: 5px;
+        border: 10px solid #262626;
+        border-radius: 20px;
+        ">
         <h2>Statistics</h2><br>
         <p>Encoded: '.getEncodedCount().'</p>
         <p>Decoded: '.getDecodedCount().'</p>
