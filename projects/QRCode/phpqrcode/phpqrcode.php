@@ -3051,7 +3051,7 @@
         //----------------------------------------------------------------------
         public function encodeString8bit($string, $version, $level)
         {
-            if(string == NULL) {
+            if($string == NULL) {
                 throw new Exception('empty string!');
                 return NULL;
             }
