@@ -1,0 +1,14 @@
+{
+  "name": "itssebis/profile",
+  "description": "My profile page",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "ItsSebis",
+      "email": "sebi@sebis.net"
+    }
+  ],
+  "require": {
+  }
+}

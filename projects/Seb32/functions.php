@@ -4,6 +4,37 @@
 require_once "./pattern.php";
 #echo "Loaded pattern.php";
 
+function getStats($key) {
+    $lines = file("seb32.stats");
+    foreach ($lines as $line) {
+        $arrayL = explode(":", $line);
+        if ($arrayL[0] === $key) {
+            return $arrayL[1];
+        }
+    }
+    return NULL;
+}
+
+function setStat($key, $val) {
+    $lines = file("seb32.stats");
+    $tempFile = "";
+    for ($i=0;$i<count($lines);$i++) {
+        $arrayL = explode(":", $lines[$i]);
+        if ($arrayL[0] === $key) {
+            $lines[$i] = $key.":".$val;
+        }
+        $br = "";
+        if (isset($lines[$i+1]) && !empty($lines[$i+1])) {
+            $br = "\n";
+        }
+        $tempFile.=$lines[$i].$br;
+    }
+    $lines=$tempFile;
+    $writer = fopen("seb32.stats", "w");
+    fwrite($writer, $lines);
+    fclose($writer);
+}
+
 /**
  * @throws Exception
  */

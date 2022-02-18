@@ -15,6 +15,9 @@
 <?php
 #echo "Loading functions.php";
 require_once "./functions.php";
+#echo getStats("test");
+#setStat("hey", getStats("test")+1);
+#echo getStats("test");
 #echo "Loaded functions.php";
 $normal = "Encode/Decode something!";
 #echo "Loaded default \$normal";
@@ -23,9 +26,11 @@ $encoded = encode($normal);
 if (isset($_POST["encode"])) {
     $normal = $_POST["encode"];
     $encoded = encode($normal);
+    setStat("encoded", getStats("encoded")+1);
 } elseif (isset($_POST["decode"])) {
     $encoded = $_POST["decode"];
     $normal = decode($encoded);
+    setStat("decoded", getStats("decoded")+1);
 }
 echo '
     <h4>Readable:</h4>
