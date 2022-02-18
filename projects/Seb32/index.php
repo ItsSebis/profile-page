@@ -45,7 +45,8 @@ echo '
         <button type="submit">Decode</button>
     </form>
     </div>
-    
+    ';
+    /*
     <div class="stats" style="
         width: 300px;
         background-color: #262626;
@@ -62,5 +63,4 @@ echo '
         <p>Encoded: '.getEncodedCount().'</p>
         <p>Decoded: '.getDecodedCount().'</p>
     </div>
-    ';
 
