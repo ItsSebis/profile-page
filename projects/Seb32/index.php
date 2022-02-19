@@ -14,6 +14,7 @@
     <br>
 <?php
 #echo "Loading functions.php";
+require_once "dbh.conf.php";
 require_once "./functions.php";
 #echo getStats("test");
 #setStat("hey", getStats("test")+1);
@@ -26,27 +27,25 @@ $encoded = encode($normal);
 if (isset($_POST["encode"])) {
     $normal = $_POST["encode"];
     $encoded = encode($normal);
-    setStat("encoded", getStats("encoded")+1);
+    setStat("seb32encoded", getStats("seb32encoded")["value"]+1);
 } elseif (isset($_POST["decode"])) {
     $encoded = $_POST["decode"];
     $normal = decode($encoded);
-    setStat("decoded", getStats("decoded")+1);
+    setStat("seb32decoded", getStats("seb32decoded")["value"]+1);
 }
 echo '
     <h4>Readable:</h4>
     <form action="./" method="post">
-        <textarea rows="12" cols="60" name="encode">'.$normal.'</textarea><br>
+        <textarea rows="12" cols="60" name="encode" maxlength="1500">'.$normal.'</textarea><br>
         <button type="submit">Encode</button>
     </form>
     <br><br>
     <h4>Seb32:</h4>
     <form action="./" method="post">
-        <textarea rows="12" cols="60" name="decode">'.$encoded.'</textarea><br>
+        <textarea rows="12" cols="60" name="decode" maxlength="2000">'.$encoded.'</textarea><br>
         <button type="submit">Decode</button>
     </form>
     </div>
-    ';
-    /*
     <div class="stats" style="
         width: 300px;
         background-color: #262626;
@@ -63,4 +62,5 @@ echo '
         <p>Encoded: '.getEncodedCount().'</p>
         <p>Decoded: '.getDecodedCount().'</p>
     </div>
+    ';
 

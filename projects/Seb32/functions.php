@@ -4,32 +4,21 @@
 require_once "./pattern.php";
 #echo "Loaded pattern.php";
 
-function getStats($key) {
-    $lines = file("seb32.stats");
-    foreach ($lines as $line) {
-        $arrayL = explode(":", $line);
-        if ($arrayL[0] === $key) {
-            return $arrayL[1];
-        }
-    }
-    return 0;
-}
-
 function getEncodedCount() {
-    $count = getStats("encoded");
+    $count = getStats("seb32encoded")["value"];
     return reformatBIgInts($count);
 }
 
 function getDecodedCount() {
-    $count = getStats("decoded");
+    $count = getStats("seb32decoded")["value"];
     return reformatBIgInts($count);
 }
 
 /**
- * @param string $count
- * @return string
+ * @param $count
+ * @return mixed|string
  */
-function reformatBIgInts(string $count): string
+function reformatBIgInts($count)
 {
     if ($count > 1050000000) {
         $count = round($count / 1000000000, 2) . "G";
@@ -41,24 +30,39 @@ function reformatBIgInts(string $count): string
     return $count;
 }
 
-function setStat($key, $val) {
-    $lines = file("seb32.stats");
-    $tempFile = "";
-    for ($i=0;$i<count($lines);$i++) {
-        $arrayL = explode(":", $lines[$i]);
-        if ($arrayL[0] === $key) {
-            $lines[$i] = $key.":".$val;
-        }
-        $br = "";
-        if (isset($lines[$i-1]) && !empty($lines[$i-1])) {
-            $br = "\n";
-        }
-        $tempFile.=$br.$lines[$i];
+function getStats($key) {
+    $con = con();
+    $sql = "SELECT * FROM stats WHERE `key` = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1");
+        exit();
     }
-    $lines=$tempFile;
-    $writer = fopen("seb32.stats", "w");
-    fwrite($writer, $lines);
-    fclose($writer);
+
+    mysqli_stmt_bind_param($stmt, "s", $key);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    }
+    else {
+        return false;
+    }
+}
+
+function setStat($key, $val) {
+    $con = con();
+    $sql = "UPDATE stats SET value=? WHERE `key` = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $val, $key);
+    mysqli_stmt_execute($stmt);
 }
 
 /**
