@@ -21,7 +21,11 @@ if (isset($_POST["join"])) {
 }
 
 elseif (isset($_POST["start"])) {
-    setGameStatus($_SESSION["gameid"], 1);
+    if (gameData($_SESSION["gameid"])["host"] == $_SESSION["plName"]) {
+        setGameStatus($_SESSION["gameid"], 1);
+    }
+    header("location: ./");
+    exit();
 }
 
 elseif (isset($_POST["create"])) {
@@ -37,8 +41,30 @@ elseif (isset($_POST["create"])) {
     exit();
 }
 
-elseif (isset($_POST["vote"])) {
+elseif (isset($_POST["wervote"])) {
+    votePlayer($_SESSION["plName"], $_POST["wervote"], $_SESSION["gameid"]);
+    werVoting($_SESSION["gameid"]);
+}
 
+elseif (isset($_POST["hexeOpfer"])) {
+    if ($_POST["hexeOpfer"] == "heal" && gameData($_SESSION["gameid"])["hexHeals"] > 0) {
+        setPlayerDying($_POST["target"], $_SESSION["gameid"], 0);
+    }
+    if (gameData($_SESSION["gameid"])["hexMagic"] > 0) {
+        setGameStatus($_SESSION["gameid"], 4);
+    } else {
+        setGameStatus($_SESSION["gameid"], 100);
+    }
+    header("location: ./");
+    exit();
+}
+
+elseif (isset($_POST["hexKill"])) {
+    setPlayerDying($_POST["hexKill"], $_SESSION["gameid"], 2);
+    hexeUsedPoison($_SESSION["gameid"]);
+    setGameStatus($_SESSION["gameid"], 100);
+    header("location: ./");
+    exit();
 }
 ?>
 <html lang="de" style="overflow: hidden;">
@@ -52,7 +78,13 @@ elseif (isset($_POST["vote"])) {
     <link rel="icon" href="../../img/title-bar.png">
     <link rel="stylesheet" href="../style.css">
 </head>
-<a style="position: absolute; top: 10px; left: 10px;" href="..">← Back</a>
+<a style="position: fixed; top: 10px; left: 10px;" href="..">← Back</a>
+<!--style="position: fixed; top: 10px; right: 10px;"-->
+<div class="stats">
+    <h2>Alpha 0.0.2</h2><br>
+    <p>Open Games: <span style="color: #00cccc"><?php echo(gamesCount()); ?></span></p>
+    <p>Online Players: <span style="color: #00cccc"><?php echo(allPlayersCount()); ?></span></p>
+</div>
 <div class="main" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 75%;">
     <?php
     if (isset($_GET["error"]) && $_GET["error"] == "1") {
@@ -64,7 +96,9 @@ elseif (isset($_POST["vote"])) {
         $game = gameData($_SESSION["gameid"]);
         $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
         echo "<h1 id='name'>".$player["name"]."</h1>";
+
         if ($game["status"] === 0) {
+            // Pre Game
             ?>
             <p style="color: gray"><?php echo("Spiel-Id: #" . $game["id"]); ?></p>
 
@@ -78,31 +112,70 @@ elseif (isset($_POST["vote"])) {
 
             <?php
             header("refresh: 5");
-        } elseif ($game["status"] == 1) {
-            generateRoles($game["id"]);
+        }
+
+        elseif ($game["status"] == 1) {
+            // Role generation
+
+            if ($game["host"] == $player["name"]) {
+                generateRoles($game["id"]);
+            }
             sleep(2);
             $role = getRoles()[$player["role"]];
-            echo "<p style='color: lime; font-size: 2rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);'>
+            echo "<p style='font-size: 2rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);'>
                     Deine Rolle ist '".$role."'!<br>
-                    Das Spiel startet in 20 Sekunden!
+                    <span style='color: lime'>Spiel startet in 20 Sekunden!</span>
                 </p>";
             setGameStatus($game["id"], 2);
             header("refresh: 20");
-        } elseif ($game["status"] >= 2) {?>
+        }
 
-            <p style="color: gray"><?php echo(getRoles()[$player["role"]]); ?></p>
+        elseif ($game["status"] >= 2 && $game["status"] < 100) {
+            // Real Game
+            ?>
+
+            <p style="color: gray; margin-top: 1px;"><?php echo(getRoles()[$player["role"]]); ?></p>
 
             <?php
 
             if ($game["status"] == 2) {
+                // Werwölfe
                 if ($player["role"] != 1) {
-                    echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: darkred; font-size: 1.7rem'>**Die Werwölfe suchen sich ihr Opfer**</p>";
+                    echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Die Werwölfe erwachen**</p>";
                 } else {
+                    echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 70%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
                     werVotePlayers($game["id"]);
+                    echo "</div>";
+                }
+            } elseif ($game["status"] == 3) {
+                // Hexe healing
+                if ($player["role"] != 2) {
+                    echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Die Hexe erwacht**</p>";
+                } else {
+                    hexeHealing($game["id"]);
+                }
+            } elseif ($game["status"] == 4) {
+                // Hexe killing
+                if ($player["role"] != 2) {
+                    echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Die Hexe erwacht**</p>";
+                } else {
+                    echo "<p style='margin-top: 20px;'>Wenn du einen Verdacht hast, kannst du jetzt noch jemanden Vergiften!</p>";
+                    echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 60%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
+                    hexeKilling($game["id"]);
+                    echo "</div>";
+                    echo "<form action='./' method='post'>
+                        <button type='submit' name='hexKillSkip'>Niemanden vergiften</span></button>
+                        </form>";
                 }
             }
 
+            header("refresh: 2");
         }
+
+        elseif ($game["status"] >= 100) {
+
+        }
+
     } else {
         // Game selection
         ?>

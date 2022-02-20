@@ -2,6 +2,7 @@
 
 #echo "Loading pattern.php";
 require_once "./pattern.php";
+require_once "../publicFunc.php";
 #echo "Loaded pattern.php";
 
 function getEncodedCount() {
@@ -12,22 +13,6 @@ function getEncodedCount() {
 function getDecodedCount() {
     $count = getStats("seb32decoded")["value"];
     return reformatBIgInts($count);
-}
-
-/**
- * @param $count
- * @return mixed|string
- */
-function reformatBIgInts($count)
-{
-    if ($count > 1050000000) {
-        $count = round($count / 1000000000, 2) . "G";
-    } elseif ($count > 1250000) {
-        $count = round($count / 1000000, 2) . "M";
-    } elseif ($count > 1500) {
-        $count = round($count / 1000, 2) . "K";
-    }
-    return $count;
 }
 
 function getStats($key) {
