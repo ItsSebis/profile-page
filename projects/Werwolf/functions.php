@@ -27,6 +27,42 @@ function createGame() {
     return $game;
 }
 
+function testWin($game) {
+    $array = gamePlayers($game);
+    $living = array();
+    foreach ($array as $player) {
+        if ($player["dead"] != 0) {
+            $living[] = $player;
+        }
+    }
+
+    if (count($living) && $living[0]["lover"] != "0" && $living[0]["lover"] == $living[1]["name"]) {
+        setGameStatus($game, 1000);
+        header("location: ./?win=3");
+        exit();
+    }
+
+    $dorftrottel = array();
+    $wolfe = array();
+    foreach ($living as $livingPlayer) {
+        if ($livingPlayer["role"] == 1) {
+            $wolfe[] = $livingPlayer;
+        } else {
+            $dorftrottel[] = $livingPlayer;
+        }
+    }
+    if (count($wolfe) > count($dorftrottel)) {
+        setGameStatus($game, 1000);
+        header("location: ./?win=1");
+        exit();
+    } elseif (count($wolfe) == 0) {
+        setGameStatus($game, 1000);
+        header("location: ./?win=0");
+        exit();
+    }
+    
+}
+
 function createPlayer($game, $name) {
     $con = con();
     $sql = "INSERT INTO werplayer (game, name) VALUES (?, ?);";
@@ -44,7 +80,7 @@ function createPlayer($game, $name) {
 function hexeHealing($game) {
     $dying = "";
     foreach (gamePlayers($game) as $player) {
-        if ($player["dying"] !== 0) {
+        if ($player["dying"] == 1) {
             $dying = $player;
         }
     }
@@ -52,7 +88,7 @@ function hexeHealing($game) {
     echo "<h4>'".$dying["name"]."' ist das Opfer der Werwölfe.</h4>";
     echo "<p>Was möchtest du tun?</p><br>";
     $healDis = "";
-    if (gameData($game)["hexHeals"] > 0) {
+    if (gameData($game)["hexHeals"] == 0) {
         $healDis = " disabled";
     }
     echo "<form action='./' method='post'>
@@ -64,8 +100,7 @@ function hexeHealing($game) {
     echo "</div>";
 }
 
-function echoPlayers($game)
-{
+function echoPlayers($game) {
     $con = con();
     $sql = "SELECT * FROM werplayer WHERE game = ? ORDER BY `name` ASC;";
     $stmt = mysqli_stmt_init($con);
@@ -90,6 +125,60 @@ function echoPlayers($game)
         }
     }
     mysqli_stmt_close($stmt);
+}
+
+function voting($game) {
+    $con = con();
+    $sql = "SELECT * FROM werplayer WHERE game = ? ORDER BY `name` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1&part=verVoting");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $game);
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            if ($row["name"] != $_SESSION["plName"] && $row["dead"] == 0) {
+                echo "<p style='margin: 10px auto; font-size: 1.8rem;'><form action='./' method='post'>
+                        <button type='submit' name='vervote' value='" . $row['name'] . "'>" . $row['name'] . " <span style='color: red;'>" . playerVotes($row['name'], $game) . "</span></button>
+                        </form></p>
+                    ";
+            }
+        }
+    }
+    mysqli_stmt_close($stmt);
+}
+
+function verVotingResult($game) {
+    $voted = array();
+    foreach (gamePlayers($game) as $player) {
+        if ($player["dead"] != 0) {
+            continue;
+        }
+        if ($player["voted"] == "0") {
+            return;
+        } else {
+            $voted[] = $player["voted"];
+        }
+    }
+
+    $sorted = array_count_values($voted);
+
+    if (array_values($sorted)[0] == array_values($sorted)[1]) {
+        return;
+    }
+
+    $voted = array_search(array_values($sorted)[0], $sorted);
+
+    setPlayerDying($voted, $game, 4);
+    resetVotes($game);
+    setGameStatus($game, 102);
+    header("location: ./?killed=".$voted);
+    exit();
 }
 
 function werVotePlayers($game) {
@@ -147,6 +236,9 @@ function hexeKilling($game) {
 function werVoting($game) {
     $voted = "0";
     foreach (gamePlayers($game) as $player) {
+        if ($player["dead"] != 0) {
+            continue;
+        }
         if ($player["role"] == 1) {
             if ($player["voted"] == "0") {
                 return;
@@ -368,7 +460,9 @@ function killPlayer($player, int $game, $by) {
     mysqli_stmt_bind_param($stmt, "sss", $by, $player, $game);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    if ($pData["lover"] !== 0) {
+
+    $loverData = playerDataByName($pData["lover"], $game);
+    if ($pData["lover"] != 0 && $loverData["dying"] != 0 && $loverData["dead"] != 0) {
         killPlayer($pData["lover"], $game, 3);
     }
 }
@@ -403,24 +497,40 @@ function resetVotes($game) {
     mysqli_stmt_close($stmt);
 }
 
-function resetRoles($game) {
+function resetValues($game) {
+    resetGameValues($game);
     $con = con();
-    $qry = "UPDATE werplayer SET role=? WHERE game = ?";
+    $qry = "UPDATE werplayer SET role=?, dead=?, dying=?, lover=?, voted=? WHERE game = ?";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $qry)) {
-        header("location: ./?error=1&part=resetRoles");
+        header("location: ./?error=1&part=resetValues");
         exit();
     }
 
     $zero = "0";
 
-    mysqli_stmt_bind_param($stmt, "ss", $zero, $game);
+    mysqli_stmt_bind_param($stmt, "ssssss", $zero, $zero, $zero, $zero, $zero, $game);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function resetGameValues($game) {
+    $con = con();
+    $qry = "UPDATE werplayer SET hexMagic=?, hexHeals=? WHERE game = ?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=resetValues");
+        exit();
+    }
+
+    $zero = "1";
+
+    mysqli_stmt_bind_param($stmt, "sss", $zero, $zero, $game);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
 
 function generateRoles($game) {
-    resetRoles($game);
     $gameData = gameData($_SESSION["gameid"]);
     $werwolfe = array();
     for ($i = 0; $i < $gameData["wercount"]; $i++) {
@@ -481,4 +591,32 @@ function allPlayersCount() {
     mysqli_stmt_close($stmt);
 
     return reformatBIgInts($count);
+}
+
+/**
+ * @return void
+ */
+function todesAnzeigen(): void {
+    foreach (gamePlayers($_SESSION["gameid"]) as $player) {
+        if ($player["dying"] != 0) {
+            killPlayer($player["name"], $_SESSION["gameid"], $player["dying"]);
+        }
+    }
+    foreach (gamePlayers($_SESSION["gameid"]) as $player) {
+        if ($player["dying"] != 0) {
+            $diedFrom = "";
+            if ($player["dying"] == 1) {
+                $diedFrom = " (<span style='color: red'>Opfer</span>)";
+            } elseif ($player["dying"] == 2) {
+                $diedFrom = " (<span style='color: #8e2533'>Vergiftet</span>)";
+            } elseif ($player["dying"] == 3) {
+                $diedFrom = " (<span style='color: deeppink'>Wahre Liebe</span>)";
+            } elseif ($player["dying"] == 4) {
+                $diedFrom = " (<span style='color: royalblue'>Verurteilt vom Volk</span>)";
+            }
+            echo "<p>" . $player['name'] . $diedFrom . "</p>";
+            setPlayerDying($player["name"], $_SESSION["gameid"], 0);
+        }
+    }
+    echo "</div>";
 }

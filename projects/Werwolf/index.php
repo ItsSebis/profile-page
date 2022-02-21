@@ -1,6 +1,14 @@
 <?php
 require_once "functions.php";
 session_start();
+
+if (isset($_SESSION["gameid"]) && gameData($_SESSION["gameid"]) === false) {
+    session_unset();
+    session_destroy();
+    header("location: ./");
+    exit();
+}
+
 if (isset($_POST["join"])) {
     if (empty($_POST["gameid"]) || empty($_POST["plName"])) {
         header("location: ./?error=emptyf");
@@ -48,6 +56,7 @@ elseif (isset($_POST["wervote"])) {
 
 elseif (isset($_POST["hexeOpfer"])) {
     if ($_POST["hexeOpfer"] == "heal" && gameData($_SESSION["gameid"])["hexHeals"] > 0) {
+        hexeUsedHeal($_SESSION["gameid"]);
         setPlayerDying($_POST["target"], $_SESSION["gameid"], 0);
     }
     if (gameData($_SESSION["gameid"])["hexMagic"] > 0) {
@@ -66,6 +75,14 @@ elseif (isset($_POST["hexKill"])) {
     header("location: ./");
     exit();
 }
+
+elseif (isset($_POST["vervote"])) {
+    votePlayer($_SESSION["plName"], $_POST["vervote"], $_SESSION["gameid"]);
+    if (gameData($_SESSION["gameid"])["status"] == 101) {
+        verVotingResult($_SESSION["gameid"]);
+    }
+}
+
 ?>
 <html lang="de" style="overflow: hidden;">
 <head>
@@ -91,11 +108,16 @@ elseif (isset($_POST["hexKill"])) {
         echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: red; font-size: 3rem;'>MySQL error!<br> Try again later!</p>";
         exit();
     }
+
     if (isset($_SESSION["gameid"]) && gameData($_SESSION["gameid"]) !== false && playerDataByName($_SESSION["plName"], $_SESSION["gameid"]) !== false) {
         // In Game
         $game = gameData($_SESSION["gameid"]);
         $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
         echo "<h1 id='name'>".$player["name"]."</h1>";
+
+        if ($game["status"] > 1) {
+            echo '<p style="color: gray; margin-top: 1px;">'.getRoles()[$player["role"]].'</p>';
+        }
 
         if ($game["status"] === 0) {
             // Pre Game
@@ -118,6 +140,7 @@ elseif (isset($_POST["hexKill"])) {
             // Role generation
 
             if ($game["host"] == $player["name"]) {
+                resetValues($game["id"]);
                 generateRoles($game["id"]);
             }
             sleep(2);
@@ -134,8 +157,6 @@ elseif (isset($_POST["hexKill"])) {
             // Real Game
             ?>
 
-            <p style="color: gray; margin-top: 1px;"><?php echo(getRoles()[$player["role"]]); ?></p>
-
             <?php
 
             if ($game["status"] == 2) {
@@ -147,14 +168,18 @@ elseif (isset($_POST["hexKill"])) {
                     werVotePlayers($game["id"]);
                     echo "</div>";
                 }
-            } elseif ($game["status"] == 3) {
+            }
+
+            elseif ($game["status"] == 3) {
                 // Hexe healing
                 if ($player["role"] != 2) {
                     echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Die Hexe erwacht**</p>";
                 } else {
                     hexeHealing($game["id"]);
                 }
-            } elseif ($game["status"] == 4) {
+            }
+
+            elseif ($game["status"] == 4) {
                 // Hexe killing
                 if ($player["role"] != 2) {
                     echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Die Hexe erwacht**</p>";
@@ -172,8 +197,42 @@ elseif (isset($_POST["hexKill"])) {
             header("refresh: 2");
         }
 
-        elseif ($game["status"] >= 100) {
+        elseif ($game["status"] == 100) {
+            // Day
+            echo "<div style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)'><p>Das Dorf trauert um:</p>";
+            todesAnzeigen();
+            setGameStatus($_SESSION["gameid"], 101);
+            header("refresh: 15");
+        } elseif ($game["status"] == 101) {
+            echo "<h3 style='margin-top: 20px;'>Wen möchtest du anklagen?</h3>";
+            echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 60%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
+            voting($game["id"]);
+            echo "</div>";
+            header("refresh: 3");
+        } elseif ($game["status"] == 102) {
+            echo "<div style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)'><p>Ende der Abstimmung:</p>";
+            todesAnzeigen();
+            setGameStatus($_SESSION["gameid"], 2);
+            header("refresh: 15");
+        }
 
+        elseif ($game["status"] == 1000) {
+            echo "<div style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)'>";
+            $winner = $_GET["win"];
+            $wString = "";
+            if ($winner == 1) {
+                $wString = "<span style='color: red; font-size: 2.5rem'>Die Werwölfe gewinnen</span>";
+            } elseif ($winner == 0) {
+                $wString = "<span style='color: lime; font-size: 2.5rem'>Das Dorf gewinnt</span>";
+            } elseif ($winner == 3) {
+                $wString = "<span style='color: deeppink; font-size: 2.5rem'>Die Verliebten gewinnen</span>";
+            }
+            echo($wString);
+            echo "<br><br>";
+            foreach (gamePlayers($game["id"]) as $p) {
+                echo "<p>".$p['name']." (".getRoles()[$p['role']].")</p>";
+            }
+            echo "</div>";
         }
 
     } else {
