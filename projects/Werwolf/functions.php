@@ -4,7 +4,8 @@ require_once "dbh.conf.php";
 require_once "../publicFunc.php";
 
 function getRoles() {
-    return array("<span style='color: lime'>Dorfbewohner</span>", "<span style='color: red'>Werwolf</span>", "<span style='color: green'>Hexe</span>");
+    return array("<span style='color: lime'>Dorfbewohner</span>", "<span style='color: red'>Werwolf</span>", "<span style='color: green'>Hexe</span>",
+        "<span style='color: #003cff'>Amor</span>");
 }
 
 function createGame() {
@@ -432,6 +433,20 @@ function setPlayerRole($player, $game, $role) {
     mysqli_stmt_close($stmt);
 }
 
+function setPlayerLover($player, $game, $lover) {
+    $con = con();
+    $qry = "UPDATE werplayer SET lover=? WHERE name=? AND game = ?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setPlayerLover");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "sss", $lover, $player, $game);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
 function setPlayerDying($player, int $game, $by) {
     $pData = playerDataByName($player, $game);
     $con = con();
@@ -500,7 +515,7 @@ function resetVotes($game) {
 function resetValues($game) {
     resetGameValues($game);
     $con = con();
-    $qry = "UPDATE werplayer SET role=?, dead=?, dying=?, lover=?, voted=? WHERE game = ?";
+    $qry = "UPDATE werplayer SET role=?, dead=?, dying=?, voted=?, lover=? WHERE game = ?";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $qry)) {
         header("location: ./?error=1&part=resetValues");
@@ -516,14 +531,14 @@ function resetValues($game) {
 
 function resetGameValues($game) {
     $con = con();
-    $qry = "UPDATE werplayer SET hexMagic=?, hexHeals=? WHERE game = ?";
+    $qry = "UPDATE wergames SET hexMagic=?, hexHeals=? WHERE id = ?";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $qry)) {
-        header("location: ./?error=1&part=resetValues");
+        header("location: ./?error=1&part=resetGameValues");
         exit();
     }
 
-    $zero = "1";
+    $zero = 1;
 
     mysqli_stmt_bind_param($stmt, "sss", $zero, $zero, $game);
     mysqli_stmt_execute($stmt);
@@ -545,6 +560,12 @@ function generateRoles($game) {
     }
     $hexe = gamePlayers($game)[$get];
     setPlayerRole($hexe["name"], $game, 2);
+    $get = random_int(0, count(gamePlayers($game)) - 1);
+    while (array_search(gamePlayers($game)[$get], $werwolfe) !== false || gamePlayers($game)[$get] == $hexe) {
+        $get = random_int(0, count(gamePlayers($game)) - 1);
+    }
+    $amor = gamePlayers($game)[$get];
+    setPlayerRole($amor["name"], $game, 3);
 }
 
 function gamesCount() {

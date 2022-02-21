@@ -83,6 +83,23 @@ elseif (isset($_POST["vervote"])) {
     }
 }
 
+elseif (isset($_POST["next"])) {
+    setGameStatus($_SESSION["gameid"], 0);
+    header("location: ./");
+    exit();
+}
+
+elseif (isset($_POST["love"])) {
+    if ($_POST["player1"] == $_POST["player2"]) {
+        header("location: ./?love=playerEqual");
+    } else {
+        setPlayerLover($_POST["player1"], $_SESSION["gameid"], $_POST["player2"]);
+        setPlayerLover($_POST["player2"], $_SESSION["gameid"], $_POST["player1"]);
+        header("location: ./");
+    }
+    exit();
+}
+
 ?>
 <html lang="de" style="overflow: hidden;">
 <head>
@@ -113,10 +130,14 @@ elseif (isset($_POST["vervote"])) {
         // In Game
         $game = gameData($_SESSION["gameid"]);
         $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
+        $pNeeded = $game["wercount"]*2+1;
         echo "<h1 id='name'>".$player["name"]."</h1>";
 
         if ($game["status"] > 1) {
             echo '<p style="color: gray; margin-top: 1px;">'.getRoles()[$player["role"]].'</p>';
+            if ($player["lover"] != "0") {
+                echo '<p style="color: #003cff; margin-top: 1px;">'.$player["lover"].' ('.getRoles()[$player["role"]].')</p>';
+            }
         }
 
         if ($game["status"] === 0) {
@@ -128,8 +149,8 @@ elseif (isset($_POST["vervote"])) {
                 <?php echoPlayers($game["id"]); ?>
             </div>
             <form action="./" method="post">
-                <button type="submit" name="start" <?php if(playerCount($game["id"])<=4 || gameData($_SESSION["gameid"])["host"] != $_SESSION["plName"]){echo("disabled");} ?>>
-                    Start <span style="color: grey;">(<?php echo(playerCount($game["id"])."/5 Spieler"); ?>)</span></button>
+                <button type="submit" name="start" <?php if(playerCount($game["id"])<$pNeeded || gameData($_SESSION["gameid"])["host"] != $_SESSION["plName"]){echo("disabled");} ?>>
+                    Start <span style="color: grey;">(<?php echo(playerCount($game["id"])."/".$pNeeded." Spieler"); ?>)</span></button>
             </form>
 
             <?php
@@ -155,9 +176,6 @@ elseif (isset($_POST["vervote"])) {
 
         elseif ($game["status"] >= 2 && $game["status"] < 100) {
             // Real Game
-            ?>
-
-            <?php
 
             if ($game["status"] == 2) {
                 // Werwölfe
@@ -194,6 +212,34 @@ elseif (isset($_POST["vervote"])) {
                 }
             }
 
+            elseif ($game["status"] == 5) {
+                // Armor verlieben
+                if (playerDataByName($_SESSION["plName"], $_SESSION["gameid"])["role"] == 3) {
+                    echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 60%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
+                    echo "<form action='./' method='post'>";
+                    echo "<select name='player1'>";
+                    foreach (gamePlayers($game["id"]) as $p) {
+                        echo "<option value='".$p['name']."'>".$p['name']."</option>";
+                    }
+                    echo "</select>";
+                    echo "<select name='player2'>";
+                    foreach (gamePlayers($game["id"]) as $p) {
+                        echo "<option value='".$p['name']."'>".$p['name']."</option>";
+                    }
+                    echo "</select><br><br>";
+                    echo "<button type='submit' name='love'>Verlieben</button>";
+                    echo "</form>";
+                    echo "</div>";
+                    if (isset($_GET["love"])) {
+                        if ($_GET["love"] == "playerEqual") {
+                            echo "<p style='font-size: 1.7rem; color: #8e2533'>Du kannst nicht einen Spieler in sich selbst verlieben!</p>";
+                        }
+                    }
+                } else {
+                    echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Der Armor erwacht**</p>";
+                }
+            }
+
             header("refresh: 2");
         }
 
@@ -203,16 +249,21 @@ elseif (isset($_POST["vervote"])) {
             todesAnzeigen();
             setGameStatus($_SESSION["gameid"], 101);
             header("refresh: 15");
-        } elseif ($game["status"] == 101) {
+        }
+
+        elseif ($game["status"] == 101) {
             echo "<h3 style='margin-top: 20px;'>Wen möchtest du anklagen?</h3>";
             echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 60%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
             voting($game["id"]);
             echo "</div>";
             header("refresh: 3");
-        } elseif ($game["status"] == 102) {
+        }
+
+        elseif ($game["status"] == 102) {
             echo "<div style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)'><p>Ende der Abstimmung:</p>";
             todesAnzeigen();
             setGameStatus($_SESSION["gameid"], 2);
+            testWin($game["id"]);
             header("refresh: 15");
         }
 
@@ -232,7 +283,8 @@ elseif (isset($_POST["vervote"])) {
             foreach (gamePlayers($game["id"]) as $p) {
                 echo "<p>".$p['name']." (".getRoles()[$p['role']].")</p>";
             }
-            echo "</div>";
+            echo "</div><br>";
+            echo "<form action='./' method='post'><button type='submit' name='next'>Neues Spiel</button></form>";
         }
 
     } else {
