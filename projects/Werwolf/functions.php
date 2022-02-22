@@ -32,12 +32,12 @@ function testWin($game) {
     $array = gamePlayers($game);
     $living = array();
     foreach ($array as $player) {
-        if ($player["dead"] != 0) {
+        if ($player["dead"] == 0) {
             $living[] = $player;
         }
     }
 
-    if (count($living) && $living[0]["lover"] != "0" && $living[0]["lover"] == $living[1]["name"]) {
+    if (count($living) == 2 && $living[0]["lover"] != "0" && $living[0]["lover"] == $living[1]["name"]) {
         setGameStatus($game, 1000);
         header("location: ./?win=3");
         exit();
@@ -460,6 +460,11 @@ function setPlayerDying($player, int $game, $by) {
     mysqli_stmt_bind_param($stmt, "sss", $by, $player, $game);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+
+    $loverData = playerDataByName($pData["lover"], $game);
+    if ($pData["lover"] != "0" && $loverData["dying"] == 0 && $loverData["dead"] == 0) {
+        setPlayerDying($pData["lover"], $game, 3);
+    }
 }
 
 function killPlayer($player, int $game, $by) {
@@ -477,7 +482,7 @@ function killPlayer($player, int $game, $by) {
     mysqli_stmt_close($stmt);
 
     $loverData = playerDataByName($pData["lover"], $game);
-    if ($pData["lover"] != 0 && $loverData["dying"] != 0 && $loverData["dead"] != 0) {
+    if ($pData["lover"] != "0" && $loverData["dying"] == 0 && $loverData["dead"] == 0) {
         killPlayer($pData["lover"], $game, 3);
     }
 }
@@ -546,26 +551,32 @@ function resetGameValues($game) {
 }
 
 function generateRoles($game) {
-    $gameData = gameData($_SESSION["gameid"]);
-    $werwolfe = array();
+    $living = gamePlayers($game);
+    $gameData = gameData($game);
     for ($i = 0; $i < $gameData["wercount"]; $i++) {
-        $get = random_int(0, count(gamePlayers($game)) - 1);
-        $wolf = gamePlayers($game)[$get];
+        $get = random_int(0, count($living) - 1);
+        $wolf = $living[$get];
         setPlayerRole($wolf["name"], $game, 1);
-        $werwolfe[] = $wolf;
+        unset($living[$get]);
     }
-    $get = random_int(0, count(gamePlayers($game)) - 1);
-    while (array_search(gamePlayers($game)[$get], $werwolfe) !== false) {
-        $get = random_int(0, count(gamePlayers($game)) - 1);
+    $lTemp = $living;
+    $living = array();
+    foreach ($lTemp as $temp) {
+        $living[] = $temp;
     }
-    $hexe = gamePlayers($game)[$get];
+    $get = random_int(0, count($living) - 1);
+    $hexe = $living[$get];
     setPlayerRole($hexe["name"], $game, 2);
-    $get = random_int(0, count(gamePlayers($game)) - 1);
-    while (array_search(gamePlayers($game)[$get], $werwolfe) !== false || gamePlayers($game)[$get] == $hexe) {
-        $get = random_int(0, count(gamePlayers($game)) - 1);
+    unset($living[$get]);
+    $lTemp = $living;
+    $living = array();
+    foreach ($lTemp as $temp) {
+        $living[] = $temp;
     }
-    $amor = gamePlayers($game)[$get];
+    $get = random_int(0, count($living) - 1);
+    $amor = $living[$get];
     setPlayerRole($amor["name"], $game, 3);
+    unset($living[$get]);
 }
 
 function gamesCount() {
