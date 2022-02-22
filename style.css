@@ -1,0 +1,124 @@
+/* Pre defined */
+* {
+    color: white;
+    text-align: center;
+}
+body {
+    background-color: #363636;
+    font-family: "Roboto Mono", monospace;
+    font-size: 11pt;
+}
+h1 {
+    text-align: center;
+}
+a {
+    text-decoration: none;
+    color: #00cccc;
+    transition: 500ms;
+}
+a:hover {
+    color: #007777;
+}
+a:active {
+    color: #00ff9d;
+}
+input, select {
+    background: none;
+    border: solid #333333;
+    border-radius: 24px;
+    width: 250px;
+    color: white;
+    margin: 20px auto;
+    height: 30px;
+    padding: 14px 10px;
+    outline: none;
+    transition: 0.2s;
+    font-size: larger;
+}
+select:hover {
+    background-color: #363636;
+}
+option {
+    color: #000000;
+}
+td {
+    font-size: 0.95rem;
+}
+input:hover {
+    width: 320px;
+    background-color: #FFFFF0;
+    color: #000000;
+    border: solid royalblue;
+}
+input:focus {
+    width: 320px;
+    border: solid aqua;
+}
+button {
+    background: none;
+    width: 200px;
+    border-radius: 24px;
+    height: 40px;
+    color: rgb(199, 199, 199);
+    border: solid #333333;
+    transition: 0.25s;
+}
+button:hover {
+    width: 280px;
+    border: solid rgb(0, 255, 221);
+    cursor: crosshair;
+}
+
+/* Custom Classes */
+.nav {
+    float: top;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 0 auto;
+    background-color: #424242;
+    border: 10px solid #424242;
+    border-radius: 0 0 24px 24px;
+    padding: 0 5px 3px 5px;
+}
+.navlinks {
+    text-decoration: none;
+    color: white;
+    transition: 250ms;
+    width: fit-content;
+    margin: 0 5px 0 5px;
+}
+.navlinks:hover {
+    border-bottom: 1px solid white;
+    color: white;
+}
+.navlinks:active {
+    color: red;
+}
+.main {
+    width: 60%;
+    background-color: #262626;
+    float: none;
+    margin: 10px auto;
+    border: 10px solid #262626;
+    border-radius: 20px;
+}
+.log-in {
+    align-items: center;
+    text-transform: uppercase;
+    width: 360px;
+    padding: 40px;
+    position: absolute;
+    font-weight: 500;
+    font-size: larger;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*background: url(../img/back.jpg)
+    no-repeat;
+    background-size: cover;*/
+    background-color: #485a52;
+    border: 20px solid transparent;
+    border-radius: 24px;
+}

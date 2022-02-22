@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="main">
-    <h1>Projects</h1><br>
+    <h1>Projekte</h1><br>
     <?php
     function listFolderFiles($dir){
         $ffs = scandir($dir);
