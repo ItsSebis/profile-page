@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>ItsSebis | Home</title>
+    <title>ItsSebis | <?php echo($GLOBALS["site"]); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,12 +17,14 @@
 <body>
 <div class="nav">
     <a href="./" style="background: none; border: none; float: none;"><img src="img/title-bar.png" alt="pp" style="width: 16px; height: auto;"></a>
-    <a target="_self" href="./projects" class="navlinks" style="color: #00cccc">Projekte</a>
-    <a target="_blank" href="./sharky" class="navlinks" style="color: #007777">Sharky</a>
     <?php
         if (!isset($_SESSION["id"])) {
-            echo '<a target="_self" href="login.php" class="navlinks" style="color: #00ff9d">Login</a>';
+            echo '<a target="_self" href="login.php" class="navlinks" style="color: #00ff9d" id="login">Login</a>';
         } else {
+            echo '<a target="_self" href="settings.php" class="navlinks" style="color: #999" id="account">Account</a>';
+            if (roleData(accountData($_SESSION["id"])["role"])["admin"]) {
+                echo '<a target="_self" href="admin.php" class="navlinks" style="color: #f44" id="manage">Management</a>';
+            }
             echo '<a target="_self" href="login.php?logout" class="navlinks" style="color: #e75">Logout</a>';
         }
     ?>

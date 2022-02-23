@@ -1,4 +1,5 @@
 <?php
+$GLOBALS["site"] = "Login";
 if (isset($_GET["logout"])) {
     session_start();
     session_unset();
@@ -15,7 +16,7 @@ include_once "header.php";
     }
 </style>
 <script type="text/javascript">
-    document.getElementById("login").setAttribute("style", "border: solid white; border-radius: 7px; padding: 3px;")
+    document.getElementById("login").setAttribute("style", "border-bottom: 1px solid #00ff9d; color: #00ff9d")
 </script>
 
 <div class='log-in' <?php #style="background: url(img/back.jpg)no-repeat; background-size: cover; border: solid none;" ?>>
