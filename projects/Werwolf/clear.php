@@ -1,5 +1,5 @@
 <?php
-require_once "functions.php";
+require_once "/var/www/sebi/projects/Werwolf/functions.php";
 
 foreach (allGames() as $game) {
     $diff = untilNow($game["update"]);
