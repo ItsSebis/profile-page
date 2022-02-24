@@ -21,8 +21,9 @@ if (isset($_SESSION["gameid"]) && (gameData($_SESSION["gameid"]) === false || pl
     if (gameData($_SESSION["gameid"]) === false) {
         delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
     }
-    session_unset();
-    session_destroy();
+    unset($_SESSION["gameid"]);
+    unset($_SESSION["plName"]);
+    unset($_SESSION["color"]);
     header("location: ./");
     exit();
 }
@@ -135,6 +136,10 @@ elseif (isset($_POST["love"])) {
         header("location: ./");
     }
     exit();
+}
+
+if (!isset($_SESSION["id"])) {
+    clearGames();
 }
 
 ?>

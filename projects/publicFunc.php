@@ -17,7 +17,7 @@ function reformatBIgInts($count) {
 
 function untilNow($date) {
     $dateTimeObject1 = date_create($date);
-    $dateTimeObject2 = date_create(date("Y-m-d H:i:s"));
+    $dateTimeObject2 = date_create(gmdate("Y-m-d H:i:s"));
     return date_diff($dateTimeObject1, $dateTimeObject2);
 }
 
