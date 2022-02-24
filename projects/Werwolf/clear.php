@@ -7,7 +7,7 @@ foreach (allGames() as $game) {
     $mins += $diff->h * 60;
     $mins += $diff->i;
     echo($game["id"]." is $mins minutes old.\n");
-    if ($mins >= 45) {
+    if ($mins >= 30) {
         foreach (gamePlayers($game["id"]) as $p) {
             delPlayer($p["name"], $game["id"]);
         }
