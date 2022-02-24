@@ -15,6 +15,12 @@ function reformatBIgInts($count) {
     return $count;
 }
 
+function untilNow($date) {
+    $dateTimeObject1 = date_create($date);
+    $dateTimeObject2 = date_create(date("Y-m-d H:i:s"));
+    return date_diff($dateTimeObject1, $dateTimeObject2);
+}
+
 function accountData($id) {
     $con = con();
     $sql = "SELECT * FROM users WHERE id = ?;";
@@ -108,4 +114,19 @@ function rolesArray() {
     }
     mysqli_stmt_close($stmt);
     return $array;
+}
+
+function createUser($name, $pw, $mail) {
+    $con = con();
+    $sql = "INSERT INTO users (username, pw, email) VALUES (?, ?, ?);";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1&part=createUser");
+        exit();
+    }
+
+    $pw = password_hash($pw, PASSWORD_DEFAULT);
+
+    mysqli_stmt_bind_param($stmt, "sss", $name, $pw, $mail);
+    mysqli_stmt_execute($stmt);
 }

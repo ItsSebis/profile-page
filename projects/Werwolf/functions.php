@@ -116,13 +116,17 @@ function echoPlayers($game) {
 
     if ($rs->num_rows > 0) {
         while ($row = $rs->fetch_assoc()) {
+            $color = "#e8e8fe";
+            if (!preg_match("/[^a-zA-Z]+/", $row["name"]) && accountDataByName($row["name"]) !== false) {
+                $color = roleData(accountDataByName($row["name"])["role"])["color"];
+            }
             $host = "";
             $preHost = "";
             if (gameData($_SESSION["gameid"])["host"] == $row["name"]) {
                 $host = "<span style='font-size: 1.3rem; color: gold'>*</span>";
                 $preHost = "<span style='font-size: 1.3rem; color: gold'>*</span>";
             }
-            echo "<p style='margin: 10px auto; font-size: 1.8rem;'>" . $preHost . $row['name'] . $host . "</p>";
+            echo "<p style='margin: 10px auto; font-size: 1.8rem; color: ".$color."'>" . $preHost . $row['name'] . $host . "</p>";
         }
     }
     mysqli_stmt_close($stmt);
@@ -270,6 +274,28 @@ function gamePlayers($game) {
     }
 
     mysqli_stmt_bind_param($stmt, "s", $game);
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $array = array();
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            $array[] = $row;
+        }
+    }
+    mysqli_stmt_close($stmt);
+    return $array;
+}
+
+function allGames() {
+    $con = con();
+    $sql = "SELECT * FROM wergames ORDER BY `id` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1&part=allGames");
+        exit();
+    }
+
     mysqli_stmt_execute($stmt);
     $rs = mysqli_stmt_get_result($stmt);
 
@@ -651,4 +677,34 @@ function todesAnzeigen(): void {
         }
     }
     echo "</div>";
+}
+
+function delPlayer($player, $game) {
+    $con = con();
+    $qry = "DELETE FROM werplayer WHERE name=? AND game=?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ../?error=1");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $player, $game);
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
+}
+
+function delGame($game) {
+    $con = con();
+    $qry = "DELETE FROM wergames WHERE id=?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ../?error=1");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $game);
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
 }

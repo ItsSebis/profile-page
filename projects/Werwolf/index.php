@@ -2,7 +2,25 @@
 require_once "functions.php";
 session_start();
 
-if (isset($_SESSION["gameid"]) && gameData($_SESSION["gameid"]) === false) {
+if (isset($_SESSION["id"])) {
+    $user = accountData($_SESSION["id"]);
+}
+$_SESSION["color"] = "grey";
+if (isset($user)) {
+    $_SESSION["color"] = roleData($user["role"])["color"];
+}
+
+if (isset($_GET["exit"])) {
+    delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
+    if (count(gamePlayers($_SESSION["gameid"])) == 0) {
+        delGame($_SESSION["gameid"]);
+    }
+}
+
+if (isset($_SESSION["gameid"]) && (gameData($_SESSION["gameid"]) === false || playerDataByName($_SESSION["plName"], $_SESSION["gameid"]) === false)) {
+    if (gameData($_SESSION["gameid"]) === false) {
+        delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
+    }
     session_unset();
     session_destroy();
     header("location: ./");
@@ -10,11 +28,25 @@ if (isset($_SESSION["gameid"]) && gameData($_SESSION["gameid"]) === false) {
 }
 
 if (isset($_POST["join"])) {
-    if (empty($_POST["gameid"]) || empty($_POST["plName"])) {
+
+    if (empty($_POST["gameid"])) {
         header("location: ./?error=emptyf");
         exit();
-    } elseif (gameData($_POST["gameid"]) !== false && playerDataByName($_POST["plName"], $_POST["gameid"]) === false) {
-        $_SESSION["plName"] = $_POST["plName"];
+    }
+
+    $gameid = $_POST["gameid"];
+
+    if (isset($user)) {
+        $plName = $user["username"];
+    } else {
+        $plName = "User".random_int(1, 420);
+        while (playerDataByName($plName, $gameid) !== false) {
+            $plName = "User".random_int(1, 420);
+        }
+    }
+
+    if (gameData($gameid) !== false && playerDataByName($plName, $gameid) === false) {
+        $_SESSION["plName"] = $plName;
         $_SESSION["gameid"] = $_POST["gameid"];
         createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
         header("location: ./");
@@ -37,14 +69,14 @@ elseif (isset($_POST["start"])) {
 }
 
 elseif (isset($_POST["create"])) {
-    if (empty($_POST["plName"])) {
-        header("location: ./?error=emptyfC");
-        exit();
+    if (isset($user)) {
+        $plName = $user["username"];
     } else {
-        $_SESSION["plName"] = $_POST["plName"];
-        $_SESSION["gameid"] = createGame();
-        createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
+        $plName = "User".random_int(1, 420);
     }
+    $_SESSION["plName"] = $plName;
+    $_SESSION["gameid"] = createGame();
+    createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
     header("location: ./");
     exit();
 }
@@ -118,9 +150,14 @@ elseif (isset($_POST["love"])) {
     <link rel="stylesheet" href="../style.css">
 </head>
 <a style="position: fixed; top: 10px; left: 10px;" href="..">← Back</a>
+<?php
+if (isset($_SESSION["gameid"])) {
+    echo '<a style="position: fixed; top: 10px; right: 10px;" href="./?exit">❌ EXIT</a>';
+}
+?>
 <!--style="position: fixed; top: 10px; right: 10px;"-->
 <div class="stats">
-    <h2>Alpha 0.0.5</h2><br>
+    <h2>Alpha 0.0.6</h2><br>
     <p>Open Games: <span style="color: #00cccc"><?php echo(gamesCount()); ?></span></p>
     <p>Online Players: <span style="color: #00cccc"><?php echo(allPlayersCount()); ?></span></p>
 </div>
@@ -136,7 +173,7 @@ elseif (isset($_POST["love"])) {
         $game = gameData($_SESSION["gameid"]);
         $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
         $pNeeded = $game["wercount"]*2+1;
-        echo "<h1 id='name'>".$player["name"]."</h1>";
+        echo "<h1 id='name' style='color: ".$_SESSION['color']."'>".$player["name"]."</h1>";
 
         if ($game["status"] > 1) {
             if ($player["dead"] != "0") {
@@ -317,7 +354,6 @@ elseif (isset($_POST["love"])) {
 
         <form action="./" method="post"
               style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-            <input type="text" name="plName" placeholder="Dein Spitzname..."><br>
             <input type="number" name="gameid" max="99999999" min="0" placeholder="Spiel Id..."><br><br>
             <button type="submit" name="join">Beitreten</button><br><br>
             <button type="submit" name="create">Spiel erstellen</button>
@@ -325,8 +361,6 @@ elseif (isset($_POST["love"])) {
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "noGame") {
                     echo "<br><br><p style='color: red'>Dieser Spielcode existiert nicht!</p>";
-                } elseif ($_GET["error"] == "nameExists") {
-                    echo "<br><br><p style='color: red'>In dem angegebenem Spiel ist bereits ein Spieler mit diesem Namen!</p>";
                 } elseif ($_GET["error"] == "emptyf") {
                     echo "<br><br><p style='color: red'>Du musst alle Felder ausfüllen, um einem Spiel beizutreten!</p>";
                 } elseif ($_GET["error"] == "emptyfC") {
