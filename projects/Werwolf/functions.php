@@ -5,9 +5,12 @@ require_once "../publicFunc.php";
 
 function getRoles() {
     return array("<span style='color: lime'>Dorfbewohner</span>", "<span style='color: red'>Werwolf</span>", "<span style='color: green'>Hexe</span>",
-        "<span style='color: #003cff'>Amor</span>");
+        "<span style='color: #003cff'>Amor</span>", "<span style='color: brown'>Urwolf</span>");
 }
 
+/**
+ * @throws Exception
+ */
 function createGame() {
     $game = random_int(1, 99999999);
     while (gameData($game) !== false) {
@@ -64,7 +67,19 @@ function testWin($game) {
     
 }
 
+/**
+ * @throws Exception
+ */
 function createPlayer($game, $name) {
+    if (isset($_SESSION["id"])) {
+        $user = accountData($_SESSION["id"]);
+        $player = playerDataLoggedIn($user["username"]);
+        if ($player["game"] != $game) {
+            delPlayer($player["name"], $player["game"]);
+        } else {
+            return;
+        }
+    }
     $con = con();
     $sql = "INSERT INTO werplayer (game, name) VALUES (?, ?);";
     $stmt = mysqli_stmt_init($con);
@@ -147,9 +162,18 @@ function voting($game) {
 
     if ($rs->num_rows > 0) {
         while ($row = $rs->fetch_assoc()) {
+            $wer = false;
+            if (playerDataByName($_SESSION["plName"], $_SESSION["gameid"])["role"] == 1 || playerDataByName($_SESSION["plName"], $_SESSION["gameid"])["role"] == 4) {
+                $wer = true;
+            }
+            if ($wer && ($row["role"] == 1 || $row["role"] == 4)) {
+                $wStr = " <span style='color: red'>Werwolf</span>";
+            } else {
+                $wStr = "";
+            }
             if ($row["name"] != $_SESSION["plName"] && $row["dead"] == 0) {
                 echo "<p style='margin: 10px auto; font-size: 1.8rem;'><form action='./' method='post'>
-                        <button type='submit' name='vervote' value='" . $row['name'] . "'>" . $row['name'] . " <span style='color: red;'>" . playerVotes($row['name'], $game) . "</span></button>
+                        <button type='submit' name='vervote' value='".$row['name']."'>".$row['name']." <span style='color: red;'>".playerVotes($row['name'], $game).$wStr."</span></button>
                         </form></p>
                     ";
             }
@@ -201,7 +225,7 @@ function werVotePlayers($game) {
 
     if ($rs->num_rows > 0) {
         while ($row = $rs->fetch_assoc()) {
-            if ($row["role"] != 1 && $row["dead"] == 0) {
+            if ($row["role"] != 1 && $row["dead"] == 0 && $row["role"] != 4) {
                 echo "<p style='margin: 10px auto; font-size: 1.8rem;'><form action='./' method='post'>
                         <button type='submit' name='wervote' value='" . $row['name'] . "'>" . $row['name'] . " <span style='color: red;'>" . playerVotes($row['name'], $game) . "</span></button>
                         </form></p>
@@ -230,6 +254,32 @@ function hexeKilling($game) {
             if ($row["role"] != 2 && $row["dead"] == 0 && $row["dying"] == 0) {
                 echo "<p style='margin: 10px auto; font-size: 1.8rem;'><form action='./' method='post'>
                         <button type='submit' name='hexKill' value='".$row['name']."'>".$row['name']."</span></button>
+                        </form></p>
+                    ";
+            }
+        }
+    }
+    mysqli_stmt_close($stmt);
+}
+
+function urwolfSelect($game) {
+    $con = con();
+    $sql = "SELECT * FROM werplayer WHERE game = ? ORDER BY `name` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1&part=urwolfSelect");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $game);
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            if ($row["role"] != 1 && $row["dead"] == 0 && $row["dying"] == 0 && $row["role"] != 4) {
+                echo "<p style='margin: 10px auto; font-size: 1.8rem;'><form action='./' method='post'>
+                        <button type='submit' name='ursel' value='".$row['name']."'>".$row['name']."</span></button>
                         </form></p>
                     ";
             }
@@ -287,6 +337,31 @@ function gamePlayers($game) {
     return $array;
 }
 
+function gameLiving($game) {
+    $con = con();
+    $sql = "SELECT * FROM werplayer WHERE game = ? AND dead=? ORDER BY `name` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1&part=gameLiving");
+        exit();
+    }
+
+    $zero = 0;
+
+    mysqli_stmt_bind_param($stmt, "ss", $game, $zero);
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $array = array();
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            $array[] = $row;
+        }
+    }
+    mysqli_stmt_close($stmt);
+    return $array;
+}
+
 function allGames() {
     $con = con();
     $sql = "SELECT * FROM wergames ORDER BY `id` ASC;";
@@ -324,7 +399,7 @@ function playerCount($game) {
 
     $count = 0;
     if ($rs->num_rows > 0) {
-        while ($row = $rs->fetch_assoc()) {
+        while ($rs->fetch_assoc()) {
             $count++;
         }
     }
@@ -388,6 +463,27 @@ function playerDataByName($str, $game) {
     }
 
     mysqli_stmt_bind_param($stmt, "ss", $str, $game);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    } else {
+        return false;
+    }
+}
+
+function playerDataLoggedIn($str) {
+    $con = con();
+    $sql = "SELECT * FROM werplayer WHERE name = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1&part=playerDataLoggedIn");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $str);
     mysqli_stmt_execute($stmt);
 
     $resultData = mysqli_stmt_get_result($stmt);
@@ -576,6 +672,23 @@ function resetGameValues($game) {
     mysqli_stmt_close($stmt);
 }
 
+function setGameHost($game, $host) {
+    $con = con();
+    $qry = "UPDATE wergames SET host=? WHERE id = ?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setGameHost");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $host, $game);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+/**
+ * @throws Exception
+ */
 function generateRoles($game) {
     $living = gamePlayers($game);
     $gameData = gameData($game);
@@ -602,6 +715,15 @@ function generateRoles($game) {
     $get = random_int(0, count($living) - 1);
     $amor = $living[$get];
     setPlayerRole($amor["name"], $game, 3);
+    unset($living[$get]);
+    $lTemp = $living;
+    $living = array();
+    foreach ($lTemp as $temp) {
+        $living[] = $temp;
+    }
+    $get = random_int(0, count($living) - 1);
+    $sel = $living[$get];
+    setPlayerRole($sel["name"], $game, 4);
     unset($living[$get]);
 }
 
@@ -679,6 +801,9 @@ function todesAnzeigen(): void {
     echo "</div>";
 }
 
+/**
+ * @throws Exception
+ */
 function delPlayer($player, $game) {
     $con = con();
     $qry = "DELETE FROM werplayer WHERE name=? AND game=?;";
@@ -692,6 +817,12 @@ function delPlayer($player, $game) {
     mysqli_stmt_execute($stmt);
 
     mysqli_stmt_close($stmt);
+
+    if (count(gamePlayers($game)) == 0) {
+        delGame($game);
+    } elseif (gameData($game)["host"] == $player) {
+        setGameHost($game, gamePlayers($game)[random_int(0, count(gamePlayers($game))-1)]["name"]);
+    }
 }
 
 function delGame($game) {
@@ -709,6 +840,9 @@ function delGame($game) {
     mysqli_stmt_close($stmt);
 }
 
+/**
+ * @throws Exception
+ */
 function clearGames() {
     foreach (allGames() as $game) {
         $diff = untilNow($game["update"]);
@@ -723,4 +857,15 @@ function clearGames() {
             delGame($game["id"]);
         }
     }
+}
+
+function isLiving($role, $game) {
+    $living = gameLiving($game);
+    $live = false;
+    foreach ($living as $item) {
+        if ($item["role"] == $role) {
+            $live = true;
+        }
+    }
+    return $live;
 }

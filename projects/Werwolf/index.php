@@ -11,15 +11,18 @@ if (isset($user)) {
 }
 
 if (isset($_GET["exit"])) {
-    delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
-    if (count(gamePlayers($_SESSION["gameid"])) == 0) {
-        delGame($_SESSION["gameid"]);
+    try {
+        delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
+    } catch (Exception $e) {
     }
 }
 
 if (isset($_SESSION["gameid"]) && (gameData($_SESSION["gameid"]) === false || playerDataByName($_SESSION["plName"], $_SESSION["gameid"]) === false)) {
     if (gameData($_SESSION["gameid"]) === false) {
-        delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
+        try {
+            delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
+        } catch (Exception $e) {
+        }
     }
     unset($_SESSION["gameid"]);
     unset($_SESSION["plName"]);
@@ -40,16 +43,25 @@ if (isset($_POST["join"])) {
     if (isset($user)) {
         $plName = $user["username"];
     } else {
-        $plName = "User".random_int(1, 420);
+        try {
+            $plName = "User" . random_int(1, 420);
+        } catch (Exception $e) {
+        }
         while (playerDataByName($plName, $gameid) !== false) {
-            $plName = "User".random_int(1, 420);
+            try {
+                $plName = "User" . random_int(1, 420);
+            } catch (Exception $e) {
+            }
         }
     }
 
-    if (gameData($gameid) !== false && playerDataByName($plName, $gameid) === false) {
+    if (gameData($gameid) !== false && (playerDataByName($plName, $gameid) === false || isset($user))) {
         $_SESSION["plName"] = $plName;
         $_SESSION["gameid"] = $_POST["gameid"];
-        createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
+        try {
+            createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
+        } catch (Exception $e) {
+        }
         header("location: ./");
         exit();
     } elseif (gameData($_POST["gameid"]) === false) {
@@ -73,11 +85,20 @@ elseif (isset($_POST["create"])) {
     if (isset($user)) {
         $plName = $user["username"];
     } else {
-        $plName = "User".random_int(1, 420);
+        try {
+            $plName = "User" . random_int(1, 420);
+        } catch (Exception $e) {
+        }
     }
     $_SESSION["plName"] = $plName;
-    $_SESSION["gameid"] = createGame();
-    createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
+    try {
+        $_SESSION["gameid"] = createGame();
+    } catch (Exception $e) {
+    }
+    try {
+        createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
+    } catch (Exception $e) {
+    }
     header("location: ./");
     exit();
 }
@@ -132,14 +153,30 @@ elseif (isset($_POST["love"])) {
     } else {
         setPlayerLover($_POST["player1"], $_SESSION["gameid"], $_POST["player2"]);
         setPlayerLover($_POST["player2"], $_SESSION["gameid"], $_POST["player1"]);
-        setGameStatus($_SESSION["gameid"], 2);
+        setGameStatus($_SESSION["gameid"], 6);
         header("location: ./");
     }
     exit();
 }
 
-if (!isset($_SESSION["id"])) {
-    clearGames();
+elseif (isset($_POST["ursel"])) {
+    setPlayerRole($_POST["ursel"], $_SESSION["gameid"], 1);
+    setGameStatus($_SESSION["gameid"], 2);
+    header("location: ./");
+    exit();
+}
+
+elseif (isset($_POST["urskip"])) {
+    setGameStatus($_SESSION["gameid"], 2);
+    header("location: ./");
+    exit();
+}
+
+if (!isset($_SESSION["gameid"])) {
+    try {
+        clearGames();
+    } catch (Exception $e) {
+    }
 }
 
 ?>
@@ -162,7 +199,7 @@ if (isset($_SESSION["gameid"])) {
 ?>
 <!--style="position: fixed; top: 10px; right: 10px;"-->
 <div class="stats">
-    <h2>Alpha 0.0.6</h2><br>
+    <h2>Alpha 0.0.7</h2><br>
     <p>Open Games: <span style="color: #00cccc"><?php echo(gamesCount()); ?></span></p>
     <p>Online Players: <span style="color: #00cccc"><?php echo(allPlayersCount()); ?></span></p>
 </div>
@@ -177,7 +214,10 @@ if (isset($_SESSION["gameid"])) {
         // In Game
         $game = gameData($_SESSION["gameid"]);
         $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
-        $pNeeded = $game["wercount"]*2+1;
+        $pNeeded = ($game["wercount"]+1)*2+3;
+        if ($pNeeded < 7) {
+            $pNeeded = 7;
+        }
         echo "<h1 id='name' style='color: ".$_SESSION['color']."'>".$player["name"]."</h1>";
 
         if ($game["status"] > 1) {
@@ -212,10 +252,10 @@ if (isset($_SESSION["gameid"])) {
 
             if ($game["host"] == $player["name"]) {
                 resetValues($game["id"]);
-                sleep(1);
-                generateRoles($game["id"]);
-            } else {
-                sleep(1);
+                try {
+                    generateRoles($game["id"]);
+                } catch (Exception $e) {
+                }
             }
             $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
             $role = getRoles()[$player["role"]];
@@ -232,7 +272,7 @@ if (isset($_SESSION["gameid"])) {
 
             if ($game["status"] == 2) {
                 // Werwölfe
-                if ($player["role"] != 1) {
+                if ($player["role"] != 1 && $player["role"] != 4) {
                     echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Die Werwölfe erwachen**</p>";
                 } else {
                     echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 70%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
@@ -273,10 +313,9 @@ if (isset($_SESSION["gameid"])) {
                         $isLoved = true;
                     }
                 }
-                if ($isLoved) {
-                    setGameStatus($game["id"], 2);
-                }
-                if (playerDataByName($_SESSION["plName"], $_SESSION["gameid"])["role"] == 3) {
+                if ($isLoved || !isLiving(3, $game["id"])) {
+                    setGameStatus($game["id"], 6);
+                } elseif (playerDataByName($_SESSION["plName"], $_SESSION["gameid"])["role"] == 3) {
                     echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 60%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
                     echo "<form action='./' method='post'>";
                     echo "<select name='player1'>";
@@ -302,12 +341,35 @@ if (isset($_SESSION["gameid"])) {
                 }
             }
 
-            header("refresh: 2");
+            elseif ($game["status"] == 6) {
+                // Urwolf select
+                $wercount = 0;
+                foreach (gamePlayers($game["id"]) as $p) {
+                    if ($p["role"] == 1) {
+                        $wercount++;
+                    }
+                }
+                if ($wercount > $game["wercount"] || !isLiving(4, $game["id"])) {
+                    setGameStatus($game["id"], 2);
+                } elseif ($player["role"] != 4) {
+                    echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Der Urwolf erwacht**</p>";
+                } else {
+                    echo "<p style='margin-top: 20px;'>Wen möchtest du zu einem Werwolf machen?</p>";
+                    echo "<div style='border: solid #424242; border-radius: 14px; width: 60%; margin: 20px auto 30px; height: 60%; background-color: #303030; overflow: hidden; overflow-y: initial'>";
+                    urwolfSelect($game["id"]);
+                    echo "</div>";
+                    echo "<form action='./' method='post'>
+                        <button type='submit' name='urskip'>Niemanden verwandeln</span></button>
+                        </form>";
+                }
+            }
+
+            header("refresh: 3");
         }
 
         elseif ($game["status"] == 100) {
             // Day
-            echo "<div style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-decoration: underline'><p>Das Dorf trauert um:</p>";
+            echo "<div style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);'><p style='text-decoration: underline'>Das Dorf trauert um:</p>";
             todesAnzeigen();
             setGameStatus($_SESSION["gameid"], 101);
             header("refresh: 15");
