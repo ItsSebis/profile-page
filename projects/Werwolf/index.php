@@ -283,6 +283,11 @@ if (isset($_SESSION["gameid"])) {
 
             elseif ($game["status"] == 3) {
                 // Hexe healing
+                if (!isLiving(2, $game["id"])) {
+                    setGameStatus($game["id"], 100);
+                    header("location: ./");
+                    exit();
+                }
                 if ($player["role"] != 2) {
                     echo "<p style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: lightcoral; font-size: 1.5rem'>**Die Hexe erwacht**</p>";
                 } else {
