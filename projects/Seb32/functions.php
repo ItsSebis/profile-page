@@ -167,7 +167,7 @@ function generateNew($amount=1) {
 
         $str.="
     );
-    }";
+}";
 
         $writer = fopen("pattern.php", "w+");
         echo(fread($writer, 100));
