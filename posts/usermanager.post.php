@@ -2,6 +2,7 @@
 include_once "../config.php";
 include_once "../projects/publicFunc.php";
 session_start();
+
 if (isset($_POST["register"])) {
 
     if (empty($_POST["usr"]) || empty($_POST["pw"]) || empty($_POST["pwr"]) || empty($_POST["email"])) {
@@ -61,6 +62,27 @@ if (isset($_POST["register"])) {
 
     createUser($name, $pw, $mail);
     login(accountDataByName($name)["id"]);
+}
+
+elseif (isset($_POST["chPw"])) {
+    if (empty($_POST["oldPw"]) || empty($_POST["pw"]) || empty($_POST["pwr"])) {
+        header("location: ../settings.php?error=emptyf");
+        exit();
+    }
+
+    $data = accountData($_SESSION["id"]);
+    $old = $_POST["oldPw"];
+    if (password_verify($old, $data["pw"]) === false) {
+        header("location: ../settings.php?error=invalidPassword");
+        exit();
+    }
+    if ($_POST["pw"] !== $_POST["pwr"]) {
+        header("location: ../settings.php?error=pwr");
+        exit();
+    }
+    setUserPw($data["id"], $_POST["pw"]);
+    header("location: ../settings.php?error=done");
+    exit();
 }
 
 else {

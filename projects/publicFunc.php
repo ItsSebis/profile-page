@@ -144,3 +144,19 @@ function setUserStat($usr, $stat, $value) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+function setUserPw($usr, $value) {
+    $con = con();
+    $qry = "UPDATE users SET pw=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setUserPw");
+        exit();
+    }
+
+    $value = password_hash($value, PASSWORD_DEFAULT);
+
+    mysqli_stmt_bind_param($stmt, "ss", $value, $usr);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
