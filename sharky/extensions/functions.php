@@ -282,7 +282,11 @@ function readMessageCount() {
 }
 
 function readWordCount() {
-    $words = count(allWordsArray());
+    $array = allWordsArray();
+    $words = 0;
+    foreach ($array as $item) {
+        $words += $item["sent"];
+    }
     if ($words > 1500000000) {
         $words = round($words/1000000000, 2). "G";
     } elseif ($words > 1500000) {
