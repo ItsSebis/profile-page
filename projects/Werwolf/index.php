@@ -199,9 +199,9 @@ if (isset($_SESSION["gameid"])) {
 ?>
 <!--style="position: fixed; top: 10px; right: 10px;"-->
 <div class="stats">
-    <h2>Alpha 0.0.7</h2><br>
-    <p>Open Games: <span style="color: #00cccc"><?php echo(gamesCount()); ?></span></p>
-    <p>Online Players: <span style="color: #00cccc"><?php echo(allPlayersCount()); ?></span></p>
+    <h2>Alpha 0.0.8</h2><br>
+    <p>Open Games: <span style="color: #00cccc"><?php echo(reformatBIgInts(gamesCount())); ?></span></p>
+    <p>Online Players: <span style="color: #00cccc"><?php echo(reformatBIgInts(allPlayersCount())); ?></span></p>
 </div>
 <div class="main" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 75%;">
     <?php
