@@ -32,15 +32,18 @@ function createGame() {
 }
 
 function testWin($game) {
-    $array = gamePlayers($game);
-    $living = array();
-    foreach ($array as $player) {
-        if ($player["dead"] == 0) {
-            $living[] = $player;
-        }
-    }
+    $host = gameData($game)["host"];
+    $living = gameLiving($game);
 
     if (count($living) == 2 && $living[0]["lover"] != "0" && $living[0]["lover"] == $living[1]["name"]) {
+        if ($host == $_SESSION["plName"]) {
+            foreach ($living as $item) {
+                if (accountDataByName($item["name"]) !== false) {
+                    $usr = accountDataByName($item["name"]);
+                    setUserStat($usr["id"], "werlovwin", $usr["werlovwin"] + 1);
+                }
+            }
+        }
         setGameStatus($game, 1000);
         header("location: ./?win=3");
         exit();
@@ -49,22 +52,37 @@ function testWin($game) {
     $dorftrottel = array();
     $wolfe = array();
     foreach ($living as $livingPlayer) {
-        if ($livingPlayer["role"] == 1) {
+        if ($livingPlayer["role"] == 1 || $livingPlayer["role"] == 4) {
             $wolfe[] = $livingPlayer;
         } else {
             $dorftrottel[] = $livingPlayer;
         }
     }
     if (count($wolfe) > count($dorftrottel)) {
+        if ($host == $_SESSION["plName"]) {
+            foreach ($wolfe as $item) {
+                if (accountDataByName($item["name"]) !== false) {
+                    $usr = accountDataByName($item["name"]);
+                    setUserStat($usr["id"], "werwerwin", $usr["werwerwin"] + 1);
+                }
+            }
+        }
         setGameStatus($game, 1000);
         header("location: ./?win=1");
         exit();
     } elseif (count($wolfe) == 0) {
+        if ($host == $_SESSION["plName"]) {
+            foreach ($dorftrottel as $item) {
+                if (accountDataByName($item["name"]) !== false) {
+                    $usr = accountDataByName($item["name"]);
+                    setUserStat($usr["id"], "wervilwin", $usr["wervilwin"] + 1);
+                }
+            }
+        }
         setGameStatus($game, 1000);
         header("location: ./?win=0");
         exit();
     }
-    
 }
 
 /**
@@ -696,8 +714,13 @@ function generateRoles($game) {
         $get = random_int(0, count($living) - 1);
         $wolf = $living[$get];
         setPlayerRole($wolf["name"], $game, 1);
+        if (accountDataByName($wolf["name"]) !== false) {
+            $usr = accountDataByName($wolf["name"]);
+            setUserStat($usr["id"], "werwer", $usr["werwer"]+1);
+        }
         unset($living[$get]);
     }
+
     $lTemp = $living;
     $living = array();
     foreach ($lTemp as $temp) {
@@ -706,7 +729,12 @@ function generateRoles($game) {
     $get = random_int(0, count($living) - 1);
     $hexe = $living[$get];
     setPlayerRole($hexe["name"], $game, 2);
+    if (accountDataByName($hexe["name"]) !== false) {
+        $usr = accountDataByName($hexe["name"]);
+        setUserStat($usr["id"], "werhex", $usr["werhex"]+1);
+    }
     unset($living[$get]);
+
     $lTemp = $living;
     $living = array();
     foreach ($lTemp as $temp) {
@@ -715,7 +743,12 @@ function generateRoles($game) {
     $get = random_int(0, count($living) - 1);
     $amor = $living[$get];
     setPlayerRole($amor["name"], $game, 3);
+    if (accountDataByName($amor["name"]) !== false) {
+        $usr = accountDataByName($amor["name"]);
+        setUserStat($usr["id"], "weramor", $usr["weramor"]+1);
+    }
     unset($living[$get]);
+
     $lTemp = $living;
     $living = array();
     foreach ($lTemp as $temp) {
@@ -724,7 +757,19 @@ function generateRoles($game) {
     $get = random_int(0, count($living) - 1);
     $sel = $living[$get];
     setPlayerRole($sel["name"], $game, 4);
+    if (accountDataByName($sel["name"]) !== false) {
+        $usr = accountDataByName($sel["name"]);
+        setUserStat($usr["id"], "werur", $usr["werur"]+1);
+    }
     unset($living[$get]);
+
+    // setting played statistic
+    foreach (gameLiving($game) as $item) {
+        if (accountDataByName($item["name"]) !== false) {
+            $usr = accountDataByName($item["name"]);
+            setUserStat($usr["id"], "werplayed", $usr["werplayed"]+1);
+        }
+    }
 }
 
 function gamesCount() {

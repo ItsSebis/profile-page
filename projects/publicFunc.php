@@ -130,3 +130,17 @@ function createUser($name, $pw, $mail) {
     mysqli_stmt_bind_param($stmt, "sss", $name, $pw, $mail);
     mysqli_stmt_execute($stmt);
 }
+
+function setUserStat($usr, $stat, $value) {
+    $con = con();
+    $qry = "UPDATE users SET ".$stat."=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setUserStat");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $value, $usr);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}

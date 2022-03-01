@@ -256,6 +256,8 @@ if (isset($_SESSION["gameid"])) {
                     generateRoles($game["id"]);
                 } catch (Exception $e) {
                 }
+            } else {
+                sleep(2);
             }
             $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
             $role = getRoles()[$player["role"]];
@@ -391,8 +393,8 @@ if (isset($_SESSION["gameid"])) {
         elseif ($game["status"] == 102) {
             echo "<div style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)'><p>Ende der Abstimmung:</p>";
             todesAnzeigen();
-            setGameStatus($_SESSION["gameid"], 5);
             testWin($game["id"]);
+            setGameStatus($_SESSION["gameid"], 5);
             header("refresh: 15");
         }
 
