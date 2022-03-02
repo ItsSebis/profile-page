@@ -37,7 +37,7 @@ if (isset($_POST["encode"])) {
 echo '
     <h4>Readable:</h4>
     <form action="./" method="post">
-        <textarea rows="12" cols="60" name="encode" maxlength="1500"placeholder="Encode...">'.$normal.'</textarea><br>
+        <textarea rows="12" cols="60" name="encode" maxlength="1500" placeholder="Encode...">'.$normal.'</textarea><br>
         <button type="submit">Encode</button>
     </form>
     <br><br>
