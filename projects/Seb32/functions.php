@@ -146,6 +146,7 @@ function generateNew($amount=1) {
             $add = ",";
         }
         $str .= $lines[$lineReading].$add;
+        echo $lines[$lineReading];
         $lineReading++;
     }
 
