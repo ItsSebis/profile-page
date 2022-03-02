@@ -16,7 +16,7 @@
 #echo "Loading functions.php";
 require_once "dbh.conf.php";
 require_once "./functions.php";
-generateNew(2);
+#generateNew(2);
 #echo getStats("test");
 #setStat("hey", getStats("test")+1);
 #echo getStats("test");
