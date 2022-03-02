@@ -150,7 +150,7 @@ function generateNew($amount=1) {
         }
         $line = str_replace(array("\r", "\n"), "", $lines[$lineReading]);
         $str .= $line.$add;
-        echo $line.$add;
+        #echo $line.$add;
         $lineReading++;
     }
 
