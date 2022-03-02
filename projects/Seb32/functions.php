@@ -144,7 +144,7 @@ function generateNew($amount=1) {
         $add = "";
         if (strpos($lines[$lineReading+1], ");") !== false) {
             $add = ",";
-        } elseif (strpos($lines[$lineReading+1], "array(") !== false) {
+        } elseif (strpos($lines[$lineReading+1], "array(") !== false || strpos($lines[$lineReading+1], "function") !== false) {
             $add = "
 ";
         }

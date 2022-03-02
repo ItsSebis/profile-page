@@ -37,13 +37,13 @@ if (isset($_POST["encode"])) {
 echo '
     <h4>Readable:</h4>
     <form action="./" method="post">
-        <textarea rows="12" cols="60" name="encode" maxlength="1500">'.$normal.'</textarea><br>
+        <textarea rows="12" cols="60" name="encode" maxlength="1500"placeholder="Encode...">'.$normal.'</textarea><br>
         <button type="submit">Encode</button>
     </form>
     <br><br>
     <h4>Seb32:</h4>
     <form action="./" method="post">
-        <textarea rows="12" cols="60" name="decode" maxlength="2000">'.$encoded.'</textarea><br>
+        <textarea rows="12" cols="60" name="decode" maxlength="2000" placeholder="Decode...">'.$encoded.'</textarea><br>
         <button type="submit">Decode</button>
     </form>
     </div>
