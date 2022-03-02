@@ -21,6 +21,7 @@ function allowedSymbols() {
 
     $syms[" "] = "%";
     $syms[":"] = "#";
+    $syms["-"] = "§";
 
     return $syms;
 }
@@ -170,7 +171,6 @@ function generateNew($amount=1) {
 }";
 
         $writer = fopen("pattern.php", "w+");
-        echo(fread($writer, 100));
         fwrite($writer, $str);
         fclose($writer);
 
