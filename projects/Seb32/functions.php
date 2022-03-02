@@ -144,6 +144,9 @@ function generateNew($amount=1) {
         $add = "";
         if (strpos($lines[$lineReading+1], ");") !== false) {
             $add = ",";
+        } elseif (strpos($lines[$lineReading+1], "array(") !== false) {
+            $add = "
+";
         }
         $line = str_replace(array("\r", "\n"), "", $lines[$lineReading]);
         $str .= $line.$add;
