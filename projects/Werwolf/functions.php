@@ -20,20 +20,20 @@ function getDeathMsgs() {
 /**
  * @throws Exception
  */
-function createGame() {
+function createGame($test=0) {
     $game = random_int(1, 99999999);
     while (gameData($game) !== false) {
         $game = random_int(1, 99999999);
     }
     $con = con();
-    $sql = "INSERT INTO wergames (id, host) VALUES (?, ?);";
+    $sql = "INSERT INTO wergames (id, host, test) VALUES (?, ?, ?);";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ./?error=1&part=createGame");
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "ss", $game, $_SESSION["plName"]);
+    mysqli_stmt_bind_param($stmt, "sss", $game, $_SESSION["plName"], $test);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
@@ -98,7 +98,7 @@ function testWin($game) {
  * @throws Exception
  */
 function createPlayer($game, $name) {
-    if (isset($_SESSION["id"])) {
+    if (isset($_SESSION["id"]) && accountData($_SESSION["id"])["username"] == $name) {
         $user = accountData($_SESSION["id"]);
         $player = playerDataLoggedIn($user["username"]);
         if ($player["game"] != $game) {

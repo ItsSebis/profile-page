@@ -1,3 +1,7 @@
+# Alpha 0.1.0 (3.3.22)
+ - added function for admins to create Test games to test functionality
+ - delete test games after someone exits
+
 # Alpha 0.0.9 (3.3.22)
  - added informative functions
    - getStati returns array of game stati in letters

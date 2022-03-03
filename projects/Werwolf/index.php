@@ -18,6 +18,12 @@ if (isset($user)) {
 if (isset($_GET["exit"])) {
     try {
         delPlayer($_SESSION["plName"], $_SESSION["gameid"]);
+        if (gameData($_SESSION["gameid"])["test"]) {
+            foreach (gamePlayers($_SESSION["gameid"]) as $gamePlayer) {
+                delPlayer($gamePlayer["name"], $gamePlayer["game"]);
+            }
+            delGame($_SESSION["gameid"]);
+        }
     } catch (Exception $e) {
     }
 }
@@ -49,15 +55,20 @@ if (isset($_POST["join"])) {
         $plName = $user["username"];
     } else {
         try {
-            $plName = "User" . random_int(1, 420);
+            $plName = "User-" . random_int(1, 420);
         } catch (Exception $e) {
         }
         while (playerDataByName($plName, $gameid) !== false) {
             try {
-                $plName = "User" . random_int(1, 420);
+                $plName = "User-" . random_int(1, 420);
             } catch (Exception $e) {
             }
         }
+    }
+
+    if (gameData($gameid)["test"] && (!isset($user) || !roleData(accountData($user["id"])["role"])["wertests"])) {
+        header("location: ./?error=test");
+        exit();
     }
 
     if (gameData($gameid) !== false && (playerDataByName($plName, $gameid) === false || isset($user))) {
@@ -102,6 +113,27 @@ elseif (isset($_POST["create"])) {
     }
     try {
         createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
+    } catch (Exception $e) {
+    }
+    header("location: ./");
+    exit();
+}
+
+elseif (isset($_POST["createTest"])) {
+    if (!isset($user) || !roleData(accountData($user["id"])["role"])["wertests"]) {
+        header("location: ./");
+        exit();
+    }
+    $_SESSION["plName"] = $user["username"];
+    try {
+        $_SESSION["gameid"] = createGame(1);
+    } catch (Exception $e) {
+    }
+    try {
+        createPlayer($_SESSION["gameid"], $_SESSION["plName"]);
+        for ($i=1;$i<=9;$i++) {
+            createPlayer($_SESSION["gameid"], "Testi-".$i);
+        }
     } catch (Exception $e) {
     }
     header("location: ./");
@@ -453,13 +485,16 @@ if (isset($_SESSION["gameid"])) {
             <button type="submit" name="join">Beitreten</button><br><br>
             <button type="submit" name="create">Spiel erstellen</button>
             <?php
+            if (isset($user) && roleData(accountData($user["id"])["role"])["wertests"]) {
+                echo '<br><br><button type="submit" name="createTest">Testspiel</button>';
+            }
             if (isset($_GET["error"])) {
                 if ($_GET["error"] == "noGame") {
                     echo "<br><br><p style='color: red'>Dieser Spielcode existiert nicht!</p>";
                 } elseif ($_GET["error"] == "emptyf") {
                     echo "<br><br><p style='color: red'>Du musst alle Felder ausfüllen, um einem Spiel beizutreten!</p>";
-                } elseif ($_GET["error"] == "emptyfC") {
-                    echo "<br><br><p style='color: red'>Gib bitte deinen Namen an, um ein Spiel zu erstellen!</p>";
+                } elseif ($_GET["error"] == "test") {
+                    echo "<br><br><p style='color: red'>Das Spiel, welchem du versuchst, beizutreten ist ein Testspiel und du hast nicht die Berechtigung solchen beizutreten!</p>";
                 }
             }
             ?>
