@@ -1,6 +1,16 @@
-<html lang="de">
-<head>
-    <title>ItsSebis | Projects</title>
+<?php
+session_start();
+require_once "../config.php";
+require_once "publicFunc.php";
+$name = "Nicht angemeldet!";
+if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
+    $name = accountData($_SESSION["id"])["username"];
+}
+?>
+    <!DOCTYPE html>
+    <html lang="de">
+    <head>
+        <title><?php echo("Projekte | ".$name); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

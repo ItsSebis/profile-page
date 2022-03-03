@@ -2,11 +2,15 @@
     session_start();
     require_once "config.php";
     require_once "projects/publicFunc.php";
+    $name = "Nicht angemeldet!";
+    if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
+        $name = accountData($_SESSION["id"])["username"];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <title>ItsSebis | <?php echo($GLOBALS["site"]); ?></title>
+    <title><?php echo($GLOBALS["site"]." | ".$name); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

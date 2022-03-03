@@ -32,3 +32,36 @@ if (!isset($_SESSION["id"])) {
         }
     ?>
 </div>
+<div class="main" style="text-align: center">
+    <h2>Accountname ändern</h2>
+    <form action="posts/usermanager.post.php" method="post">
+        <input type="text" minlength="2" name="name" placeholder="Neuer Name..."><br>
+        <button type="submit" name="chName">Submit</button>
+    </form>
+    <?php
+    if (isset($_GET['error'])) {
+        echo "<br>";
+        if ($_GET['error'] == 'wrongid') {
+            echo '<p style="margin-top: 10px; color: red">Dieser Account existiert!</p>';
+        }
+        else if ($_GET['error'] == 'invalidid') {
+            echo '<p style="margin-top: 10px; color: red">Accountnamen dürfen nur Buchstaben enthalten!</p>';
+        }
+        else if ($_GET['error'] == 'nameTooShort') {
+            echo '<p style="margin-top: 10px; color: red">Accountnamen müssen mindestens 2 Buchstaben haben!</p>';
+        }
+        else if ($_GET['error'] == 'nameTooLong') {
+            echo '<p style="margin-top: 10px; color: red">Accountnamen dürfen maximal 64 Buchstaben haben!</p>';
+        }
+        else if ($_GET['error'] == 'sebi') {
+            echo '<p style="margin-top: 10px; color: red">Accountnamen dürfen nicht "sebi" enthalten!</p>';
+        }
+        else if ($_GET['error'] == 'time') {
+            echo '<p style="margin-top: 10px; color: red">Du hast in den letzten 30 Tagen deinen Accountnamen bereits geändert!</p>';
+        }
+        else if ($_GET['error'] == 'dona') {
+            echo '<p style="margin-top: 10px; color: lime">Accountname erfolgreich geändert zu "'.accountData($_SESSION["id"])["username"].'"!</p>';
+        }
+    }
+    ?>
+</div>

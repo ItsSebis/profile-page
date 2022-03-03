@@ -85,6 +85,47 @@ elseif (isset($_POST["chPw"])) {
     exit();
 }
 
+elseif (isset($_POST["chName"])) {
+    $name = $_POST["name"];
+    $data = accountData($_SESSION["id"]);
+    $diff = untilNow($data["chName"]);
+    $days = $diff->y*365;
+    $days += $diff->days;
+
+    if ($days < 30) {
+        header("location: ../settings.php?error=time");
+        exit();
+    }
+
+    if (preg_match("/[^a-zA-Z]+/", $name)) {
+        header("location: ../settings.php?error=invalidid");
+        exit();
+    }
+
+    if (accountDataByName($name) !== false) {
+        header("location: ../settings.php?error=wrongid");
+        exit();
+    }
+
+    if (strpos(strtolower($name), "sebi") !== false) {
+        header("location: ../settings.php?error=sebi");
+        exit();
+    }
+
+    if (strlen($name) < 2) {
+        header("location: ../settings.php?error=nameTooShort");
+        exit();
+    }
+
+    if (strlen($name) > 64) {
+        header("location: ../settings.php?error=nameTooLong");
+        exit();
+    }
+    setUserName($_SESSION["id"], $name);
+    header("location: ../settings.php?error=dona");
+    exit();
+}
+
 else {
     header("location: ../?error=notFromSubmit");
     exit();

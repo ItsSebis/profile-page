@@ -9,6 +9,7 @@ if (!isset($_SESSION["id"]) || !roleData(accountData($_SESSION["id"])["role"])["
 <script type="text/javascript">
     document.getElementById("manage").setAttribute("style", "border-bottom: 1px solid #f44; color: #f44")
 </script>
-<div class="main" style="margin-top: 75px">
-    <h1>Management</h1>
+<h1 style="font-size: 3rem; margin-top: 60px">Management</h1>
+<div class="main">
+
 </div>
