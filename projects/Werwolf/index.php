@@ -210,7 +210,7 @@ if (isset($_SESSION["gameid"])) {
 ?>
 <!--style="position: fixed; top: 10px; right: 10px;"-->
 <div class="stats">
-    <h2>Alpha 0.0.8</h2><br>
+    <h2>Alpha 0.0.9</h2><br>
     <p>Offene Spiele: <span style="color: #00cccc"><?php echo(reformatBIgInts(gamesCount())); ?></span></p>
     <p>Spieler online: <span style="color: #00cccc"><?php echo(reformatBIgInts(allPlayersCount())); ?></span></p>
     <?php
