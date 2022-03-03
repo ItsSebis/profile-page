@@ -10,6 +10,7 @@ if (!isset($_SESSION["id"])) {
     document.getElementById("account").setAttribute("style", "border-bottom: 1px solid #999; color: #999")
 </script>
 <h1 style="margin-top: 60px; font-size: 3rem">Einstellungen</h1>
+<p style="color: gray">Zuletzt online: <?php echo(accountData($_SESSION["id"])["lastseen"]); ?></p>
 <div class="main" style="text-align: center">
     <h2>Passwort ändern</h2>
     <form action="posts/usermanager.post.php" method="post">

@@ -1,13 +1,14 @@
 <?php
 $GLOBALS["site"] = "Login";
+include_once "header.php";
 if (isset($_GET["logout"])) {
     session_start();
+    setUserSeen($_SESSION["id"]);
     session_unset();
     session_destroy();
     header("location: ./");
     exit();
 }
-include_once "header.php";
 ?>
 
 <style media='screen'>

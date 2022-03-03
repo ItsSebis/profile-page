@@ -176,3 +176,19 @@ function setUserName($usr, $value) {
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
+
+function setUserSeen($usr) {
+    $con = con();
+    $qry = "UPDATE users SET lastseen=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setUserSeen");
+        exit();
+    }
+
+    $date = date("Y-m-d h:i:s");
+
+    mysqli_stmt_bind_param($stmt, "ss", $date, $usr);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
