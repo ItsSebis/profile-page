@@ -1,3 +1,11 @@
+# Alpha 0.0.8 (1.3.22)
+ - better tests for winner
+ - added statistics if logged in
+   - counts the times you´re a specific role
+   - counts the times you´ve won on a specific side
+   - counts your times played Werewolf
+ - added setUserStat function
+
 # Alpha 0.0.7 (25.2.22)
  - primeval wolf added
  - patchnotes added

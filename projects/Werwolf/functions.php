@@ -8,6 +8,15 @@ function getRoles() {
         "<span style='color: #003cff'>Amor</span>", "<span style='color: brown'>Urwolf</span>");
 }
 
+function getStati() {
+    return array(0 => "Pregame", 1 => "Setup", 2 => "Werwölfe", 3 => "Hexe", 4 => "Hexe", 5 => "Amor", 6 => "Urwolf",
+        100 => "Postround", 101 => "Anklage", 102 => "Abstimmungsende", 1000 => "Postgame");
+}
+
+function getDeathMsgs() {
+    return array(0 => "Lebend", 1 => "Opfer", 2 => "Vergiftet", 3 => "Liebeskummer", 4 => "Hingerichtet");
+}
+
 /**
  * @throws Exception
  */
@@ -708,6 +717,7 @@ function setGameHost($game, $host) {
  * @throws Exception
  */
 function generateRoles($game) {
+    // generate Werwölfe
     $living = gamePlayers($game);
     $gameData = gameData($game);
     for ($i = 0; $i < $gameData["wercount"]; $i++) {
@@ -721,6 +731,7 @@ function generateRoles($game) {
         unset($living[$get]);
     }
 
+    // generate Hexe
     $lTemp = $living;
     $living = array();
     foreach ($lTemp as $temp) {
@@ -735,6 +746,7 @@ function generateRoles($game) {
     }
     unset($living[$get]);
 
+    // generate Amor
     $lTemp = $living;
     $living = array();
     foreach ($lTemp as $temp) {
@@ -749,19 +761,22 @@ function generateRoles($game) {
     }
     unset($living[$get]);
 
-    $lTemp = $living;
-    $living = array();
-    foreach ($lTemp as $temp) {
-        $living[] = $temp;
+    // generate Urwolf
+    if (gameData($_SESSION["gameid"])["uron"]) {
+        $lTemp = $living;
+        $living = array();
+        foreach ($lTemp as $temp) {
+            $living[] = $temp;
+        }
+        $get = random_int(0, count($living) - 1);
+        $sel = $living[$get];
+        setPlayerRole($sel["name"], $game, 4);
+        if (accountDataByName($sel["name"]) !== false) {
+            $usr = accountDataByName($sel["name"]);
+            setUserStat($usr["id"], "werur", $usr["werur"] + 1);
+        }
+        unset($living[$get]);
     }
-    $get = random_int(0, count($living) - 1);
-    $sel = $living[$get];
-    setPlayerRole($sel["name"], $game, 4);
-    if (accountDataByName($sel["name"]) !== false) {
-        $usr = accountDataByName($sel["name"]);
-        setUserStat($usr["id"], "werur", $usr["werur"]+1);
-    }
-    unset($living[$get]);
 
     // setting played statistic
     foreach (gameLiving($game) as $item) {

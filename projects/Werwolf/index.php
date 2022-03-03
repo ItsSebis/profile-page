@@ -8,6 +8,11 @@ if (isset($_SESSION["id"])) {
 $_SESSION["color"] = "grey";
 if (isset($user)) {
     $_SESSION["color"] = roleData($user["role"])["color"];
+    if (playerDataLoggedIn($user["username"]) !== false) {
+        $player = playerDataLoggedIn($user["username"]);
+        $_SESSION["gameid"] = $player["game"];
+        $_SESSION["plName"] = $user["username"];
+    }
 }
 
 if (isset($_GET["exit"])) {
@@ -172,6 +177,8 @@ elseif (isset($_POST["urskip"])) {
     exit();
 }
 
+$title = "Projects | ".basename(__DIR__);
+
 if (!isset($_SESSION["gameid"])) {
     try {
         clearGames();
@@ -179,10 +186,14 @@ if (!isset($_SESSION["gameid"])) {
     }
 }
 
+else {
+    $title = $_SESSION["plName"]." | ".getDeathMsgs()[playerDataByName($_SESSION["plName"], $_SESSION["gameid"])["dead"]]." | ".getStati()[gameData($_SESSION["gameid"])["status"]];
+}
+
 ?>
 <html lang="de" style="overflow: hidden;">
 <head>
-    <title>Projects | <?php echo(basename(__DIR__)); ?></title>
+    <title><?php echo($title); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -200,8 +211,21 @@ if (isset($_SESSION["gameid"])) {
 <!--style="position: fixed; top: 10px; right: 10px;"-->
 <div class="stats">
     <h2>Alpha 0.0.8</h2><br>
-    <p>Open Games: <span style="color: #00cccc"><?php echo(reformatBIgInts(gamesCount())); ?></span></p>
-    <p>Online Players: <span style="color: #00cccc"><?php echo(reformatBIgInts(allPlayersCount())); ?></span></p>
+    <p>Offene Spiele: <span style="color: #00cccc"><?php echo(reformatBIgInts(gamesCount())); ?></span></p>
+    <p>Spieler online: <span style="color: #00cccc"><?php echo(reformatBIgInts(allPlayersCount())); ?></span></p>
+    <?php
+    if (isset($user)) {
+        echo "
+            <br>
+            <h2>Deine Statistiken</h2><br>
+            <p>Played games: <span style='color: #00cccc'> ".reformatBIgInts($user['werplayed'])."</span></p>
+            <p>Dorf Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['wervilwin'])."</span></p>
+            <p>Werwolf Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['werwerwin'])."</span></p>
+            <p>Verliebte Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['werlovwin'])."</span></p>
+        ";
+    }
+    ?>
+
 </div>
 <div class="main" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 75%;">
     <?php
@@ -214,10 +238,7 @@ if (isset($_SESSION["gameid"])) {
         // In Game
         $game = gameData($_SESSION["gameid"]);
         $player = playerDataByName($_SESSION["plName"], $_SESSION["gameid"]);
-        $pNeeded = ($game["wercount"]+1)*2+3;
-        if ($pNeeded < 7) {
-            $pNeeded = 7;
-        }
+        $pNeeded = ($game["wercount"]+$game["uron"])*2+3;
         echo "<h1 id='name' style='color: ".$_SESSION['color']."'>".$player["name"]."</h1>";
 
         if ($game["status"] > 1) {
