@@ -1,3 +1,12 @@
+# Alpha 0.0.9 (3.3.22)
+ - added informative functions
+   - getStati returns array of game stati in letters
+   - getDeathMsg returns array of causes of death in letters
+ - added the option to disable the primeval wolf
+ - if player is logged in he will return to the last game he was in since it is still open
+ - better title
+ - shows specific stats for the logged in player
+
 # Alpha 0.0.8 (1.3.22)
  - better tests for winner
  - added statistics if logged in
