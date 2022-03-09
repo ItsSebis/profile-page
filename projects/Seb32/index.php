@@ -14,7 +14,6 @@
     <br>
 <?php
 #echo "Loading functions.php";
-require_once "dbh.conf.php";
 require_once "./functions.php";
 #generateNew(2);
 #echo getStats("test");

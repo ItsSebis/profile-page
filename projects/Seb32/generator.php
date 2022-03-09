@@ -1,7 +1,10 @@
 <?php
 require_once "functions.php";
 
-generateNew();
+try {
+    generateNew();
+} catch (Exception $e) {
+}
 
 header("location: ./");
 exit();
