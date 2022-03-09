@@ -179,7 +179,7 @@ function seb32Decode($str) {
  */
 function encode($str) {
     #$str = seb32_encode($str);
-    #$str = base64_encode($str);
+    $str = base64_encode($str);
     return seb32_encode($str);
 }
 
@@ -187,9 +187,9 @@ function encode($str) {
  * @throws Exception
  */
 function decode($str) {
-    #$str = seb32Decode($str);
-    #$str = base64_decode($str);
-    return seb32Decode($str);
+    $str = seb32Decode($str);
+    return base64_decode($str);
+    #return seb32Decode($str);
 }
 
 /**
