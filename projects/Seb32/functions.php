@@ -215,24 +215,27 @@ function insertPattern($pattern) {
 }
 
 function pattCount() {
-    $con = con();
-    $sql = "SELECT id FROM sebpatts;";
-    $stmt = mysqli_stmt_init($con);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ./?error=1&part=countPatts");
-        exit();
-    }
-
-    mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);
-
+    $temp = 100000;
     $count = 0;
-    if ($rs->num_rows > 0) {
-        while ($rs->fetch_assoc()) {
-            $count++;
+    while ($temp == 100000) {
+        $con = con();
+        $sql = "SELECT id FROM sebpatts LIMIT 100000 OFFSET $count;";
+        $stmt = mysqli_stmt_init($con);
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            header("location: ./?error=1&part=countPatts");
+            exit();
         }
-    }
-    mysqli_stmt_close($stmt);
 
+        mysqli_stmt_execute($stmt);
+        $rs = mysqli_stmt_get_result($stmt);
+        $temp = 0;
+        if ($rs->num_rows > 0) {
+            while ($rs->fetch_assoc()) {
+                $count++;
+                $temp++;
+            }
+        }
+        mysqli_stmt_close($stmt);
+    }
     return $count;
 }
