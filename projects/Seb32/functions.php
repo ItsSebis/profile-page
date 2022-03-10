@@ -219,7 +219,7 @@ function pattCount() {
     $count = 0;
     while ($temp == 1000000) {
         $con = con();
-        $sql = "SELECT id FROM sebpatts LIMIT 100000 OFFSET $count;";
+        $sql = "SELECT id FROM sebpatts LIMIT 1000000 OFFSET $count;";
         $stmt = mysqli_stmt_init($con);
         if (!mysqli_stmt_prepare($stmt, $sql)) {
             header("location: ./?error=1&part=countPatts");
