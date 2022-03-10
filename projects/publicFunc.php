@@ -21,6 +21,14 @@ function untilNow($date) {
     return date_diff($dateTimeObject1, $dateTimeObject2);
 }
 
+function rngByPerCent($percent) {
+    try {
+        return random_int(1, 10000000000) <= $percent*100000000;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
 function accountData($id) {
     $con = con();
     $sql = "SELECT * FROM users WHERE id = ?;";
