@@ -215,9 +215,9 @@ function insertPattern($pattern) {
 }
 
 function pattCount() {
-    $temp = 100000;
+    $temp = 1000000;
     $count = 0;
-    while ($temp == 100000) {
+    while ($temp == 1000000) {
         $con = con();
         $sql = "SELECT id FROM sebpatts LIMIT 100000 OFFSET $count;";
         $stmt = mysqli_stmt_init($con);
