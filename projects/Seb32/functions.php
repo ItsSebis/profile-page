@@ -150,7 +150,7 @@ function decryptLetter($let, $pattern) {
  * @throws Exception
  */
 function seb32_encode($str) {
-    $pattern = random_int(1, pattCount());
+    $pattern = random_int(1, getStats("seb32patterns")["value"]);
     while (getPattern($pattern) === false) {
         $pattern = random_int(1, pattCount());
     }
@@ -237,5 +237,6 @@ function pattCount() {
         }
         mysqli_stmt_close($stmt);
     }
+    setStat("seb32patterns", $count);
     return $count;
 }
