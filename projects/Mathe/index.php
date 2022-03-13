@@ -38,6 +38,9 @@
         width: 100px;
         max-width: 100px;
     }
+    select {
+        width: 100px;
+    }
     th {
         font-size: 1.4rem;
     }
@@ -56,15 +59,29 @@ if (isset($_POST["calc"])) {
     $y = $_POST["y"];
     if (!empty($eq) && !empty($x) && !empty($y)) {
         $calced = array();
-        $X=0;
         $Y=1;
 
-        while ($Y > 0) {
-            $Y = ($eq-$X*$x)/$y;
-            if (is_int($Y)) {
-                $calced[$X] = $Y;
+        if ($_POST["op"] == "plus") {
+            $X=0;
+            while ($Y > 0) {
+                $Y = ($eq - $X * $x) / $y;
+                if (is_int($Y)) {
+                    $calced[$X] = $Y;
+                }
+                $X++;
             }
-            $X++;
+        } elseif ($_POST["op"] == "minus") {
+            $X=$eq;
+            while ($Y > 0) {
+                $Y = ($X * $x - $eq) / $y;
+                if (is_int($Y)) {
+                    $calced[$X] = $Y;
+                }
+                $X--;
+            }
+        } else {
+            header("location: ./");
+            exit();
         }
 
         $body = "";
@@ -85,19 +102,33 @@ if (isset($_POST["calc"])) {
 </table>
 ";
     } else {
-        $error = "<p style='color: red; margin-top: 30px'>Please fill in all fields!</p>";
+        $error = "<p style='color: red; margin-top: 30px'>Fülle bitte alle Felder!</p>";
     }
 }
 
 ?>
 
 <body style="overflow-y: hidden">
-<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-height: 75%; max-width: 75%; overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333">
+<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-height: 75%; max-width: 75%;
+overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; border: 9px solid #333333; border-radius: 20px">
     <form action="./" method="post">
-        <input type="number" name="eq" placeholder="This" <?php if (isset($_POST["eq"])) {echo("value=\"".$_POST['eq']."\"");} ?>><span> =</span>
-        <input type="number" name="x" placeholder="This" <?php if (isset($_POST["x"])) {echo("value=\"".$_POST['x']."\"");} ?>><span>*x +</span>
-        <input type="number" name="y" placeholder="This" <?php if (isset($_POST["y"])) {echo("value=\"".$_POST['y']."\"");} ?>><span>*y</span><br>
-        <button type="submit" name="calc">Calculate</button>
+        <input type="number" name="eq" placeholder="Dies" <?php if (isset($_POST["eq"])) {echo("value=\"".$_POST['eq']."\"");} ?>><span> =</span>
+        <input type="number" name="x" placeholder="X" <?php if (isset($_POST["x"])) {echo("value=\"".$_POST['x']."\"");} ?>><span>x </span>
+        <select name="op">
+            <?php
+            if (isset($_POST["op"]) && $_POST["op"] == "minus") {
+                echo '<option value="minus">-</option>
+                      <option value="plus">+</option>
+                ';
+            } else {
+                echo '<option value="plus">+</option>
+                      <option value="minus">-</option>
+                ';
+            }
+            ?>
+        </select>
+        <input type="number" name="y" placeholder="Y" <?php if (isset($_POST["y"])) {echo("value=\"".$_POST['y']."\"");} ?>><span>y</span><br>
+        <button type="submit" name="calc">Lösen</button>
         <?php if (isset($error)) {echo($error);} ?>
     </form>
     <?php if (isset($calc) && isset($calced)) {echo("<p style='margin-top: 15px'>".count($calced)." Lösungen</p>"); echo($calc);} ?>
