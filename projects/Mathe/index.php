@@ -84,6 +84,24 @@ if (isset($_POST["calc"])) {
             exit();
         }
 
+        if (count($calced) > 1) {
+            $Xs = array();
+            $Ys = array();
+            foreach ($calced as $X => $Y) {
+                $Xs[] = $X;
+                $Ys[] = $Y;
+            }
+            $diffX = $Xs[1]-$Xs[0];
+            $diffY = $Ys[1]-$Ys[0];
+            if ($diffX > 0) {
+                $diffX = "+".$diffX;
+            }
+            if ($diffY > 0) {
+                $diffY = "+".$diffY;
+            }
+            $diff = $diffX."x | ".$diffY."y";
+        }
+
         $body = "";
         foreach ($calced as $key => $value) {
             $body .= "<tr><td>".$key."</td><td>".$value."</td></tr>";
@@ -128,10 +146,11 @@ overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; bo
             ?>
         </select>
         <input type="number" name="y" placeholder="Y" <?php if (isset($_POST["y"])) {echo("value=\"".$_POST['y']."\"");} ?>><span>y</span><br>
-        <button type="submit" name="calc">Lösen</button>
+        <button type="submit" name="calc" style="background-color: #262626">Lösen</button>
         <?php if (isset($error)) {echo($error);} ?>
     </form>
-    <?php if (isset($calc) && isset($calced)) {echo("<p style='margin-top: 15px'>".count($calced)." Lösungen</p>"); echo($calc);} ?>
+    <?php if (isset($diff)) {echo("<p style='margin-top: 15px'><u>Pro Zeile</u><br>".$diff."</p>");} ?>
+    <?php if (isset($calc) && isset($calced)) {echo("<p style='margin-top: 15px'><u>Lösungen</u><br>".count($calced)."</p>"); echo($calc);} ?>
 </div>
 </body>
 </html>
