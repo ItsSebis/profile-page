@@ -44,17 +44,20 @@ if (isset($_POST["calc"])) {
         $Y=1;
 
         if ($_POST["op"] == "plus") {
-            echo "X numeric: ".is_numeric($_POST["X"]);
+            $X = 0;
+            while ($X <= $eq && $Y > 0) {
+                $Y = ($eq - $X * $x) / $y;
+                if (is_int($Y)) {
+                    $calced[$X] = $Y;
+                }
+                $X++;
+            }
+            /*echo "X numeric: ".is_numeric($_POST["X"]);
             echo "x numeric: ".is_numeric($x);
             echo "eq numeric: ".is_numeric($eq);
             echo "y numeric: ".is_numeric($y);
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
-                $Y = (
-                        $eq -
-                        1 *
-                        1
-                    ) /
-                    $y;
+                $Y = ($eq - $_POST["X"] * $x) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                     if ($Y == $_POST["Y"]) {
                         $calced[$_POST["X"]] = $Y;
@@ -103,9 +106,17 @@ if (isset($_POST["calc"])) {
                     }
                     $X++;
                 }
-            }
+            }*/
         } elseif ($_POST["op"] == "minus") {
-            if (!empty($_POST["X"]) || $_POST["X"] == 0) {
+            $X=$eq;
+            while ($X > 0 && $Y > 0) {
+                $Y = ($X * $x - $eq) / $y;
+                if (is_int($Y)) {
+                    $calced[$X] = $Y;
+                }
+                $X--;
+            }
+            /*if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = ($_POST["X"] * $x - $eq) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                     if ($Y == $_POST["Y"]) {
@@ -156,7 +167,7 @@ if (isset($_POST["calc"])) {
                     }
                     $X--;
                 }
-            }
+            }*/
         } else {
             header("location: ./");
             exit();
@@ -224,9 +235,9 @@ overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; bo
             ?>
         </select>
         <input type="number" name="y" placeholder="Y" <?php if (isset($_POST["y"])) {echo("value=\"".$_POST['y']."\"");} ?>><span>y</span><br>
-        <h3 style="margin-bottom: -20px;">Auflösen nach...</h3>
-        <input type="number" name="X" placeholder="X" <?php if (isset($_POST["X"])) {echo("value=\"".$_POST['X']."\"");} ?>>
-        <input type="number" name="Y" placeholder="Y" <?php if (isset($_POST["Y"])) {echo("value=\"".$_POST['Y']."\"");} ?>><br>
+        <!--<h3 style="margin-bottom: -20px;">Auflösen nach...</h3>
+        <input type="number" name="X" placeholder="X" <?php /*if (isset($_POST["X"])) {echo("value=\"".$_POST['X']."\"");} */?>>
+        <input type="number" name="Y" placeholder="Y" <?php /*if (isset($_POST["Y"])) {echo("value=\"".$_POST['Y']."\"");} */?>><br>-->
         <button type="submit" name="calc" style="background-color: #262626">Lösen</button>
         <?php if (isset($error)) {echo($error);} ?>
     </form>
