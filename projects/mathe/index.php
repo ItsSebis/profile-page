@@ -69,6 +69,7 @@ y = ".($eq/$y - $x*$_POST['X']/$y)." <br>
                 }
             } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                 $X = ($eq - $_POST["Y"] * $y) / $x;
+                $X.="";
                 $calced[$X] = $_POST["Y"];
 
                 $nr = "
