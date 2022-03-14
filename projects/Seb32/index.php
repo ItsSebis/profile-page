@@ -1,6 +1,9 @@
+<?php
+require_once "./functions.php";
+?>
 <html lang="de">
 <head>
-    <title>Projects | <?php echo(basename(__DIR__)); ?></title>
+    <title>Projects | <?php echo(projectData(basename(__DIR__))["name"]); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,13 +16,10 @@
 <div class="main" style="position: absolute; top: 100px; left: 50%; transform: translate(-50%, -2%)">
     <br>
 <?php
-#echo "Loading functions.php";
-require_once "./functions.php";
 #generateNew(2);
 #echo getStats("test");
 #setStat("hey", getStats("test")+1);
 #echo getStats("test");
-#echo "Loaded functions.php";
 $normal = "Encode/Decode something!";
 #echo "Loaded default \$normal";
 $encoded = encode($normal);

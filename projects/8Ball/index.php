@@ -1,6 +1,10 @@
+<?php
+require_once "../../config.php";
+require_once "../publicFunc.php";
+?>
 <html lang="de">
 <head>
-    <title>Projects | <?php echo(basename(__DIR__)); ?></title>
+    <title>Projects | <?php echo(projectData(basename(__DIR__))["name"]); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,8 +26,6 @@
 <a style="position: absolute; top: 10px; left: 10px;" href="..">← Back</a>
 
 <?php
-
-require_once "../publicFunc.php";
 
 function rngArray($array) {
     try {

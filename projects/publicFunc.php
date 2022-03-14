@@ -29,6 +29,28 @@ function rngByPerCent($percent) {
     }
 }
 
+function projectData($dir) {
+    $con = con();
+    $sql = "SELECT * FROM projects WHERE dir = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1&part=projectData");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $dir);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    }
+    else {
+        return false;
+    }
+}
+
 function accountData($id) {
     $con = con();
     $sql = "SELECT * FROM users WHERE id = ?;";
