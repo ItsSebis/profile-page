@@ -51,7 +51,7 @@ if (isset($_POST["calc"])) {
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = (
                         $eq -
-                        $_POST["X"] *
+                        1 *
                         1
                     ) /
                     $y;
