@@ -17,6 +17,7 @@ require_once "../publicFunc.php";
     input {
         width: 100px;
         max-width: 100px;
+        background-color: #2c2c2c;
     }
     select {
         width: 100px;
@@ -51,10 +52,38 @@ if (isset($_POST["calc"])) {
                     }
                 } else {
                     $calced[$_POST["X"]] = $Y;
+
+                    $nr = "
+<div class='stats' style='left: auto; right: 20px; float: right'>
+<h2>Nebenrechnungen</h2>
+<br>
+<p>
+".$eq." = ".$x*$_POST['X']." + ".$y."y | - ".$x*$_POST['X']." <br>
+".$eq." - ".$x*$_POST['X']." = ".$y."y | : ".$y." <br>
+y = ".$x*$_POST['X']/$y." - ".$eq/$y." <br>
+y = ".($eq/$y - $x*$_POST['X']/$y)." <br>
+</p>
+</div>
+                    ";
+
                 }
             } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                 $X = ($eq - $_POST["Y"] * $y) / $x;
                 $calced[$X] = $_POST["Y"];
+
+                $nr = "
+<div class='stats' style='left: auto; right: 20px; float: right'>
+<h2>Nebenrechnungen</h2>
+<br>
+<p>
+".$eq." = ".$x."x + ".$y*$_POST['Y']." | - ".$y*$_POST['Y']." <br>
+".$eq." - ".$y*$_POST['Y']." = ".$x."x | : ".$x." <br>
+x = ".$eq/$x." - ".$y*$_POST['Y']/$x." <br>
+x = ".($eq/$x - $y*$_POST['Y']/$x)." <br>
+</p>
+</div>
+                 ";
+
             } else {
                 $X = 0;
                 while ($X <= $eq && $Y > 0) {
@@ -74,10 +103,40 @@ if (isset($_POST["calc"])) {
                     }
                 } else {
                     $calced[$_POST["X"]] = $Y;
+
+                    $nr = "
+<div class='stats' style='left: auto; right: 20px; float: right'>
+<h2>Nebenrechnungen</h2>
+<br>
+<p>
+".$eq." = ".$x*$_POST['X']." - ".$y."y | + ".$y."y <br>
+".$eq." + ".$y."y = ".$x*$_POST['X']." | - ".$eq." <br>
+".$y."y = ".$x*$_POST['X']." - ".$eq." | : ".$y." <br>
+y = ".$x*$_POST['X']/$y." - ".$eq/$y." <br>
+y = ".($x*$_POST['X']/$y - $eq/$y)." <br>
+</p>
+</div>
+                    ";
+
                 }
             } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                 $X = ($eq + $y * $_POST["Y"]) / $x;
+                $X.="";
                 $calced[$X] = $_POST["Y"];
+
+                $nr = "
+<div class='stats' style='left: auto; right: 20px; float: right'>
+<h2>Nebenrechnungen</h2>
+<br>
+<p>
+".$eq." = ".$x."x - ".$y."y | + ".$y*$_POST['Y']." <br>
+".$eq." + ".$y*$_POST['Y']." = ".$x."x | : ".$x." <br>
+x = ".$eq/$x." + ".$y*$_POST['Y']/$x." <br>
+x = ".($eq/$x + $y*$_POST['Y']/$x)." <br>
+</p>
+</div>
+                ";
+
             } else {
                 $X=$eq;
                 while ($X > 0 && $Y > 0) {
@@ -164,5 +223,6 @@ overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; bo
     <?php if (isset($diff)) {echo("<p style='margin-top: 15px'><u>Pro Zeile</u><br>".$diff."</p>");} ?>
     <?php if (isset($calc) && isset($calced)) {echo("<p style='margin-top: 15px'><u>Lösungen</u><br>".count($calced)."</p>"); echo($calc);} ?>
 </div>
+<?php if (isset($nr)) {echo($nr);} ?>
 </body>
 </html>
