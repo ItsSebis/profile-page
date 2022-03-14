@@ -52,7 +52,7 @@ if (isset($_POST["calc"])) {
                 $Y = (
                         $eq -
                         $_POST["X"] *
-                        $x
+                        1
                     ) /
                     $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
@@ -78,7 +78,7 @@ if (isset($_POST["calc"])) {
                 }
             } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                 $X = ($eq - $_POST["Y"] * $y) / $x;
-                #$X.="";
+                $X.="";
                 $calced[$X] = $_POST["Y"];
 
                 $nr = "
@@ -131,7 +131,7 @@ if (isset($_POST["calc"])) {
                 }
             } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                 $X = ($eq + $y * $_POST["Y"]) / $x;
-                #$X.="";
+                $X.="";
                 $calced[$X] = $_POST["Y"];
 
                 $nr = "
@@ -208,8 +208,8 @@ if (isset($_POST["calc"])) {
 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-height: 75%; max-width: 75%;
 overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; border: 9px solid #333333; border-radius: 20px">
     <form action="./" method="post">
-        <input type="number" name="eq" placeholder="Dies" step="0.01" <?php if (isset($_POST["eq"])) {echo("value=\"".$_POST['eq']."\"");} ?>><span> =</span>
-        <input type="number" name="x" placeholder="X" step="0.01" <?php if (isset($_POST["x"])) {echo("value=\"".$_POST['x']."\"");} ?>><span>x </span>
+        <input type="number" name="eq" placeholder="Dies" <?php if (isset($_POST["eq"])) {echo("value=\"".$_POST['eq']."\"");} ?>><span> =</span>
+        <input type="number" name="x" placeholder="X" <?php if (isset($_POST["x"])) {echo("value=\"".$_POST['x']."\"");} ?>><span>x </span>
         <select name="op">
             <?php
             if (isset($_POST["op"]) && $_POST["op"] == "minus") {
@@ -223,10 +223,10 @@ overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; bo
             }
             ?>
         </select>
-        <input type="number" name="y" placeholder="Y" step="0.01" <?php if (isset($_POST["y"])) {echo("value=\"".$_POST['y']."\"");} ?>><span>y</span><br>
+        <input type="number" name="y" placeholder="Y" <?php if (isset($_POST["y"])) {echo("value=\"".$_POST['y']."\"");} ?>><span>y</span><br>
         <h3 style="margin-bottom: -20px;">Auflösen nach...</h3>
-        <input type="number" name="X" placeholder="X" step="0.01" <?php if (isset($_POST["X"])) {echo("value=\"".$_POST['X']."\"");} ?>>
-        <input type="number" name="Y" placeholder="Y" step="0.01" <?php if (isset($_POST["Y"])) {echo("value=\"".$_POST['Y']."\"");} ?>><br>
+        <input type="number" name="X" placeholder="X" <?php if (isset($_POST["X"])) {echo("value=\"".$_POST['X']."\"");} ?>>
+        <input type="number" name="Y" placeholder="Y" <?php if (isset($_POST["Y"])) {echo("value=\"".$_POST['Y']."\"");} ?>><br>
         <button type="submit" name="calc" style="background-color: #262626">Lösen</button>
         <?php if (isset($error)) {echo($error);} ?>
     </form>
