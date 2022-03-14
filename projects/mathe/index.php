@@ -44,7 +44,7 @@ if (isset($_POST["calc"])) {
         $Y=1;
 
         if ($_POST["op"] == "plus") {
-            if (!empty($_POST["X"]) || $_POST["X"] == 0) {
+            if ((!empty($_POST["X"]) || $_POST["X"] == 0) && (is_int($_POST["X"]) || is_float($_POST["X"]))) {
                 $Y = ($eq - $_POST["X"] * $x) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                     if ($Y == $_POST["Y"]) {
@@ -67,7 +67,7 @@ if (isset($_POST["calc"])) {
                     ";
 
                 }
-            } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
+            } elseif ((!empty($_POST["Y"]) || $_POST["Y"] == 0) && (is_int($_POST["Y"]) || is_float($_POST["Y"]))) {
                 $X = ($eq - $_POST["Y"] * $y) / $x;
                 $X.="";
                 $calced[$X] = $_POST["Y"];
@@ -96,7 +96,7 @@ if (isset($_POST["calc"])) {
                 }
             }
         } elseif ($_POST["op"] == "minus") {
-            if (!empty($_POST["X"]) || $_POST["X"] == 0) {
+            if ((!empty($_POST["X"]) || $_POST["X"] == 0) && (is_int($_POST["X"]) || is_float($_POST["X"]))) {
                 $Y = ($_POST["X"] * $x - $eq) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                     if ($Y == $_POST["Y"]) {
@@ -120,7 +120,7 @@ if (isset($_POST["calc"])) {
                     ";
 
                 }
-            } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
+            } elseif ((!empty($_POST["Y"]) || $_POST["Y"] == 0) && (is_int($_POST["Y"]) || is_float($_POST["Y"]))) {
                 $X = ($eq + $y * $_POST["Y"]) / $x;
                 $X.="";
                 $calced[$X] = $_POST["Y"];
