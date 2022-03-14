@@ -14,30 +14,6 @@ require_once "../publicFunc.php";
     <link rel="stylesheet" href="../style.css">
 </head>
 <style>
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-        border: 5px solid #424242;
-        border-radius: 15px;
-        background: #424242;
-    }
-
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        border: 5px solid #262626;
-        border-radius: 15px;
-        background: #262626;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        border-color: #555;
-        background: #555;
-    }
     input {
         width: 100px;
         max-width: 100px;
@@ -66,11 +42,8 @@ if (isset($_POST["calc"])) {
         $Y=1;
 
         if ($_POST["op"] == "plus") {
-            echo "Set X: ".$_POST['X']."<br>";
-            echo "Set Y: ".$_POST['Y']."<br>";
 
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
-                echo "Löse auf nach X<br>";
                 $Y = ($eq - $_POST["X"] * $x) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                     if ($Y == $_POST["Y"]) {
@@ -80,7 +53,6 @@ if (isset($_POST["calc"])) {
                     $calced[$_POST["X"]] = $Y;
                 }
             } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
-                echo "Löse auf nach Y<br>";
                 $X = ($eq - $_POST["Y"] * $y) / $x;
                 $calced[$X] = $_POST["Y"];
             } else {
