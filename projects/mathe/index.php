@@ -54,16 +54,16 @@ if (isset($_POST["calc"])) {
                     $calced[$_POST["X"]] = $Y;
 
                     $nr = "
-<div class='stats' style='left: auto; right: 20px; float: right'>
-<h2>Nebenrechnungen</h2>
-<br>
-<p>
-".$eq." = ".$x*$_POST['X']." + ".$y."y | - ".$x*$_POST['X']." <br>
-".$eq." - ".$x*$_POST['X']." = ".$y."y | : ".$y." <br>
-y = ".$x*$_POST['X']/$y." - ".$eq/$y." <br>
-y = ".($eq/$y - $x*$_POST['X']/$y)." <br>
-</p>
-</div>
+                        <div class='stats' style='left: auto; right: 20px; float: right'>
+                        <h2>Nebenrechnungen</h2>
+                        <br>
+                        <p>
+                        ".$eq." = ".$x*$_POST['X']." + ".$y."y | - ".$x*$_POST['X']." <br>
+                        ".$eq." - ".$x*$_POST['X']." = ".$y."y | : ".$y." <br>
+                        y = ".$x*$_POST['X']/$y." - ".$eq/$y." <br>
+                        y = ".($eq/$y - $x*$_POST['X']/$y)." <br>
+                        </p>
+                        </div>
                     ";
 
                 }
@@ -73,16 +73,16 @@ y = ".($eq/$y - $x*$_POST['X']/$y)." <br>
                 $calced[$X] = $_POST["Y"];
 
                 $nr = "
-<div class='stats' style='left: auto; right: 20px; float: right'>
-<h2>Nebenrechnungen</h2>
-<br>
-<p>
-".$eq." = ".$x."x + ".$y*$_POST['Y']." | - ".$y*$_POST['Y']." <br>
-".$eq." - ".$y*$_POST['Y']." = ".$x."x | : ".$x." <br>
-x = ".$eq/$x." - ".$y*$_POST['Y']/$x." <br>
-x = ".($eq/$x - $y*$_POST['Y']/$x)." <br>
-</p>
-</div>
+                    <div class='stats' style='left: auto; right: 20px; float: right'>
+                    <h2>Nebenrechnungen</h2>
+                    <br>
+                    <p>
+                    ".$eq." = ".$x."x + ".$y*$_POST['Y']." | - ".$y*$_POST['Y']." <br>
+                    ".$eq." - ".$y*$_POST['Y']." = ".$x."x | : ".$x." <br>
+                    x = ".$eq/$x." - ".$y*$_POST['Y']/$x." <br>
+                    x = ".($eq/$x - $y*$_POST['Y']/$x)." <br>
+                    </p>
+                    </div>
                  ";
 
             } else {
@@ -106,17 +106,17 @@ x = ".($eq/$x - $y*$_POST['Y']/$x)." <br>
                     $calced[$_POST["X"]] = $Y;
 
                     $nr = "
-<div class='stats' style='left: auto; right: 20px; float: right'>
-<h2>Nebenrechnungen</h2>
-<br>
-<p>
-".$eq." = ".$x*$_POST['X']." - ".$y."y | + ".$y."y <br>
-".$eq." + ".$y."y = ".$x*$_POST['X']." | - ".$eq." <br>
-".$y."y = ".$x*$_POST['X']." - ".$eq." | : ".$y." <br>
-y = ".$x*$_POST['X']/$y." - ".$eq/$y." <br>
-y = ".($x*$_POST['X']/$y - $eq/$y)." <br>
-</p>
-</div>
+                        <div class='stats' style='left: auto; right: 20px; float: right'>
+                        <h2>Nebenrechnungen</h2>
+                        <br>
+                        <p>
+                        ".$eq." = ".$x*$_POST['X']." - ".$y."y | + ".$y."y <br>
+                        ".$eq." + ".$y."y = ".$x*$_POST['X']." | - ".$eq." <br>
+                        ".$y."y = ".$x*$_POST['X']." - ".$eq." | : ".$y." <br>
+                        y = ".$x*$_POST['X']/$y." - ".$eq/$y." <br>
+                        y = ".($x*$_POST['X']/$y - $eq/$y)." <br>
+                        </p>
+                        </div>
                     ";
 
                 }
@@ -126,16 +126,16 @@ y = ".($x*$_POST['X']/$y - $eq/$y)." <br>
                 $calced[$X] = $_POST["Y"];
 
                 $nr = "
-<div class='stats' style='left: auto; right: 20px; float: right'>
-<h2>Nebenrechnungen</h2>
-<br>
-<p>
-".$eq." = ".$x."x - ".$y."y | + ".$y*$_POST['Y']." <br>
-".$eq." + ".$y*$_POST['Y']." = ".$x."x | : ".$x." <br>
-x = ".$eq/$x." + ".$y*$_POST['Y']/$x." <br>
-x = ".($eq/$x + $y*$_POST['Y']/$x)." <br>
-</p>
-</div>
+                    <div class='stats' style='left: auto; right: 20px; float: right'>
+                    <h2>Nebenrechnungen</h2>
+                    <br>
+                    <p>
+                    ".$eq." = ".$x."x - ".$y."y | + ".$y*$_POST['Y']." <br>
+                    ".$eq." + ".$y*$_POST['Y']." = ".$x."x | : ".$x." <br>
+                    x = ".$eq/$x." + ".$y*$_POST['Y']/$x." <br>
+                    x = ".($eq/$x + $y*$_POST['Y']/$x)." <br>
+                    </p>
+                    </div>
                 ";
 
             } else {
