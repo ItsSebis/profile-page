@@ -45,7 +45,7 @@ if (isset($_POST["calc"])) {
 
         if ($_POST["op"] == "plus") {
             echo "X numeric: ".is_numeric($_POST["X"]);
-            if (!empty($_POST["X"]) || $_POST["X"] == 0 && is_numeric($_POST["X"])) {
+            if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = ($eq - $_POST["X"] * $x) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
                     if ($Y == $_POST["Y"]) {
