@@ -220,7 +220,7 @@ if (isset($_POST["calc"])) {
 overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; border: 9px solid #333333; border-radius: 20px">
     <form action="./" method="post">
         <input type="number" name="eq" placeholder="Dies" <?php if (isset($_POST["eq"])) {echo("value=\"".$_POST['eq']."\"");} ?>><span> =</span>
-        <input type="number" name="x" placeholder="X" <?php if (isset($_POST["x"])) {echo("value=\"".$_POST['x']."\"");} ?>><span>x </span>
+        <input type="number" name="x" placeholder="X" step="0.01" <?php if (isset($_POST["x"])) {echo("value=\"".$_POST['x']."\"");} ?>><span>x </span>
         <select name="op">
             <?php
             if (isset($_POST["op"]) && $_POST["op"] == "minus") {
