@@ -21,6 +21,7 @@ require_once "../publicFunc.php";
     }
     select {
         width: 100px;
+        background-color: #2c2c2c;
     }
     th {
         font-size: 1.4rem;
@@ -43,7 +44,6 @@ if (isset($_POST["calc"])) {
         $Y=1;
 
         if ($_POST["op"] == "plus") {
-
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = ($eq - $_POST["X"] * $x) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
