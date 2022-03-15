@@ -39,7 +39,7 @@ if (isset($_POST["calc"])) {
     $eq = (float) $_POST["eq"];
     $x = (float) $_POST["x"];
     $y = (float) $_POST["y"];
-    if (!(!empty($_POST["X"]) || $_POST["X"] == 0)) {
+    if (!(!empty($_POST["X"]) || $_POST["X"] === 0)) {
         $_POST["X"] = "ich bin leer";
     } else {
         $sX = (float)$_POST["X"];
@@ -48,7 +48,7 @@ if (isset($_POST["calc"])) {
         $sY = (float)$_POST["Y"];
     }
     echo($eq." | ".$x." | ".$y);
-    if ((!empty($eq) || $eq == 0) && !empty($x) && !empty($y)) {
+    if ((!empty($eq) || $eq === 0.0) && !empty($x) && !empty($y)) {
         $calced = array();
         $Y=1;
 
