@@ -65,7 +65,7 @@ if (isset($_POST["calc"])) {
                 </p>
                 </div>
             ";
-            if (empty($sX) && $sX != 0 && empty($sY) && $sY != 0) {
+            if (empty($_POST['X']) && $_POST['X'] != 0 && empty($_POST['Y']) && $_POST['Y'] != 0) {
                 echo "Normal";
                 $X = 0;
                 while ($X <= $eq && $Y > 0) {
