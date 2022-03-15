@@ -39,7 +39,9 @@ if (isset($_POST["calc"])) {
     $eq = (float) $_POST["eq"];
     $x = (float) $_POST["x"];
     $y = (float) $_POST["y"];
-    if (!empty($_POST["X"]) || $_POST["X"] == 0) {
+    if (!(!empty($_POST["X"]) || $_POST["X"] == 0)) {
+        $_POST["X"] = "ich bin leer";
+    } else {
         $sX = (float)$_POST["X"];
     }
     if (!empty($_POST["X"]) || $_POST["X"] == 0) {
