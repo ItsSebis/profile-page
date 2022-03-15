@@ -66,7 +66,7 @@ if (isset($_POST["calc"])) {
                 </div>
             ";
             if (empty($_POST['X']) && empty($_POST['Y'])) {
-                echo "Normal";
+                echo "<br>Normal";
                 $X = 0;
                 while ($X <= $eq && $Y > 0) {
                     $Y = ($eq - $X * $x) / $y;
@@ -75,12 +75,11 @@ if (isset($_POST["calc"])) {
                     }
                     $X++;
                 }
-            } else {
-                echo "<br>Vars: ".$sX." | ".$sY;
-                echo "<br>Posts: ".$_POST['X']." | ".$_POST['Y'];
-                echo "<br>X if empty: ".(empty($_POST['X']));
-                echo "<br>Y if empty: ".(empty($_POST['Y']));
             }
+            echo "<br>Vars: ".$sX." | ".$sY;
+            echo "<br>Posts: ".$_POST['X']." | ".$_POST['Y'];
+            echo "<br>X if empty: ".(empty($_POST['X']));
+            echo "<br>Y if empty: ".(empty($_POST['Y']));
             /*echo "X numeric: ".is_numeric($_POST["X"]);
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = ($eq - $_POST["X"] * $x) / $y;
