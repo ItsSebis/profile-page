@@ -78,8 +78,8 @@ if (isset($_POST["calc"])) {
             } else {
                 echo "<br>Vars ".$sX." | ".$sY;
                 echo "<br>Posts ".$_POST['X']." | ".$_POST['Y'];
-                echo "<br>X if ".(empty($_POST['X']) && $_POST['X'] != 0);
-                echo "<br>Y if ".(empty($_POST['Y']) && $_POST['Y'] != 0);
+                echo "<br>X if ".(empty($_POST['X'])/* && $_POST['X'] != 0*/);
+                echo "<br>Y if ".(empty($_POST['Y'])/* && $_POST['Y'] != 0*/);
             }
             /*echo "X numeric: ".is_numeric($_POST["X"]);
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
