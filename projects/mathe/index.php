@@ -75,6 +75,8 @@ if (isset($_POST["calc"])) {
                     }
                     $X++;
                 }
+            } else {
+                echo "<br>".$sX." | ".$sY;
             }
             /*echo "X numeric: ".is_numeric($_POST["X"]);
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
