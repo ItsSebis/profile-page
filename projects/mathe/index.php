@@ -39,8 +39,12 @@ if (isset($_POST["calc"])) {
     $eq = (float) $_POST["eq"];
     $x = (float) $_POST["x"];
     $y = (float) $_POST["y"];
-    $sX = (float) $_POST["X"];
-    $sY = (float) $_POST["Y"];
+    if (!empty($_POST["X"]) || $_POST["X"] == 0) {
+        $sX = (float)$_POST["X"];
+    }
+    if (!empty($_POST["X"]) || $_POST["X"] == 0) {
+        $sY = (float)$_POST["Y"];
+    }
     echo($eq." | ".$x." | ".$y);
     if ((!empty($eq) || $eq == 0) && !empty($x) && !empty($y)) {
         $calced = array();
@@ -65,7 +69,7 @@ if (isset($_POST["calc"])) {
                 </p>
                 </div>
             ";
-            if (is_int($_POST['X']) && is_int($_POST['Y'])) {
+            if (!isset($sX) && !isset($sY)) {
                 echo "<br>Normal";
                 $X = 0;
                 while ($X <= $eq && $Y > 0) {
@@ -76,10 +80,10 @@ if (isset($_POST["calc"])) {
                     $X++;
                 }
             }
-            echo "<br>Vars: ".$sX." | ".$sY;
+            #echo "<br>Vars: ".$sX." | ".$sY;
             echo "<br>Posts: ".$_POST['X']." | ".$_POST['Y'];
-            echo "<br>X if empty: ".(!is_int($_POST['X']));
-            echo "<br>Y if empty: ".(!is_int($_POST['Y']));
+            echo "<br>X if float: ".(!is_float($_POST['X']));
+            echo "<br>Y if float: ".(!is_float($_POST['Y']));
             echo "<br>X if empty: ".(empty($_POST['X']));
             echo "<br>Y if empty: ".(empty($_POST['Y']));
             /*echo "X numeric: ".is_numeric($_POST["X"]);
