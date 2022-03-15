@@ -148,7 +148,7 @@ if (isset($_POST["calc"])) {
                 </p>
                 </div>
             ";
-            if (empty($_POST["X"]) && $_POST["X"] != 0 && empty($_POST["Y"]) && $_POST["Y"] != 0) {
+            if (empty($sX) && $sX != 0 && empty($sY) && $sY != 0) {
                 $X = $eq;
                 while ($X > 0 && $Y > 0) {
                     $Y = ($X * $x - $eq) / $y;
