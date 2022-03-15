@@ -39,12 +39,14 @@ if (isset($_POST["calc"])) {
     $eq = (float) $_POST["eq"];
     $x = (float) $_POST["x"];
     $y = (float) $_POST["y"];
-    if (!(!empty($_POST["X"]) || $_POST["X"] === 0)) {
+    if (empty($_POST["X"]) && $_POST["X"] != 0) {
         $_POST["X"] = "ich bin leer";
     } else {
         $sX = (float)$_POST["X"];
     }
-    if (!empty($_POST["X"]) || $_POST["X"] == 0) {
+    if (empty($_POST["Y"]) && $_POST["Y"] != 0) {
+        $_POST["Y"] = "ich bin leer";
+    } else {
         $sY = (float)$_POST["Y"];
     }
     echo($eq." | ".$x." | ".$y);
@@ -71,7 +73,7 @@ if (isset($_POST["calc"])) {
                 </p>
                 </div>
             ";
-            if (!isset($sX) && !isset($sY)) {
+            if ($_POST["X"] == "ich bin leer" && $_POST["Y"] == "ich bin leer") {
                 echo "<br>Normal";
                 $X = 0;
                 while ($X <= $eq && $Y > 0) {
