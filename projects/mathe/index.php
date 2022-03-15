@@ -52,6 +52,25 @@ if (isset($_POST["calc"])) {
                 }
                 $X++;
             }
+
+            $nr = "
+                <div class='stats' style='left: auto; right: 20px; float: unset'>
+                <h2>nach Y auflösen</h2>
+                <br>
+                <p>
+                ".$eq." = ".$x."x + ".$y."y | - ".$x."x <br>
+                ".$eq." - ".$x."x = ".$y."y | : ".$y." <br>
+                y = ".$x."/".$y." - ".$eq/$y." <br>
+                </p><br>
+                <h2>nach X auflösen</h2>
+                <br>
+                <p>
+                ".$eq." = ".$x."x + ".$y."y | - ".$y."y <br>
+                ".$eq." - ".$y."y = ".$x."x | : ".$x." <br>
+                x = ".$eq/$x." - ".$y."y/".$x." <br>
+                </p>
+                </div>
+            ";
             /*echo "X numeric: ".is_numeric($_POST["X"]);
             echo "x numeric: ".is_numeric($x);
             echo "eq numeric: ".is_numeric($eq);
