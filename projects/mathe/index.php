@@ -39,6 +39,8 @@ if (isset($_POST["calc"])) {
     $eq = (float) $_POST["eq"];
     $x = (float) $_POST["x"];
     $y = (float) $_POST["y"];
+    $sX = (float) $_POST["X"];
+    $sY = (float) $_POST["Y"];
     echo($eq." | ".$x." | ".$y);
     if ((!empty($eq) || $eq == 0) && !empty($x) && !empty($y)) {
         $calced = array();
@@ -63,7 +65,7 @@ if (isset($_POST["calc"])) {
                 </p>
                 </div>
             ";
-            if (empty($_POST["X"]) && $_POST["X"] != 0 && empty($_POST["Y"]) && $_POST["Y"] != 0) {
+            if (empty($sX) && $sX != 0 && empty($sY) && $sY != 0) {
                 $X = 0;
                 while ($X <= $eq && $Y > 0) {
                     $Y = ($eq - $X * $x) / $y;
