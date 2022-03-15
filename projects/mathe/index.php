@@ -36,9 +36,10 @@ require_once "../publicFunc.php";
 <?php
 
 if (isset($_POST["calc"])) {
-    $eq = $_POST["eq"];
-    $x = $_POST["x"];
-    $y = $_POST["y"];
+    $eq = (float) $_POST["eq"];
+    $x = (float) $_POST["x"];
+    $y = (float) $_POST["y"];
+    echo($eq." | ".$x." | ".$y);
     if (!empty($eq) && !empty($x) && !empty($y)) {
         $calced = array();
         $Y=1;
@@ -47,7 +48,7 @@ if (isset($_POST["calc"])) {
             $X = 0;
             while ($X <= $eq && $Y > 0) {
                 $Y = ($eq - $X * $x) / $y;
-                if (is_int($Y)) {
+                if ((is_int($Y) || is_float($Y)) && strlen(substr(strrchr($Y, "."), 1)) == 0) {
                     $calced[$X] = $Y;
                 }
                 $X++;
@@ -72,9 +73,6 @@ if (isset($_POST["calc"])) {
                 </div>
             ";
             /*echo "X numeric: ".is_numeric($_POST["X"]);
-            echo "x numeric: ".is_numeric($x);
-            echo "eq numeric: ".is_numeric($eq);
-            echo "y numeric: ".is_numeric($y);
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = ($eq - $_POST["X"] * $x) / $y;
                 if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
@@ -130,7 +128,7 @@ if (isset($_POST["calc"])) {
             $X=$eq;
             while ($X > 0 && $Y > 0) {
                 $Y = ($X * $x - $eq) / $y;
-                if (is_int($Y)) {
+                if ((is_int($Y) || is_float($Y)) && strlen(substr(strrchr($Y, "."), 1)) == 0) {
                     $calced[$X] = $Y;
                 }
                 $X--;
