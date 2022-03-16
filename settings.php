@@ -5,12 +5,57 @@ if (!isset($_SESSION["id"])) {
     header("location: ./?error=notSignedIn");
     exit();
 }
+
+if (isset($_GET["debug"])) {
+    if (roleData(accountData($_SESSION["id"])["role"])["debugs"]) {
+        $show = (int)accountData($_SESSION["id"])["sdebug"];
+        if ($show == 1) {
+            $show = 0;
+        } else {
+            $show = 1;
+        }
+        setUserStat($_SESSION["id"], "sdebug", $show);
+    }
+    header("location: settings.php");
+    exit();
+}
+
 ?>
 <script type="text/javascript">
     document.getElementById("account").setAttribute("style", "border-bottom: 1px solid #999; color: #999")
 </script>
 <h1 style="margin-top: 60px; font-size: 3rem">Einstellungen</h1>
 <p style="color: gray">Zuletzt abgemeldet: <?php echo(accountData($_SESSION["id"])["lastseen"]); ?></p>
+<div class="main" style="text-align: center">
+    <h2>Allgemeine Einstellungen</h2>
+    <br>
+    <table style="width: 75%; margin: 0 auto">
+        <thead style="font-size: 1.2rem">
+            <tr>
+                <th style="width: 70%">Name</th>
+                <th style="width: 30%">Einstellung</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="background-color: #3c3c3c">Debug anzeigen (Nur mit Berechtigung)</td>
+                <td style="background-color: #3c3c3c"><a href="settings.php?debug">
+                    <?php
+                    if (accountData($_SESSION["id"])["sdebug"] && roleData(accountData($_SESSION["id"])["role"])["debugs"]) {
+                        echo("<p style='color: lime'>Ja</p>");
+                    } else {
+                        echo("<p style='color: red'>Nein</p>");
+                    }
+                    ?>
+                </td>
+            </tr>
+            <!--<tr>
+                <td style="background-color: #4a4a4a">Test 2</td>
+                <td style="background-color: #4a4a4a">Nein</td>
+            </tr>-->
+        </tbody>
+    </table>
+</div>
 <div class="main" style="text-align: center">
     <h2>Passwort ändern</h2>
     <form action="posts/usermanager.post.php" method="post">

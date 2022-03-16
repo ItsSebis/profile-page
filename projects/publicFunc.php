@@ -29,6 +29,10 @@ function rngByPerCent($percent) {
     }
 }
 
+function isEven($number) {
+    return $number % 2 == 0;
+}
+
 function projectData($dir) {
     $con = con();
     $sql = "SELECT * FROM projects WHERE dir = ?;";

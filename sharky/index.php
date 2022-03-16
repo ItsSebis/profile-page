@@ -114,6 +114,32 @@ session_start();
         border: 10px solid #262626;
         border-radius: 20px;
     }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        margin: 5px;
+        border: 5px solid #424242;
+        border-radius: 15px;
+        background: #424242;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        border: 5px solid #262626;
+        border-radius: 15px;
+        background: #262626;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        border-color: #555;
+        background: #555;
+    }
 </style>
 <body>
 <a class="invite" href="https://www.sebis.net/bot"><p>Add to Discord</p></a>
