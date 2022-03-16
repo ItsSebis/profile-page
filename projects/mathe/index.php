@@ -1,6 +1,7 @@
 <?php
 require_once "../../config.php";
 require_once "../publicFunc.php";
+session_start();
 ?>
 <html lang="de">
 <head>
@@ -49,10 +50,17 @@ if (isset($_POST["calc"])) {
     } else {
         $sY = (float)$_POST["Y"];
     }
-    echo($eq." | ".$x." | ".$y);
     if ((!empty($eq) || $eq === 0.0) && !empty($x) && !empty($y)) {
         $calced = array();
         $Y=1;
+
+        if (isset($_SESSION["id"]) && roleData(accountData($_SESSION["id"])["role"])["debugs"] && accountData($_SESSION["id"])["sdebug"]) {
+            echo "<br>Posts: " . $_POST['X'] . " | " . $_POST['Y'];
+            echo "<br>X isset: " . (isset($sX));
+            echo "<br>Y isset: " . (isset($sY));
+            echo "<br>X empty: " . (empty($_POST['X']));
+            echo "<br>Y empty: " . (empty($_POST['Y']));
+        }
 
         if ($_POST["op"] == "plus") {
             $nr = "
@@ -74,7 +82,6 @@ if (isset($_POST["calc"])) {
                 </div>
             ";
             if ($_POST["X"] == "ich bin leer" && $_POST["Y"] == "ich bin leer") {
-                echo "<br>Normal";
                 $X = 0;
                 while ($X <= $eq && $Y > 0) {
                     $Y = ($eq - $X * $x) / $y;
@@ -83,13 +90,31 @@ if (isset($_POST["calc"])) {
                     }
                     $X++;
                 }
+            } elseif (isset($sX)) {
+                $Y = ($eq - $sX * $x) / $y;
+                if (isset($sY)) {
+                    if ($Y == $sY) {
+                        $calced[$sX.""] = $Y;
+                    }
+                } else {
+                    $calced[$sX.""] = $Y;
+
+                    $nr = "
+                        <div class='stats' style='left: auto; right: 20px; float: right'>
+                        <h2>Nebenrechnungen</h2>
+                        <br>
+                        <p>
+                        ".$eq." = ".$x*$sX." + ".$y."y | - ".$x*$sX." <br>
+                        ".$eq." - ".$x*$sX." = ".$y."y | : ".$y." <br>
+                        y = ".$x*$sX/$y." - ".$eq/$y." <br>
+                        y = ".($eq/$y - $x*$sX/$y)." <br>
+                        </p>
+                        </div>
+                    ";
+
+                }
             }
             #echo "<br>Vars: ".$sX." | ".$sY;
-            echo "<br>Posts: ".$_POST['X']." | ".$_POST['Y'];
-            echo "<br>X isset: ".(isset($sX));
-            echo "<br>Y isset: ".(isset($sY));
-            echo "<br>X if empty: ".(empty($_POST['X']));
-            echo "<br>Y if empty: ".(empty($_POST['Y']));
             /*echo "X numeric: ".is_numeric($_POST["X"]);
             if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = ($eq - $_POST["X"] * $x) / $y;
