@@ -113,60 +113,23 @@ if (isset($_POST["calc"])) {
                     ";
 
                 }
-            }
-            #echo "<br>Vars: ".$sX." | ".$sY;
-            /*echo "X numeric: ".is_numeric($_POST["X"]);
-            if (!empty($_POST["X"]) || $_POST["X"] == 0) {
-                $Y = ($eq - $_POST["X"] * $x) / $y;
-                if (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
-                    if ($Y == $_POST["Y"]) {
-                        $calced[$_POST["X"]] = $Y;
-                    }
-                } else {
-                    $calced[$_POST["X"]] = $Y;
-
-                    $nr = "
-                        <div class='stats' style='left: auto; right: 20px; float: right'>
-                        <h2>Nebenrechnungen</h2>
-                        <br>
-                        <p>
-                        ".$eq." = ".$x*$_POST['X']." + ".$y."y | - ".$x*$_POST['X']." <br>
-                        ".$eq." - ".$x*$_POST['X']." = ".$y."y | : ".$y." <br>
-                        y = ".$x*$_POST['X']/$y." - ".$eq/$y." <br>
-                        y = ".($eq/$y - $x*$_POST['X']/$y)." <br>
-                        </p>
-                        </div>
-                    ";
-
-                }
-            } elseif (!empty($_POST["Y"]) || $_POST["Y"] == 0) {
-                $X = ($eq - $_POST["Y"] * $y) / $x;
-                $X.="";
-                $calced[$X] = $_POST["Y"];
+            } elseif (isset($sY)) {
+                $X = ($eq - $sY * $y) / $x;
+                $calced[$X.""] = $sY;
 
                 $nr = "
                     <div class='stats' style='left: auto; right: 20px; float: right'>
                     <h2>Nebenrechnungen</h2>
                     <br>
                     <p>
-                    ".$eq." = ".$x."x + ".$y*$_POST['Y']." | - ".$y*$_POST['Y']." <br>
-                    ".$eq." - ".$y*$_POST['Y']." = ".$x."x | : ".$x." <br>
-                    x = ".$eq/$x." - ".$y*$_POST['Y']/$x." <br>
-                    x = ".($eq/$x - $y*$_POST['Y']/$x)." <br>
+                    ".$eq." = ".$x."x + ".$y*$sY." | - ".$y*$sY." <br>
+                    ".$eq." - ".$y*$sY." = ".$x."x | : ".$x." <br>
+                    x = ".$eq/$x." - ".$y*$sY/$x." <br>
+                    x = ".($eq/$x - $y*$sY/$x)." <br>
                     </p>
                     </div>
-                 ";
-
-            } else {
-                $X = 0;
-                while ($X <= $eq && $Y > 0) {
-                    $Y = ($eq - $X * $x) / $y;
-                    if (is_int($Y)) {
-                        $calced[$X] = $Y;
-                    }
-                    $X++;
-                }
-            }*/
+                ";
+            }
         } elseif ($_POST["op"] == "minus") {
             $nr = "
                 <div class='stats' style='left: auto; right: 20px; float: right'>
@@ -188,7 +151,7 @@ if (isset($_POST["calc"])) {
                 </p>
                 </div>
             ";
-            if (empty($sX) && $sX != 0 && empty($sY) && $sY != 0) {
+            if ($_POST["X"] == "ich bin leer" && $_POST["Y"] == "ich bin leer") {
                 $X = $eq;
                 while ($X > 0 && $Y > 0) {
                     $Y = ($X * $x - $eq) / $y;
@@ -197,6 +160,45 @@ if (isset($_POST["calc"])) {
                     }
                     $X--;
                 }
+            } elseif (isset($sX)) {
+                $Y = ($sX * $x - $eq) / $y;
+                if (isset($sY)) {
+                    if ($Y == $sY) {
+                        $calced[$sX.""] = $Y;
+                    }
+                } else {
+                    $calced[$sX.""] = $Y;
+
+                    $nr = "
+                        <div class='stats' style='left: auto; right: 20px; float: right'>
+                        <h2>Nebenrechnungen</h2>
+                        <br>
+                        <p>
+                        " . $eq . " = " . $x * $sX . " - " . $y . "y | + " . $y . "y <br>
+                        " . $eq . " + " . $y . "y = " . $x * $sX . " | - " . $eq . " <br>
+                        " . $y . "y = " . $x * $sX . " - " . $eq . " | : " . $y . " <br>
+                        y = " . $x * $sX / $y . " - " . $eq / $y . " <br>
+                        y = " . ($x * $sX / $y - $eq / $y) . " <br>
+                        </p>
+                        </div>
+                    ";
+                }
+            } elseif (isset($sY)) {
+                $X = ($eq + $y * $sY) / $x;
+                $calced[$X.""] = $sY;
+
+                $nr = "
+                    <div class='stats' style='left: auto; right: 20px; float: right'>
+                    <h2>Nebenrechnungen</h2>
+                    <br>
+                    <p>
+                    ".$eq." = ".$x."x - ".$y."y | + ".$y*$sY." <br>
+                    ".$eq." + ".$y*$sY." = ".$x."x | : ".$x." <br>
+                    x = ".$eq/$x." + ".$y*$sY/$x." <br>
+                    x = ".($eq/$x + $y*$sY/$x)." <br>
+                    </p>
+                    </div>
+                ";
             }
             /*if (!empty($_POST["X"]) || $_POST["X"] == 0) {
                 $Y = ($_POST["X"] * $x - $eq) / $y;
@@ -318,8 +320,8 @@ overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; bo
         </select>
         <input type="number" name="y" placeholder="Y" step="0.01" <?php if (isset($_POST["y"])) {echo("value=\"".$_POST['y']."\"");} ?>><span>y</span><br>
         <h3 style="margin-bottom: -20px;">Auflösen nach...</h3>
-        <input type="number" name="X" placeholder="X" <?php if (isset($_POST["X"])) {echo("value=\"".$_POST['X']."\"");}?>>
-        <input type="number" name="Y" placeholder="Y" <?php if (isset($_POST["Y"])) {echo("value=\"".$_POST['Y']."\"");}?>><br>
+        <input type="number" name="X" placeholder="X" step="0.01" <?php if (isset($_POST["X"])) {echo("value=\"".$_POST['X']."\"");}?>>
+        <input type="number" name="Y" placeholder="Y" step="0.01" <?php if (isset($_POST["Y"])) {echo("value=\"".$_POST['Y']."\"");}?>><br>
         <button type="submit" name="calc" style="background-color: #262626">Lösen</button>
         <?php if (isset($error)) {echo($error);} ?>
     </form>
