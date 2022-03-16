@@ -59,8 +59,9 @@ echo '
         border-radius: 20px;
         ">
         <h2>Statistics</h2><br>
-        <p>Encoded: '.getEncodedCount().'</p>
-        <p>Decoded: '.getDecodedCount().'</p>
+        <p>Patterns: <span style="color: #00cccc">'.reformatBIgInts(getStats("seb32patterns")["value"]).'</span></p>
+        <p>Encoded: <span style="color: #00cccc">'.getEncodedCount().'</span></p>
+        <p>Decoded: <span style="color: #00cccc">'.getDecodedCount().'</span></p>
     </div>
     ';
 

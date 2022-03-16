@@ -3,11 +3,12 @@ $GLOBALS["site"] = "Home";
 include_once "header.php";
 ?>
 
-<div class="main" style="margin-top: 60px; text-align: center">
-    <h1>Home</h1>
+<h1 style="margin-top: 60px; font-size: 3rem">Home</h1>
+<div class="main" style="text-align: center">
     <p>Moin,<br>
         diese Sachen kannst du dir mal ansehen:<br><br>
         <a target="_self" href="./projects">-> Maine Projekte <-</a><br>
+        <a target="_self" href="./users.php">-> Alle Benutzer <-</a><br>
         <a target="_blank" href="https://github.com/itssebis">-> Main GitHub <-</a>
     </p>
     <!--

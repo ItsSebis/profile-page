@@ -7,28 +7,6 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
     $name = accountData($_SESSION["id"])["username"];
 }
 
-function allProjects() {
-    $con = con();
-    $sql = "SELECT * FROM projects ORDER BY `name` ASC;";
-    $stmt = mysqli_stmt_init($con);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ./?error=1&part=allProjects");
-        exit();
-    }
-
-    mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);
-
-    $array = array();
-    if ($rs->num_rows > 0) {
-        while ($row = $rs->fetch_assoc()) {
-            $array[] = $row;
-        }
-    }
-    mysqli_stmt_close($stmt);
-    return $array;
-}
-
 ?>
     <!DOCTYPE html>
     <html lang="de">
@@ -92,7 +70,13 @@ function allProjects() {
 </thead>
 ";
     foreach (allProjects() as $project) {
-        echo '<tr><td><a class="project" href="'.$project["dir"].'">'.$project["name"].'</a></td><td>'.$project["user"].'</td><td>'.$project["des"].'</td></tr>';
+        $user = $project["user"];
+        if (accountData($user) !== false) {
+            $link = "<a href='' style='color: ".roleData(accountData($user)['role'])['color']."'>".accountData($user)['username']."</a>";
+        } else {
+            $link = "Unknown User";
+        }
+        echo '<tr><td><a class="project" href="'.$project["dir"].'">'.$project["name"].'</a></td><td>'.$link.'</td><td>'.$project["des"].'</td></tr>';
     }
     echo "</tbody></table>";
     ?>

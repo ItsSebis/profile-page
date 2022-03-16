@@ -241,24 +241,6 @@ if (isset($_SESSION["gameid"])) {
 }
 ?>
 <!--style="position: fixed; top: 10px; right: 10px;"-->
-<div class="stats">
-    <h2>Alpha 0.0.9</h2><br>
-    <p>Offene Spiele: <span style="color: #00cccc"><?php echo(reformatBIgInts(gamesCount())); ?></span></p>
-    <p>Spieler online: <span style="color: #00cccc"><?php echo(reformatBIgInts(allPlayersCount())); ?></span></p>
-    <?php
-    if (isset($user)) {
-        echo "
-            <br>
-            <h2>Deine Statistiken</h2><br>
-            <p>Played games: <span style='color: #00cccc'> ".reformatBIgInts($user['werplayed'])."</span></p>
-            <p>Dorf Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['wervilwin'])."</span></p>
-            <p>Werwolf Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['werwerwin'])."</span></p>
-            <p>Verliebte Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['werlovwin'])."</span></p>
-        ";
-    }
-    ?>
-
-</div>
 <div class="main" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: 75%;">
     <?php
     if (isset($_GET["error"]) && $_GET["error"] == "1") {
@@ -501,6 +483,24 @@ if (isset($_SESSION["gameid"])) {
         </form>
 
         <?php
+    }
+    ?>
+</div>
+
+<div class="stats">
+    <h2>Alpha 0.0.9</h2><br>
+    <p>Offene Spiele: <span style="color: #00cccc"><?php echo(reformatBIgInts(gamesCount())); ?></span></p>
+    <p>Spieler online: <span style="color: #00cccc"><?php echo(reformatBIgInts(allPlayersCount())); ?></span></p>
+    <?php
+    if (isset($user)) {
+        echo "
+            <br>
+            <h2>Deine Statistiken</h2><br>
+            <p>Played games: <span style='color: #00cccc'> ".reformatBIgInts($user['werplayed'])."</span></p>
+            <p>Dorf Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['wervilwin'])."</span></p>
+            <p>Werwolf Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['werwerwin'])."</span></p>
+            <p>Verliebte Siege: <span style='color: #00cccc'> ".reformatBIgInts($user['werlovwin'])."</span></p>
+        ";
     }
     ?>
 </div>

@@ -33,6 +33,28 @@ function isEven($number) {
     return $number % 2 == 0;
 }
 
+function allProjects() {
+    $con = con();
+    $sql = "SELECT * FROM projects ORDER BY `name` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1&part=allProjects");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $array = array();
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            $array[] = $row;
+        }
+    }
+    mysqli_stmt_close($stmt);
+    return $array;
+}
+
 function projectData($dir) {
     $con = con();
     $sql = "SELECT * FROM projects WHERE dir = ?;";
@@ -137,6 +159,51 @@ function rolesArray() {
         exit();
     }
 
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $array = array();
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            $array[] = $row;
+        }
+    }
+    mysqli_stmt_close($stmt);
+    return $array;
+}
+
+function usersArray() {
+    $con = con();
+    $sql = "SELECT * FROM users ORDER BY `username` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1&part=usersArray");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $array = array();
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            $array[] = $row;
+        }
+    }
+    mysqli_stmt_close($stmt);
+    return $array;
+}
+
+function rolesUsersArray($role) {
+    $con = con();
+    $sql = "SELECT * FROM users WHERE `role`=? ORDER BY `username` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1&part=rolesUsersArray");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $role);
     mysqli_stmt_execute($stmt);
     $rs = mysqli_stmt_get_result($stmt);
 
