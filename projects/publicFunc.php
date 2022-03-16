@@ -220,7 +220,7 @@ function setUserSeen($usr) {
         exit();
     }
 
-    $date = date("Y-m-d h:i:s");
+    $date = date("Y-m-d H:i:s");
 
     mysqli_stmt_bind_param($stmt, "ss", $date, $usr);
     mysqli_stmt_execute($stmt);
