@@ -71,41 +71,6 @@ function getDecodedCount() {
     return reformatBIgInts($count);
 }
 
-function getStats($key) {
-    $con = con();
-    $sql = "SELECT * FROM stats WHERE `key` = ?;";
-    $stmt = mysqli_stmt_init($con);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ./?error=1");
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmt, "s", $key);
-    mysqli_stmt_execute($stmt);
-
-    $resultData = mysqli_stmt_get_result($stmt);
-
-    if ($row = mysqli_fetch_assoc($resultData)) {
-        return $row;
-    }
-    else {
-        return false;
-    }
-}
-
-function setStat($key, $val) {
-    $con = con();
-    $sql = "UPDATE stats SET value=? WHERE `key` = ?;";
-    $stmt = mysqli_stmt_init($con);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ./?error=1");
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmt, "ss", $val, $key);
-    mysqli_stmt_execute($stmt);
-}
-
 /**
  * @throws Exception
  */

@@ -72,7 +72,7 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
     foreach (allProjects() as $project) {
         $user = $project["user"];
         if (accountData($user) !== false) {
-            $link = "<a href='' style='color: ".roleData(accountData($user)['role'])['color']."'>".accountData($user)['username']."</a>";
+            $link = "<a href='../users.php?user=".$user."' style='color: ".roleData(accountData($user)['role'])['color']."'>".accountData($user)['username']."</a>";
         } else {
             $link = "Unknown User";
         }

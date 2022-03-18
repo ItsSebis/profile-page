@@ -15,6 +15,54 @@ function reformatBIgInts($count) {
     return $count;
 }
 
+function getYtIdPossible() {
+    return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+}
+
+function randomLetter() {
+    $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    try {
+        return $letters[random_int(0, strlen($letters) - 1)];
+    } catch (Exception $e) {
+    }
+    return " - NULL - ";
+}
+
+function nextLetterCom($str) {
+    $working = strlen($str)-1;
+    $possible = getYtIdPossible();
+    $pos = strpos($possible, $str[$working]);
+    if ($str[$working] !== "0") {
+        $str[$working] = $possible[$pos+1];
+    } else {
+        while ($working > 0) {
+            $str[$working] = $possible[0];
+            $working = $working--;
+            $str[$working] = $possible[strpos($possible, $str[$working])+1];
+        }
+    }
+    return $str;
+}
+
+function yt_exists($videoID) {
+    try {
+        $theURL = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=$videoID&format=json";
+        $headers = get_headers($theURL);
+    } catch (Exception $e) {
+        $headers = get_headers("https://example.com");
+    }
+
+    #$info = file_get_contents($theURL);
+
+    return !((substr($headers[0], 9, 3) === "400") || (substr($headers[0], 9, 3) === "404"));
+    #return strpos($info, "Bad Request") === false;
+}
+
+function yt_info($videoID) {
+    $theURL = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=$videoID&format=json";
+    return json_decode(file_get_contents($theURL), true);
+}
+
 function untilNow($date) {
     $dateTimeObject1 = date_create($date);
     $dateTimeObject2 = date_create(gmdate("Y-m-d H:i:s"));
@@ -27,6 +75,41 @@ function rngByPerCent($percent) {
     } catch (Exception $e) {
         return false;
     }
+}
+
+function getStats($key) {
+    $con = con();
+    $sql = "SELECT * FROM stats WHERE `key` = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $key);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    }
+    else {
+        return false;
+    }
+}
+
+function setStat($key, $val) {
+    $con = con();
+    $sql = "UPDATE stats SET value=? WHERE `key` = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $val, $key);
+    mysqli_stmt_execute($stmt);
 }
 
 function isEven($number) {
