@@ -70,7 +70,7 @@ if (isset($_POST["calc"])) {
                 <p>
                 " . $eq . " = " . $x . "x + " . $y . "y | - " . $x . "x <br>
                 " . $eq . " - " . $x . "x = " . $y . "y | : " . $y . " <br>
-                y = " . $x . "x/" . $y . " - " . $eq / $y . " <br>
+                y = " . $eq / $y . " - " . $x . "x/" . $y . " <br>
                 </p><br>
                 <h2>nach X auflösen</h2>
                 <br>
@@ -106,7 +106,7 @@ if (isset($_POST["calc"])) {
                         <p>
                         ".$eq." = ".$x*$sX." + ".$y."y | - ".$x*$sX." <br>
                         ".$eq." - ".$x*$sX." = ".$y."y | : ".$y." <br>
-                        y = ".$x*$sX/$y." - ".$eq/$y." <br>
+                        y = ".$eq/$y." - ".$x*$sX/$y." <br>
                         y = ".($eq/$y - $x*$sX/$y)." <br>
                         </p>
                         </div>
