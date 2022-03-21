@@ -16,7 +16,7 @@ function reformatBIgInts($count) {
 }
 
 function getYtIdPossible() {
-    return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_1234567890";
 }
 
 function randomLetter() {
@@ -26,22 +26,6 @@ function randomLetter() {
     } catch (Exception $e) {
     }
     return " - NULL - ";
-}
-
-function nextLetterCom($str) {
-    $working = strlen($str)-1;
-    $possible = getYtIdPossible();
-    $pos = strpos($possible, $str[$working]);
-    if ($str[$working] !== "0") {
-        $str[$working] = $possible[$pos+1];
-    } else {
-        while ($working > 0) {
-            $str[$working] = $possible[0];
-            $working = $working--;
-            $str[$working] = $possible[strpos($possible, $str[$working])+1];
-        }
-    }
-    return $str;
 }
 
 function yt_exists($videoID) {

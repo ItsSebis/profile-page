@@ -10,7 +10,11 @@ if (isset($_POST["vidid"]) && !empty($_POST["vidid"])) {
 Titel <br><span style='color: #00cccc'>".$data['title']."</span><br><br>
 Creator <br><span style='color: #00cccc'>".$data['author_name']."</span>";
     } else {
-        $result = "<span style='color: #f33'>Kein Video gefunden!</span>";
+        if (strlen($_POST["vidid"]) == 11) {
+            $result = "<span style='color: #f33'>Kein Video gefunden!</span>";
+        } else {
+            $result = "<span style='color: #f33'>Video IDs haben genau 11 Zeichen!</span>";
+        }
 
         /*if (strlen($_POST["vidid"]) < 11) {
             $try = $_POST["vidid"];
@@ -44,7 +48,7 @@ Creator <br><span style='color: #00cccc'>".$data['author_name']."</span>";
 <a style="position: absolute; top: 10px; left: 10px;" href="..">← Back</a>
 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-height: 75%; max-width: 75%;
 overflow: hidden; overflow-y: initial; width: 60%; background-color: #333333; border: 9px solid #333333; border-radius: 20px">
-    <form action="index.php" method="post">
+    <form action="./" method="post">
         <input maxlength="11" name="vidid" placeholder="Video ID..." <?php if (isset($_POST["vidid"])){echo("value=\"".$_POST['vidid']."\"");} ?>><br>
         <button type="submit" name="yt">Suchen</button>
     </form>
