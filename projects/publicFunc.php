@@ -720,7 +720,7 @@ function delUser($user) {
 
 function createRole($name) {
     $con = con();
-    $sql = "INSERT INTO groups (`name`, createdby) VALUES (?, ?);";
+    $sql = "INSERT INTO roles (`name`, createdby) VALUES (?, ?);";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../?error=1");
