@@ -11,7 +11,9 @@ if (!userHasPerm($_SESSION["id"], "editroles")) {
 if (isset($_POST["perm"])) {
     $role = $_POST["role"];
     $perm = $_POST["perm"];
-    mirrorRolePerm($role, $perm);
+    if ($role != 1) {
+        mirrorRolePerm($role, $perm);
+    }
     header("location: ../admin.php?page=roles&role=".$role);
 }
 
