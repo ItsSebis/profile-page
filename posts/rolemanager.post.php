@@ -38,7 +38,7 @@ elseif (isset($_POST["create"])) {
         header("location: ../admin.php?page=roles&create&error=exists");
     } else {
         createRole($name);
-        header("location: ../admin.php?page=roles&error=created&role=" . roleDataByName($name));
+        header("location: ../admin.php?page=roles&error=created&role=" . roleDataByName($name)['id']);
     }
 }
 

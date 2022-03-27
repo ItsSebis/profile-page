@@ -730,5 +730,6 @@ function createRole($name) {
     $me = $_SESSION["id"];
 
     mysqli_stmt_bind_param($stmt, "ss",$name, $me);
+    mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
