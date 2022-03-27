@@ -113,7 +113,7 @@ Rolle erfolgreich bearbeitet!</p>";
                 <tr>
                     <td style="background-color: #3c3c3c">Zugriff auf Management</td>
                     <td style="background-color: #3c3c3c">
-                        <button name="perm" value="admin">
+                        <button name="perm" value="admin" style="width: 200px">
                             <?php
                             echo boolToYN($data["admin"]);
                             ?>
@@ -123,7 +123,7 @@ Rolle erfolgreich bearbeitet!</p>";
                 <tr>
                     <td style="background-color: #4a4a4a">Passwörter zurücksetzten</td>
                     <td style="background-color: #4a4a4a">
-                        <button name="perm" value="respw">
+                        <button name="perm" value="respw" style="width: 200px">
                             <?php
                             echo boolToYN($data["respw"]);
                             ?>
@@ -133,7 +133,7 @@ Rolle erfolgreich bearbeitet!</p>";
                 <tr>
                     <td style="background-color: #3c3c3c">Benutzer Rollen hinzufügen</td>
                     <td style="background-color: #3c3c3c">
-                        <button name="perm" value="grantroles">
+                        <button name="perm" value="grantroles" style="width: 200px">
                             <?php
                             echo boolToYN($data["grantroles"]);
                             ?>
@@ -143,7 +143,7 @@ Rolle erfolgreich bearbeitet!</p>";
                 <tr>
                     <td style="background-color: #4a4a4a">Rollen bearbeiten</td>
                     <td style="background-color: #4a4a4a">
-                        <button name="perm" value="editroles">
+                        <button name="perm" value="editroles" style="width: 200px">
                             <?php
                             echo boolToYN($data["editroles"]);
                             ?>
@@ -153,7 +153,7 @@ Rolle erfolgreich bearbeitet!</p>";
                 <tr>
                     <td style="background-color: #3c3c3c">Debugs anzeigen</td>
                     <td style="background-color: #3c3c3c">
-                        <button name="perm" value="debugs">
+                        <button name="perm" value="debugs" style="width: 200px">
                             <?php
                             echo boolToYN($data["debugs"]);
                             ?>
@@ -163,7 +163,7 @@ Rolle erfolgreich bearbeitet!</p>";
                 <tr>
                     <td style="background-color: #4a4a4a">Werwolf Testspiele</td>
                     <td style="background-color: #4a4a4a">
-                        <button name="perm" value="wertests">
+                        <button name="perm" value="wertests" style="width: 200px">
                             <?php
                             echo boolToYN($data["wertests"]);
                             ?>
