@@ -87,7 +87,15 @@ Rolle erfolgreich bearbeitet!</p>";
             <input type="hidden" name="page" value="roles">
             <button type='submit' name='create'>Hinzufügen</button>
         </form>
-        <?php rolesList(); ?>
+        <?php
+        rolesList();
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "del") {
+                echo "<p style='color: lime; border: solid green; max-width: 260px; text-align: center; margin: 10px auto; border-radius: 7px;'>
+Rolle (".$_GET['rle'].") erfolgreich gelöscht!</p>";
+            }
+        }
+        ?>
     </div>
     <?php
     } elseif (isset($_GET["role"])) {

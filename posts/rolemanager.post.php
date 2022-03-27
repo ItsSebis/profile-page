@@ -43,7 +43,14 @@ elseif (isset($_POST["create"])) {
 }
 
 elseif (isset($_POST["del"])) {
-
+    $role = $_POST["role"];
+    if ($role < 3) {
+        header("location: ../admin.php?error=cannotdel&page=roles&role=".$role);
+        exit();
+    }
+    safeDeleteRole($role);
+    header("location: ../admin.php?error=del&page=roles&rle=".$role);
+    exit();
 }
 
 else {

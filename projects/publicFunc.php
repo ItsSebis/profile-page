@@ -572,7 +572,7 @@ function rolesList() {
     <tr>
       <td style='border: 2px solid black;'><a class='user' href='admin.php?page=roles&role=".$row["id"]."'>".$row["name"]."</a></td>
       <td style='border: 2px solid black; color: ".$row['color']."'>".$row['color']."</td>
-      <td style='border: 2px solid black;'>".$row['creator']."</td>
+      <td style='border: 2px solid black; color: ".roleData(accountData($row['creator'])['role'])['color']."'>".accountData($row['creator'])['username']."</td>
     </tr>
 
     ";
@@ -718,6 +718,21 @@ function delUser($user) {
     mysqli_stmt_close($stmt);
 }
 
+function delRole($role) {
+    $con = con();
+    $qry = "DELETE FROM roles WHERE id=?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ../?error=1");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $role);
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
+}
+
 function createRole($name) {
     $con = con();
     $sql = "INSERT INTO roles (`name`, creator) VALUES (?, ?);";
@@ -731,5 +746,15 @@ function createRole($name) {
 
     mysqli_stmt_bind_param($stmt, "ss",$name, $me);
     mysqli_stmt_execute($stmt);
+
     mysqli_stmt_close($stmt);
+}
+
+function safeDeleteRole($role) {
+    foreach (usersArray() as $user) {
+        if ($user["role"] == $role) {
+            setUserRole($user["id"], 2);
+        }
+    }
+    delRole($role);
 }
