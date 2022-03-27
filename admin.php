@@ -202,7 +202,7 @@ Rolle erfolgreich erstellt!</p>";
     <div class="main">
         <a href="admin.php?page=roles" style='border: solid white; padding: 2px; border-radius: 5px;'>← Zurück</a>
         <h1 style="margin-top: 20px; font-size: 3rem">Rolle Erstellen:</h1>
-        <form action="includes/rolemanager.inc.php" method="post">
+        <form action="posts/rolemanager.post.php" method="post">
             <input type="text" name="name" placeholder="Name..." style="width: 500px;"><br>
             <button type="submit" name="create">Erstellen</button>
             <br><br>
