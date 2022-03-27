@@ -493,6 +493,7 @@ function rolesList() {
     <thead>
       <tr>
         <th style="padding-left: 10px; padding-right: 10px;">Name</th>
+        <th style="padding-left: 10px; padding-right: 10px;">Farbe</th>
         <th style="padding-left: 10px; padding-right: 10px;">Erstellt von</th>
       </tr>
     </thead>
@@ -502,7 +503,8 @@ function rolesList() {
             echo "
 
     <tr>
-      <td style='border: 2px solid black;'><a class='user' style='color: ".$row['color']."' href='admin.php?page=roles&role=".$row["id"]."'>".$row["name"]."</a></td>
+      <td style='border: 2px solid black;'><a class='user' href='admin.php?page=roles&role=".$row["id"]."'>".$row["name"]."</a></td>
+      <td style='border: 2px solid black; color: ".$row['color']."'>".$row['color']."</td>
       <td style='border: 2px solid black;'>".$row['creator']."</td>
     </tr>
 
