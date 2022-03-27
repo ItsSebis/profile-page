@@ -131,7 +131,7 @@ Rolle (".$_GET['rle'].") erfolgreich gelöscht!</p>";
                         $color = "3c3c3c";
                     }
                     echo '
-                    <tr>
+<tr>
 <td style="background-color: #'.$color.'">'.$desc.'</td>
 <td style="background-color: #'.$color.'">
     <button name="perm" value="'.$perm.'" style="width: 200px">
