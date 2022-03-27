@@ -29,5 +29,5 @@ if ($check === false) {
     exit();
 }
 
-setcookie("token", $data["token"], time()+60*60*24*30, "/");
+setcookie("token", $data["token"], time()+60*60*24*30);
 login($data["id"]);
