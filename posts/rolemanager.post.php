@@ -48,8 +48,9 @@ elseif (isset($_POST["del"])) {
         header("location: ../admin.php?error=cannotdel&page=roles&role=".$role);
         exit();
     }
+    $name = roleData($role)["name"];
     safeDeleteRole($role);
-    header("location: ../admin.php?error=del&page=roles&rle=".$role);
+    header("location: ../admin.php?error=del&page=roles&rle=".$name);
     exit();
 }
 
