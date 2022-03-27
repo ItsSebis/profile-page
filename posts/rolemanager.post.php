@@ -3,7 +3,7 @@ include_once "../config.php";
 include_once "../projects/publicFunc.php";
 session_start();
 
-if (userHasPerm($_SESSION["id"], "editroles")) {
+if (!userHasPerm($_SESSION["id"], "editroles")) {
     header("location: ../admin.php?error=noPerm");
     exit();
 }
