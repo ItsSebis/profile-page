@@ -106,77 +106,77 @@ Rolle erfolgreich bearbeitet!</p>";
             <br>
             <button type="submit" name="del" <?php if ($_GET["role"] == "1" || $_GET["role"] == "2") {echo("disabled");} ?>>Löschen</button>
             <br><br>
+            <table style="width: 75%; margin: 0 auto">
+                <thead style="font-size: 1.2rem">
+                <tr>
+                    <th style="width: 70%">Name</th>
+                    <th style="width: 30%">Einstellung</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="background-color: #3c3c3c">Zugriff auf Management</td>
+                    <td style="background-color: #3c3c3c">
+                        <button name="perm" value="admin" style="width: 200px">
+                            <?php
+                            echo boolToYN($data["admin"]);
+                            ?>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #4a4a4a">Passwörter zurücksetzten</td>
+                    <td style="background-color: #4a4a4a">
+                        <button name="perm" value="respw" style="width: 200px">
+                            <?php
+                            echo boolToYN($data["respw"]);
+                            ?>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #3c3c3c">Benutzer Rollen hinzufügen</td>
+                    <td style="background-color: #3c3c3c">
+                        <button name="perm" value="grantroles" style="width: 200px">
+                            <?php
+                            echo boolToYN($data["grantroles"]);
+                            ?>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #4a4a4a">Rollen bearbeiten</td>
+                    <td style="background-color: #4a4a4a">
+                        <button name="perm" value="editroles" style="width: 200px">
+                            <?php
+                            echo boolToYN($data["editroles"]);
+                            ?>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #3c3c3c">Debugs anzeigen</td>
+                    <td style="background-color: #3c3c3c">
+                        <button name="perm" value="debugs" style="width: 200px">
+                            <?php
+                            echo boolToYN($data["debugs"]);
+                            ?>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #4a4a4a">Werwolf Testspiele</td>
+                    <td style="background-color: #4a4a4a">
+                        <button name="perm" value="wertests" style="width: 200px">
+                            <?php
+                            echo boolToYN($data["wertests"]);
+                            ?>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </form>
-        <table style="width: 75%; margin: 0 auto">
-            <thead style="font-size: 1.2rem">
-            <tr>
-                <th style="width: 70%">Name</th>
-                <th style="width: 30%">Einstellung</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td style="background-color: #3c3c3c">Zugriff auf Management</td>
-                <td style="background-color: #3c3c3c">
-                    <button name="perm" value="admin" style="width: 200px">
-                        <?php
-                        echo boolToYN($data["admin"]);
-                        ?>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td style="background-color: #4a4a4a">Passwörter zurücksetzten</td>
-                <td style="background-color: #4a4a4a">
-                    <button name="perm" value="respw" style="width: 200px">
-                        <?php
-                        echo boolToYN($data["respw"]);
-                        ?>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td style="background-color: #3c3c3c">Benutzer Rollen hinzufügen</td>
-                <td style="background-color: #3c3c3c">
-                    <button name="perm" value="grantroles" style="width: 200px">
-                        <?php
-                        echo boolToYN($data["grantroles"]);
-                        ?>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td style="background-color: #4a4a4a">Rollen bearbeiten</td>
-                <td style="background-color: #4a4a4a">
-                    <button name="perm" value="editroles" style="width: 200px">
-                        <?php
-                        echo boolToYN($data["editroles"]);
-                        ?>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td style="background-color: #3c3c3c">Debugs anzeigen</td>
-                <td style="background-color: #3c3c3c">
-                    <button name="perm" value="debugs" style="width: 200px">
-                        <?php
-                        echo boolToYN($data["debugs"]);
-                        ?>
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td style="background-color: #4a4a4a">Werwolf Testspiele</td>
-                <td style="background-color: #4a4a4a">
-                    <button name="perm" value="wertests" style="width: 200px">
-                        <?php
-                        echo boolToYN($data["wertests"]);
-                        ?>
-                    </button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
         <?php
         if (isset($_GET["error"])) {
             if ($_GET["error"] == "respw") {
