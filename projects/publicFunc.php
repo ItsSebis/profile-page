@@ -161,6 +161,9 @@ function accountData($id) {
     if ($row = mysqli_fetch_assoc($resultData)) {
         return $row;
     }
+    elseif ($id == 0) {
+        return array("id" => 0, "username" => "root", "role" => 1);
+    }
     else {
         return false;
     }
