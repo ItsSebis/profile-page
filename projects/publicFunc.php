@@ -240,6 +240,28 @@ function roleData($id) {
     }
 }
 
+function roleDataByName($name) {
+    $con = con();
+    $sql = "SELECT * FROM roles WHERE name = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1&part=roleDataByName");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $name);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    }
+    else {
+        return false;
+    }
+}
+
 function rolesArray() {
     $con = con();
     $sql = "SELECT * FROM roles ORDER BY `name` ASC;";
@@ -693,5 +715,20 @@ function delUser($user) {
     mysqli_stmt_bind_param($stmt, "s", $user);
     mysqli_stmt_execute($stmt);
 
+    mysqli_stmt_close($stmt);
+}
+
+function createRole($name) {
+    $con = con();
+    $sql = "INSERT INTO groups (`name`, createdby) VALUES (?, ?);";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1");
+        exit();
+    }
+
+    $me = $_SESSION["id"];
+
+    mysqli_stmt_bind_param($stmt, "ss",$name, $me);
     mysqli_stmt_close($stmt);
 }

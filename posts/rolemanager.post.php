@@ -31,7 +31,9 @@ elseif (isset($_POST["edit"])) {
 }
 
 elseif (isset($_POST["create"])) {
-
+    $name = $_POST["name"];
+    createRole($name);
+    header("location: ../admin.php?page=roles&error=created&role=".roleDataByName($name));
 }
 
 elseif (isset($_POST["del"])) {
