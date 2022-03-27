@@ -11,7 +11,7 @@ if (!isset($_SESSION["id"]) || !roleData(accountData($_SESSION["id"])["role"])["
         <button type='submit' name='page' value="home">Start</button>
         <button type='submit' name='page' value="users">Benutzer</button>
         <button type='submit' name='page' value="roles">Rollen</button>
-        <button type='submit' name='page' value="mail" <?php if (!userHasPerm($_SESSION["id"], "mail")) {echo("disabled");} ?>>Mail</button>
+        <?php /*<button type='submit' name='page' value="mail" <?php if (!userHasPerm($_SESSION["id"], "mail")) {echo("disabled");} ?>>Mail</button>*/?>
     </form>
 </div>
 <script type="text/javascript">
@@ -84,23 +84,23 @@ Rolle erfolgreich bearbeitet!</p>";
 
     </div>
     <?php
-} elseif ($_GET["page"] == "mail") {
+}/* elseif ($_GET["page"] == "mail") {
     if (!userHasPerm($_SESSION["id"], "mail")) {
         header("location: admin.php?error=noPerm");
         exit();
     }
-    ?>
+    */?><!--
     <h1 style="font-size: 3rem; margin-top: 60px">Mail</h1>
     <div class="main">
         <form action="posts/mail.php" method="post">
-            Via: <?php mailSelector(); ?><br>
+            Via: <?php /*mailSelector(); */?><br>
             <input name="to" placeholder="An..."><br>
             <input name="subject" placeholder="Betreff..."><br>
             <textarea name="text" style="text-align: center"></textarea><br>
             <button type="submit" name="send">Senden</button>
         </form>
         <?php
-        if (isset($_GET["error"])) {
+/*        if (isset($_GET["error"])) {
             if ($_GET["error"] == "invalidTo") {
                 echo "<p style='color: red; border: solid red; max-width: 260px; text-align: center; margin: 10px auto; border-radius: 7px;'>
 Die Empfänger E-Mail ist nicht gültig!</p>";
@@ -112,7 +112,7 @@ Mail erfolgreich gesendet!</p>";
 Fülle bitte alle Felder!</p>";
             }
         }
-        ?>
+        */?>
     </div>
-    <?php
-}
+    --><?php
+/*}*/

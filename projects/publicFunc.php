@@ -538,7 +538,7 @@ function countUsersByRole($role) {
     return $count;
 }
 
-function sendMail($via, $to, $subject, $text) {
+/*function sendMail($via, $to, $subject, $text) {
     $mail = "<html lang='de'>
     <head>
         <meta charset='utf8'/>
@@ -561,9 +561,9 @@ function sendMail($via, $to, $subject, $text) {
     </style>
     " .$text."</body></html>";
     $headers = array(
-    'From' => 'sebsurf@stormarnschueler.de',
+    'From' => $via,
     'Content-Type' => 'text/html; charset=utf-8'
     );
 
     mail($to, $subject, $mail, $headers);
-}
+}*/
