@@ -284,7 +284,7 @@ function usersArray() {
     return $array;
 }
 
-function mailsArray() {
+/*function mailsArray() {
     $con = con();
     $sql = "SELECT * FROM mails ORDER BY `id` ASC;";
     $stmt = mysqli_stmt_init($con);
@@ -304,7 +304,7 @@ function mailsArray() {
     }
     mysqli_stmt_close($stmt);
     return $array;
-}
+}*/
 
 function rolesUsersArray($role) {
     $con = con();
@@ -418,6 +418,51 @@ function setUserRole($usr, $role) {
     }
 
     mysqli_stmt_bind_param($stmt, "ss", $role, $usr);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function mirrorRolePerm($role, $perm) {
+    $con = con();
+    $qry = "UPDATE roles SET `".$perm."`=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=mirrorRolePerm");
+        exit();
+    }
+
+    $current = roleData($role)[$perm];
+    $should = mirrorBoolInInts($current);
+
+    mysqli_stmt_bind_param($stmt, "ss", $should, $role);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function setRoleName($role, $name) {
+    $con = con();
+    $qry = "UPDATE roles SET `name`=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setRoleName");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $name, $role);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function setRoleColor($role, $color) {
+    $con = con();
+    $qry = "UPDATE roles SET `color`=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setRoleColor");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $color, $role);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 }
@@ -548,14 +593,14 @@ function roleSelector($user) {
     </select><br>';
 }
 
-function mailSelector() {
+/*function mailSelector() {
     echo '<select name="mail" id="mails" style="background-color: #303030; outline: none; color: white; border: solid #333333; border-radius: 24px; width: 350px; height: 70px; padding: 14px 10px; transition: 0.2s; font-size: larger;">';
     foreach (mailsArray() as $mail) {
         echo '<option value="'.$mail."@sebis.net".'">'.$mail.'</option>';
     }
     echo '
     </select><br>';
-}
+}*/
 
 function generateToken($user) {
     $token = "";
@@ -615,3 +660,23 @@ function countUsersByRole($role) {
 
     mail($to, $subject, $mail, $headers);
 }*/
+
+function boolToYN($bool) {
+    $yes = "<span style='color: lime'>Ja</span>";
+    $no = "<span style='color: red'>Nein</span>";
+    if ($bool) {
+        return $yes;
+    } else {
+        return $no;
+    }
+}
+
+function mirrorBoolInInts($intBool) {
+    if ($intBool == 1) {
+        return 0;
+    } elseif ($intBool == 0) {
+        return 1;
+    } else {
+        return false;
+    }
+}

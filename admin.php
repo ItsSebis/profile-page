@@ -87,7 +87,40 @@ Rolle erfolgreich bearbeitet!</p>";
     </div>
     <?php
     } elseif (isset($_GET["role"])) {
-
+        $data = roleData($_GET["role"]);
+    ?>
+    <div class="main">
+        <a href="admin.php?page=users" style='border: solid white; padding: 2px; border-radius: 5px;'>← Zurück</a>
+        <h1 style="margin-top: 20px; font-size: 3rem"><?php echo($data['name']); ?></h1>
+        <form action="posts/rolemanager.post.php" method="post">
+            <input type="hidden" name="role" value="<?php echo($_GET["role"]); ?>">
+            <input type="text" name="newacc" placeholder="Name..." style="width: 500px;"
+                   value="<?php echo($data['name']); ?>"><br>
+            <input type="text" name="color" placeholder="Name..." style="width: 500px;"
+                   value="<?php echo($data['color']); ?>"><br>
+            <button type="submit" name="edit" style="margin-bottom: 7px;">Bearbeiten</button>
+            <br>
+            <button type="submit" name="del" <?php if ($_GET["role"] == "1" || $_GET["role"] == "2") {echo("disabled");} ?>>Löschen</button>
+            <br><br>
+        </form>
+        <?php
+        if (isset($_GET["error"])) {
+            if ($_GET["error"] == "respw") {
+                echo "<p style='color: lime; border: solid green; max-width: 260px; text-align: center; margin: 10px auto; border-radius: 7px;'>
+Passwort erfolgreich zurückgesetzt auf ".$_GET['pw']."!";
+            } elseif ($_GET["error"] == "delself") {
+                echo "<p style='color: red; border: solid red; max-width: 260px; text-align: center; margin: 10px auto; border-radius: 7px;'>
+Lösch dich... nicht!</p>";
+            } elseif ($_GET["error"] == "noPerm") {
+                echo "<p style='color: red; border: solid red; max-width: 260px; text-align: center; margin: 10px auto; border-radius: 7px;'>
+Dazu hast du nicht genug Rechte!</p>";
+            } elseif ($_GET["error"] == "setRole") {
+                echo "<p style='color: lime; border: solid green; max-width: 260px; text-align: center; margin: 10px auto; border-radius: 7px;'>
+Rolle erfolgreich bearbeitet!</p>";
+            }
+        } ?>
+    </div>
+    <?php
     } else {
 
     }
