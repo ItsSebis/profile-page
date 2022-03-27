@@ -502,7 +502,7 @@ function rolesList() {
             echo "
 
     <tr>
-      <td style='border: 2px solid black; color: ".$row['color'].";'><a class='user' href='admin.php?page=roles&role=".$row["id"]."'>".$row["name"]."</a></td>
+      <td style='border: 2px solid black;'><a class='user' style='color: ".$row['color']."' href='admin.php?page=roles&role=".$row["id"]."'>".$row["name"]."</a></td>
       <td style='border: 2px solid black;'>".$row['creator']."</td>
     </tr>
 
