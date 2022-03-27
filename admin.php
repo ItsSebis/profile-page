@@ -1,7 +1,7 @@
 <?php
 $GLOBALS["site"] = "Management";
 include_once "header.php";
-if (!isset($_SESSION["id"]) || !roleData(accountData($_SESSION["id"])["role"])["admin"]) {
+if (!isset($_SESSION["id"]) || !userHasPerm($_SESSION["id"], "admin")) {
     header("location: ./?error=noperm");
     exit();
 }
@@ -78,13 +78,22 @@ Rolle erfolgreich bearbeitet!</p>";
         </div>
 <?php
     }
-} elseif ($_GET["page"] == "roles") {?>
+} elseif ($_GET["page"] == "roles") {
+    if ((!isset($_GET["role"]) || roleData($_GET["role"]) === false) && !isset($_GET["create"])) {
+    ?>
     <h1 style="font-size: 3rem; margin-top: 60px">Rollen</h1>
     <div class="main">
-
+        <?php rolesList(); ?>
     </div>
     <?php
-}/* elseif ($_GET["page"] == "mail") {
+    } elseif (isset($_GET["role"])) {
+
+    } else {
+
+    }
+}
+
+/* elseif ($_GET["page"] == "mail") {
     if (!userHasPerm($_SESSION["id"], "mail")) {
         header("location: admin.php?error=noPerm");
         exit();

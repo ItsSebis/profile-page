@@ -213,7 +213,7 @@ function accountDataByName($acc) {
 function login($id) {
     $data = accountData($id);
     $_SESSION["id"] = $data["id"];
-    setcookie("login", $data["token"], time()+60*60*24*30, "/");
+    #setcookie("login", $data["token"], time()+60*60*24*30, "/");
     header("location: ../?error=0");
     exit();
 }
@@ -468,6 +468,52 @@ function userList() {
     ';
     } else {
         echo "<p style='color: red;'>Es gibt keine Benutzer! Warte mal, wie bist du hier hergekommen?</p>";
+    }
+
+    mysqli_stmt_close($stmt);
+
+}
+
+function rolesList() {
+    $con = con();
+    $sql = "SELECT * FROM roles ORDER BY `name` ASC, `id` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ./?error=1");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    $rs = mysqli_stmt_get_result($stmt);
+
+    if ($rs->num_rows > 0) {
+        echo '
+    <table class="profile" style="float: none; margin: 30px auto; font-size: larger; align-items: center;">
+    <thead>
+      <tr>
+        <th style="padding-left: 10px; padding-right: 10px;">Name</th>
+        <th style="padding-left: 10px; padding-right: 10px;">Erstellt von</th>
+      </tr>
+    </thead>
+    <tbody>
+    ';
+        while ($row = $rs->fetch_assoc()) {
+            echo "
+
+    <tr>
+      <td style='border: 2px solid black; color: ".$row['color'].";'><a class='user' href='admin.php?page=roles&role=".$row["id"]."'>".$row["name"]."</a></td>
+      <td style='border: 2px solid black;'>".$row['creator']."</td>
+    </tr>
+
+    ";
+        }
+        echo '
+    </tbody>
+    </table>
+    ';
+    } else {
+        echo "<p style='color: red;'>Es gibt keine Rollen! Warte mal, wie bist du hier hergekommen?</p>";
     }
 
     mysqli_stmt_close($stmt);

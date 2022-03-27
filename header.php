@@ -30,7 +30,7 @@
             echo '<a target="_self" href="login.php" class="navlinks" style="color: #00ff9d" id="login">Login</a>';
         } else {
             echo '<a target="_self" href="settings.php" class="navlinks" style="color: #999" id="account">Account</a>';
-            if (roleData(accountData($_SESSION["id"])["role"])["admin"]) {
+            if (userHasPerm($_SESSION["id"], "admin")) {
                 echo '<a target="_self" href="admin.php" class="navlinks" style="color: #f44" id="manage">Management</a>';
             }
             echo '<a target="_self" href="login.php?logout" class="navlinks" style="color: #e75">Logout</a>';
