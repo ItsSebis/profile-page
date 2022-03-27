@@ -3,7 +3,6 @@ $GLOBALS["site"] = "Login";
 include_once "header.php";
 if (isset($_GET["logout"])) {
     setUserSeen($_SESSION["id"]);
-    session_unset();
     session_destroy();
     header("location: ./");
     exit();
