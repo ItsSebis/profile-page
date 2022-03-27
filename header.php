@@ -1,5 +1,9 @@
 <?php
     session_start();
+    if (!isset($_SESSION["id"]) && isset($_GET["token"]) && accountDataByToken($_GET["token"]) !== false) {
+        $account = accountDataByToken($_GET["token"]);
+        login($account["id"]);
+    }
     require_once "config.php";
     require_once "projects/publicFunc.php";
     $name = "Nicht angemeldet!";

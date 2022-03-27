@@ -166,6 +166,28 @@ function accountData($id) {
     }
 }
 
+function accountDataByToken($token) {
+    $con = con();
+    $sql = "SELECT * FROM users WHERE token = ?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1&part=accountDataByToken");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $token);
+    mysqli_stmt_execute($stmt);
+
+    $resultData = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultData)) {
+        return $row;
+    }
+    else {
+        return false;
+    }
+}
+
 function accountDataByName($acc) {
     $con = con();
     $sql = "SELECT * FROM users WHERE username = ? OR email = ?;";
@@ -191,6 +213,7 @@ function accountDataByName($acc) {
 function login($id) {
     $data = accountData($id);
     $_SESSION["id"] = $data["id"];
+    setcookie("login", $data["token"], time()+60*60*24*30, "/");
     header("location: ../?error=0");
     exit();
 }
@@ -261,6 +284,28 @@ function usersArray() {
     return $array;
 }
 
+function mailsArray() {
+    $con = con();
+    $sql = "SELECT * FROM mails ORDER BY `id` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../?error=1&part=usersArray");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+    $rs = mysqli_stmt_get_result($stmt);
+
+    $array = array();
+    if ($rs->num_rows > 0) {
+        while ($row = $rs->fetch_assoc()) {
+            $array[] = $row["mail"];
+        }
+    }
+    mysqli_stmt_close($stmt);
+    return $array;
+}
+
 function rolesUsersArray($role) {
     $con = con();
     $sql = "SELECT * FROM users WHERE `role`=? ORDER BY `username` ASC;";
@@ -297,6 +342,8 @@ function createUser($name, $pw, $mail) {
 
     mysqli_stmt_bind_param($stmt, "sss", $name, $pw, $mail);
     mysqli_stmt_execute($stmt);
+
+    generateToken(accountDataByName($name)["id"]);
 }
 
 function setUserStat($usr, $stat, $value) {
@@ -359,4 +406,164 @@ function setUserSeen($usr) {
     mysqli_stmt_bind_param($stmt, "ss", $date, $usr);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
+}
+
+function setUserRole($usr, $role) {
+    $con = con();
+    $qry = "UPDATE users SET `role`=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=setUserRole");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $role, $usr);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function userHasPerm($user, $perm) {
+    return roleData(accountData($user)["role"])[$perm] === 1;
+}
+
+function userList() {
+    $con = con();
+    $sql = "SELECT * FROM users ORDER BY `username` ASC, `role` ASC;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: index.php?error=1");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    $rs = mysqli_stmt_get_result($stmt);
+
+    if ($rs->num_rows > 0) {
+        echo '
+    <table class="profile" style="float: none; margin: 30px auto; font-size: larger; align-items: center;">
+    <thead>
+      <tr>
+        <th style="padding-left: 10px; padding-right: 10px;">Account</th>
+        <th style="padding-left: 10px; padding-right: 10px;">E-Mail</th>
+        <th style="padding-left: 10px; padding-right: 10px;">Rolle</th>
+      </tr>
+    </thead>
+    <tbody>
+    ';
+        while ($row = $rs->fetch_assoc()) {
+            echo "
+
+    <tr>
+      <td style='border: 2px solid black;'><a class='user' href='admin.php?page=users&usr=".$row["id"]."'>".$row["username"]."</a></td>
+      <td style='border: 2px solid black;'>".$row['email']."</td>
+      <td style='border: 2px solid black; color: ".roleData($row['role'])['color']."'>".roleData($row['role'])['name']."</td>
+    </tr>
+
+    ";
+        }
+        echo '
+    </tbody>
+    </table>
+    ';
+    } else {
+        echo "<p style='color: red;'>Es gibt keine Benutzer! Warte mal, wie bist du hier hergekommen?</p>";
+    }
+
+    mysqli_stmt_close($stmt);
+
+}
+
+function rngNumPw() {
+    $pw = "";
+    try {
+        $pw = random_int(0, 9999999999);
+    } catch (Exception $e) {
+    }
+    while (strlen($pw) < 10) {
+        $pw = "0".$pw;
+    }
+    return $pw;
+}
+
+function roleSelector($user) {
+    echo '<select name="role" id="roles" style="background-color: #303030; outline: none; color: white; border: solid #333333; border-radius: 24px; width: 350px; height: 70px; padding: 14px 10px; transition: 0.2s; font-size: larger;">';
+    echo '<option value="null">'.roleData(accountData($user)["role"])["name"].'</option>';
+    foreach (rolesArray() as $role) {
+        if ($role["id"] != accountData($user)["role"]) {
+            echo '
+            <option value="'.$role["id"].'">'.$role["name"].'</option>
+        ';
+        }
+    }
+    echo '
+    </select><br>';
+}
+
+function mailSelector() {
+    echo '<select name="mail" id="mails" style="background-color: #303030; outline: none; color: white; border: solid #333333; border-radius: 24px; width: 350px; height: 70px; padding: 14px 10px; transition: 0.2s; font-size: larger;">';
+    foreach (mailsArray() as $mail) {
+        echo '<option value="'.$mail."@sebis.net".'">'.$mail.'</option>';
+    }
+    echo '
+    </select><br>';
+}
+
+function generateToken($user) {
+    $token = "";
+    while (strlen($token) < 64) {
+        $token .= randomLetter();
+        #echo($token);
+    }
+    $con = con();
+    $qry = "UPDATE users SET `token`=? WHERE id=?";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ./?error=1&part=generateToken");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $token, $user);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
+}
+
+function countUsersByRole($role) {
+    $count = 0;
+    foreach (usersArray() as $user) {
+        if ($user["role"] == $role) {
+            $count++;
+        }
+    }
+    return $count;
+}
+
+function sendMail($via, $to, $subject, $text) {
+    $mail = "<html lang='de'>
+    <head>
+        <meta charset='utf8'/>
+        <title>Mail</title>
+    </head>
+    <body style='background-color: #252322; color: #FFFFFF;'>
+    <style>
+    
+    a {
+      text-decoration: underline;
+      color: white;
+    }
+    a:hover {
+      color: GRAY;
+    }
+    a:active {
+      color: red;
+    }
+    
+    </style>
+    " .$text."</body></html>";
+    $headers = array(
+    'From' => 'sebsurf@stormarnschueler.de',
+    'Content-Type' => 'text/html; charset=utf-8'
+    );
+
+    mail($to, $subject, $mail, $headers);
 }

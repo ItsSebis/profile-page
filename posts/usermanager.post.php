@@ -126,6 +126,32 @@ elseif (isset($_POST["chName"])) {
     exit();
 }
 
+elseif (isset($_POST["edit"])) {
+    $user = accountData($_POST["user"]);
+    if (!userHasPerm($_SESSION["id"], "grantroles") || $user["id"] == $_SESSION["id"]) {
+        header("location: ../admin.php?error=noPerm&page=users&usr=".$_POST['user']);
+        exit();
+    }
+    $role = $_POST["role"];
+    if ($role != "null") {
+        setUserRole($user["id"], $role);
+    }
+    header("location: ../admin.php?error=setRole&page=users&usr=".$_POST['user']);
+    exit();
+}
+
+elseif (isset($_POST["respw"])) {
+    if (!userHasPerm($_SESSION["id"], "respw")) {
+        header("location: ../admin.php?error=noPerm&page=users&usr=".$_POST['user']);
+        exit();
+    }
+    $user = accountData($_POST["user"]);
+    $pw = rngNumPw();
+    setUserPw($user["id"], $pw);
+    header("location: ../admin.php?error=respw&pw=".$pw."&page=users&usr=".$_POST['user']);
+    exit();
+}
+
 else {
     header("location: ../?error=notFromSubmit");
     exit();

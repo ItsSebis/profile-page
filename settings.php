@@ -7,7 +7,7 @@ if (!isset($_SESSION["id"])) {
 }
 
 if (isset($_GET["debug"])) {
-    if (roleData(accountData($_SESSION["id"])["role"])["debugs"]) {
+    if (userHasPerm($_SESSION["id"], "debugs")) {
         $show = (int)accountData($_SESSION["id"])["sdebug"];
         if ($show == 1) {
             $show = 0;
@@ -41,7 +41,7 @@ if (isset($_GET["debug"])) {
                 <td style="background-color: #3c3c3c">Debug anzeigen (Nur mit Berechtigung)</td>
                 <td style="background-color: #3c3c3c"><a href="settings.php?debug">
                     <?php
-                    if (accountData($_SESSION["id"])["sdebug"] && roleData(accountData($_SESSION["id"])["role"])["debugs"]) {
+                    if (accountData($_SESSION["id"])["sdebug"] && userHasPerm($_SESSION["id"], "debugs")) {
                         echo("<p style='color: lime'>Ja</p>");
                     } else {
                         echo("<p style='color: red'>Nein</p>");
