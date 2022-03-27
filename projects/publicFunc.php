@@ -761,3 +761,9 @@ function safeDeleteRole($role) {
     }
     delRole($role);
 }
+
+function getPerms() {
+    return array("admin" => "Zugriff auf Management", "respw" => "Passwörter zurücksetzten", "delusrs" => "Benutzer löschen",
+        "grantroles" => "Benutzer Rollen hinzufügen", "editroles" => "Rollen bearbeiten", "debugs" => "Debugs anzeigen",
+        "wertests" => "Werwolf Testspiele");
+}

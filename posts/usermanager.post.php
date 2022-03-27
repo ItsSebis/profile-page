@@ -154,7 +154,11 @@ elseif (isset($_POST["respw"])) {
 
 elseif (isset($_POST["del"])) {
     $user = accountData($_POST["user"]);
-    if ($user["id"] == 1 || $user["id"] == $_SESSION["id"]) {
+    if (!userHasPerm($_SESSION["id"], "delusrs") || $user["id"] == 1) {
+        header("location: ../admin.php?error=noPerm&page=users&usr=".$_POST['user']);
+        exit();
+    }
+    if ($user["id"] == $_SESSION["id"]) {
         header("location: ../admin.php?error=respw&page=users&error=delself&usr=".$user['id']);
         exit();
     }

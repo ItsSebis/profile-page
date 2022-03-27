@@ -56,7 +56,7 @@ if (!isset($_GET["page"]) || $_GET["page"] == "home") {?>
                 <br>
                 <button type="submit" name="edit" style="margin-bottom: 7px;" <?php if ($_GET["usr"] == $_SESSION["id"]) {echo("disabled");} ?>>Bearbeiten</button>
                 <br>
-                <button type="submit" name="del">Löschen</button>
+                <button type="submit" name="del" <?php if ($_GET["usr"] == $_SESSION["id"]) {echo("disabled");} ?>>Löschen</button>
                 <br><br>
             </form>
             <?php
@@ -122,66 +122,27 @@ Rolle (".$_GET['rle'].") erfolgreich gelöscht!</p>";
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td style="background-color: #3c3c3c">Zugriff auf Management</td>
-                    <td style="background-color: #3c3c3c">
-                        <button name="perm" value="admin" style="width: 200px">
-                            <?php
-                            echo boolToYN($data["admin"]);
-                            ?>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: #4a4a4a">Passwörter zurücksetzten</td>
-                    <td style="background-color: #4a4a4a">
-                        <button name="perm" value="respw" style="width: 200px">
-                            <?php
-                            echo boolToYN($data["respw"]);
-                            ?>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: #3c3c3c">Benutzer Rollen hinzufügen</td>
-                    <td style="background-color: #3c3c3c">
-                        <button name="perm" value="grantroles" style="width: 200px">
-                            <?php
-                            echo boolToYN($data["grantroles"]);
-                            ?>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: #4a4a4a">Rollen bearbeiten</td>
-                    <td style="background-color: #4a4a4a">
-                        <button name="perm" value="editroles" style="width: 200px">
-                            <?php
-                            echo boolToYN($data["editroles"]);
-                            ?>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: #3c3c3c">Debugs anzeigen</td>
-                    <td style="background-color: #3c3c3c">
-                        <button name="perm" value="debugs" style="width: 200px">
-                            <?php
-                            echo boolToYN($data["debugs"]);
-                            ?>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="background-color: #4a4a4a">Werwolf Testspiele</td>
-                    <td style="background-color: #4a4a4a">
-                        <button name="perm" value="wertests" style="width: 200px">
-                            <?php
-                            echo boolToYN($data["wertests"]);
-                            ?>
-                        </button>
-                    </td>
-                </tr>
+                <?php
+                $count = 1;
+                foreach (getPerms() as $perm => $desc) {
+                    if (isEven($count)) {
+                        $color = "4a4a4a";
+                    } else {
+                        $color = "3c3c3c";
+                    }
+                    echo '
+                    <tr>
+<td style="background-color: #'.$color.'">'.$desc.'</td>
+<td style="background-color: #'.$color.'">
+    <button name="perm" value="'.$perm.'" style="width: 200px">
+        '.boolToYN($data[$perm]).'
+</button>
+</td>
+</tr>
+                    ';
+                    $count++;
+                }
+                ?>
                 </tbody>
             </table>
         </form>
