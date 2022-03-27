@@ -32,6 +32,10 @@ elseif (isset($_POST["create"])) {
 
 }
 
+elseif (isset($_POST["del"])) {
+
+}
+
 else {
     header("location: ../admin.php?page=roles&error=notFromSubmit");
 }

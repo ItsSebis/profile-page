@@ -152,6 +152,17 @@ elseif (isset($_POST["respw"])) {
     exit();
 }
 
+elseif (isset($_POST["del"])) {
+    $user = accountData($_POST["user"]);
+    if ($user["id"] == 1 || $user["id"] == $_SESSION["id"]) {
+        header("location: ../admin.php?error=respw&page=users&error=delself&usr=".$user['id']);
+        exit();
+    }
+    delUser($user["id"]);
+    header("location: ../admin.php?error=respw&page=users&error=del");
+    exit();
+}
+
 else {
     header("location: ../?error=notFromSubmit");
     exit();

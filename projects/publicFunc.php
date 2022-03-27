@@ -680,3 +680,18 @@ function mirrorBoolInInts($intBool) {
         return false;
     }
 }
+
+function delUser($user) {
+    $con = con();
+    $qry = "DELETE FROM users WHERE id=?;";
+    $stmt = mysqli_stmt_init($con);
+    if (!mysqli_stmt_prepare($stmt, $qry)) {
+        header("location: ../?error=1");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $user);
+    mysqli_stmt_execute($stmt);
+
+    mysqli_stmt_close($stmt);
+}
