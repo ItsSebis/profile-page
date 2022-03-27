@@ -141,11 +141,11 @@ elseif (isset($_POST["edit"])) {
 }
 
 elseif (isset($_POST["respw"])) {
-    if (!userHasPerm($_SESSION["id"], "respw")) {
+    $user = accountData($_POST["user"]);
+    if (!userHasPerm($_SESSION["id"], "respw") || $user["id"] == 1) {
         header("location: ../admin.php?error=noPerm&page=users&usr=".$_POST['user']);
         exit();
     }
-    $user = accountData($_POST["user"]);
     $pw = rngNumPw();
     setUserPw($user["id"], $pw);
     header("location: ../admin.php?error=respw&pw=".$pw."&page=users&usr=".$_POST['user']);
