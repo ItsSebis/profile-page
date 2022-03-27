@@ -2,8 +2,13 @@
     require_once "config.php";
     require_once "projects/publicFunc.php";
     session_start();
-    if (!isset($_SESSION["id"]) && isset($_GET["token"]) && accountDataByToken($_GET["token"]) !== false) {
-        $account = accountDataByToken($_GET["token"]);
+    if (!isset($_SESSION["id"]) && (isset($_GET["token"]) && accountDataByToken($_GET["token"]) !== false) ||
+        (isset($_COOKIE["token"]) && accountDataByToken($_COOKIE["token"]) !== false)) {
+        if (isset($_GET["token"]) && accountDataByToken($_GET["token"]) !== false) {
+            $account = accountDataByToken($_GET["token"]);
+        } else {
+            $account = accountDataByToken($_COOKIE["token"]);
+        }
         login($account["id"]);
     }
     $name = "Nicht angemeldet!";
