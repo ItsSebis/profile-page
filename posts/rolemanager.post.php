@@ -34,7 +34,7 @@ elseif (isset($_POST["create"])) {
     $name = $_POST["name"];
     if (empty($name)) {
         header("location: ../admin.php?page=roles&create&error=emptyf");
-    } elseif (roleDataByName($name) === false) {
+    } elseif (roleDataByName($name) !== false) {
         header("location: ../admin.php?page=roles&create&error=exists");
     } else {
         createRole($name);
