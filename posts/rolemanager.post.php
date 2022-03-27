@@ -32,8 +32,14 @@ elseif (isset($_POST["edit"])) {
 
 elseif (isset($_POST["create"])) {
     $name = $_POST["name"];
-    createRole($name);
-    header("location: ../admin.php?page=roles&error=created&role=".roleDataByName($name));
+    if (empty($name)) {
+        header("location: ../admin.php?page=roles&create&error=emptyf");
+    } elseif (roleDataByName($name) === false) {
+        header("location: ../admin.php?page=roles&create&error=exists");
+    } else {
+        createRole($name);
+        header("location: ../admin.php?page=roles&error=created&role=" . roleDataByName($name));
+    }
 }
 
 elseif (isset($_POST["del"])) {
