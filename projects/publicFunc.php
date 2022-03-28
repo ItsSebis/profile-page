@@ -19,6 +19,21 @@ function getYtIdPossible() {
     return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_1234567890";
 }
 
+function dateFromMySQL($mysql) {
+    $datesplits = explode("-", explode(" ", $mysql)[0]);
+    $timesplits = explode(":", explode(" ", $mysql)[1]);
+
+    $year = $datesplits[0];
+    $month = $datesplits[1];
+    $day = $datesplits[2];
+
+    $hour = $timesplits[0];
+    $min = $timesplits[1];
+    $sec = $timesplits[2];
+
+    return mktime($hour, $min, $sec, $month, $day, $year);
+}
+
 function randomLetter() {
     $letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     try {
@@ -490,6 +505,9 @@ function setRoleColor($role, $color) {
 }
 
 function userHasPerm($user, $perm) {
+    if ($user === 0 || $user === 1) {
+        return true;
+    }
     return roleData(accountData($user)["role"])[$perm] === 1;
 }
 
@@ -762,5 +780,6 @@ function safeDeleteRole($role) {
 function getPerms() {
     return array("admin" => "Zugriff auf Management", "respw" => "Passwörter zurücksetzten", "delusrs" => "Benutzer löschen",
         "grantroles" => "Benutzer Rollen hinzufügen", "editroles" => "Rollen bearbeiten", "debugs" => "Debugs anzeigen",
-        "wertests" => "Werwolf Testspiele", "chairs" => "Beichträume erstellen", "managechairs" => "Beichträume verwalten");
+        "wertests" => "Werwolf Testspiele", "chairs" => "Beichträume erstellen", "managechairs" => "Beichträume verwalten",
+        "seesays" => "Immer alle Beichten sehen");
 }

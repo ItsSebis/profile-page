@@ -102,23 +102,26 @@ if (!isset($_GET["c"]) || chairData($_GET["c"]) === false) {
         <form action="chairmanager.post.php" method="post">
             <textarea rows="12" cols="60" name="content" minlength="20" maxlength="2000" placeholder="Text..."></textarea><br>
             <button name="say" type="submit" value="<?php echo($chair["id"]); ?>">Say!</button>
+            <p style="color: grey; padding-top: 3px">Psst... Deine Nachricht ist Anonym.</p>
         </form><br>
         <h3>Andere Posts</h3>
 <?php
         foreach (says($chair["id"]) as $say) {
-            echo "
+            if ($chair["public"] || $chair["owner"] == $_SESSION["id"] || $say["by"] == $_SESSION["id"] || userHasPerm($_SESSION["id"], "seesays")) {
+                echo "
             <div class='sub' style='min-height: 100px; max-height: 500px; overflow: hidden; overflow-y: initial; padding: 15px;'>";
-                if ($say["by"] == $_SESSION["id"] || $chair["owner"] == $_SESSION["id"]) {
+                if ($say["by"] == $_SESSION["id"] || $chair["owner"] == $_SESSION["id"] || userHasPerm($_SESSION["id"], "managechairs")) {
                     echo "
             <form action='chairmanager.post.php' method='post'>
-            <button type='submit' name='delsay' value='".$say["id"]."' style='border:none; font-size: 1.2rem; float: right; margin: 0; width: auto; height: auto; border-radius: 0; padding: 0; position: relative; right: 5px; color: red;'>x</button>
+            <button type='submit' name='delsay' value='" . $say["id"] . "' style='border:none; font-size: 1.2rem; float: right; margin: 0; width: auto; height: auto; border-radius: 0; padding: 0; position: relative; right: 5px; color: red;'>x</button>
             </form>
                 ";
-            }
-            echo "<p style='color: gray; font-size: 0.8rem; float: top; margin-top: -10px; margin-bottom: 10px;'>".$say['wrote']."</p>";
-            echo "
-        ".$say['content']."
+                }
+                echo "<p style='color: gray; font-size: 0.8rem; float: top; margin-top: -10px; margin-bottom: 10px;'>" . date("d.m.Y", dateFromMySQL($say['wrote'])) . "</p>";
+                echo "
+        " . $say['content'] . "
         </div>";
+            }
     }
     echo "
     </div>";
