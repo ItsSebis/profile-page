@@ -140,7 +140,7 @@ function projectData($dir) {
         return $row;
     }
     else {
-        return false;
+        return array("name" => "Nicht zugeordnet", "dir" => ".", "user" => "0", "des" => "Keine weiteren Informationen");
     }
 }
 
@@ -160,9 +160,6 @@ function accountData($id) {
 
     if ($row = mysqli_fetch_assoc($resultData)) {
         return $row;
-    }
-    elseif ($id == 0) {
-        return array("id" => 0, "username" => "root", "role" => 1);
     }
     else {
         return false;
@@ -765,5 +762,5 @@ function safeDeleteRole($role) {
 function getPerms() {
     return array("admin" => "Zugriff auf Management", "respw" => "Passwörter zurücksetzten", "delusrs" => "Benutzer löschen",
         "grantroles" => "Benutzer Rollen hinzufügen", "editroles" => "Rollen bearbeiten", "debugs" => "Debugs anzeigen",
-        "wertests" => "Werwolf Testspiele");
+        "wertests" => "Werwolf Testspiele", "chairs" => "Beichträume erstellen", "managechairs" => "Beichträume verwalten");
 }

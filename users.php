@@ -37,6 +37,17 @@ if (!isset($_GET["user"]) || accountData($_GET["user"]) === false) {
         Als Verliebte gewonnen: <?php echo($user["werlovwin"]);?><br>
     </p>
 
+    <h2 style="font-size: 2rem">Rechte</h2>
+    <?php
+    echo "<p>";
+    foreach (getPerms() as $perm => $des) {
+        if (userHasPerm($user["id"], $perm)) {
+            echo $des."<br>";
+        }
+    }
+    echo "</p>";
+    ?>
+
 </div>
 <?php
 }
