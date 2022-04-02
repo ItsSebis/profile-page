@@ -27,30 +27,6 @@ require_once "../publicFunc.php";
 
 <?php
 
-function rngArray($array) {
-    try {
-        return $array[random_int(0, count($array)-1)];
-    } catch (Exception $e) {
-        return false;
-    }
-}
-
-function rngTime() {
-    try {
-        $hour = random_int(0, 23);
-        $min = random_int(0, 59);
-        if ($hour < 10) {
-            $hour = "0" . $hour;
-        }
-        if ($min < 10) {
-            $min = "0" . $min;
-        }
-        return $hour . ":" . $min;
-    } catch (Exception $e) {
-        return "25:61";
-    }
-}
-
 $yeaReplies = array("YES!", "Yea", "yep", "YEP", "Absolut!", "Meine Quellen stimmen zu.");
 $nopeReplies = array("Ne", "nope", "Auf keinen Fall!", "Niemals!", "Meine Quellen stimmen nicht zu.", "NOPERS");
 $maybeReplies = array("Maybe", "Da bin ich mir nicht sicher...", "Darüber sind sich meine Quellen nicht einig.");
