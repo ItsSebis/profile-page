@@ -74,9 +74,8 @@ function getDecodedCount() {
 /**
  * @throws Exception
  */
-function encryptLetter($let, $pattern) {
+function encryptLetter($let, $pattern, $bank) {
     #echo $pattern."/".pattCount()." | ";
-    $pattern = getPattern($pattern)["changed"];
 
     if ($let == " ") {
         return "%";
@@ -84,19 +83,18 @@ function encryptLetter($let, $pattern) {
         return "#";
     }
 
-    if (strpos(allLetters(), $let) === false) {
+    if (strpos($bank, $let) === false) {
         return $let;
     }
 
     #echo $pattern[strpos(allLetters(), $let)]."<br>";
-    return $pattern[strpos(allLetters(), $let)];
+    return $pattern[strpos($bank, $let)];
 }
 
 /**
  * @throws Exception
  */
-function decryptLetter($let, $pattern) {
-    $pattern = getPattern($pattern)["changed"];
+function decryptLetter($let, $pattern, $bank) {
 
     if ($let == "%") {
         return " ";
@@ -104,7 +102,7 @@ function decryptLetter($let, $pattern) {
         return "-";
     }
 
-    if (strpos(allLetters(), $let) === false) {
+    if (strpos($bank, $let) === false) {
         return $let;
     }
 
@@ -114,14 +112,32 @@ function decryptLetter($let, $pattern) {
 /**
  * @throws Exception
  */
+function encodeWithPattern($pat, $str, $bank) {
+    for ($i=0;$i<strlen($str);$i++) {
+        $str[$i] = encryptLetter($str[$i], $pat, $bank);
+    }
+    return $str;
+}
+
+/**
+ * @throws Exception
+ */
+function decodeWithPattern($pat, $str, $bank) {
+    for ($i=0;$i<strlen($str);$i++) {
+        $str[$i] = decryptLetter($str[$i], $pat, $bank);
+    }
+    return $str;
+}
+
+/**
+ * @throws Exception
+ */
 function seb32_encode($str) {
     $pattern = random_int(1, getStats("seb32patterns")["value"]);
     while (getPattern($pattern) === false) {
-        $pattern = random_int(1, pattCount());
+        $pattern = random_int(1, getStats("seb32patterns")["value"]);
     }
-    for ($i=0;$i<strlen($str);$i++) {
-        $str[$i] = encryptLetter($str[$i], $pattern);
-    }
+    $str = encodeWithPattern(getPattern($pattern)["changed"], $str, allLetters());
     $str .= "-".bin2hex(base64_encode($pattern));
     return $str;
 }
@@ -133,10 +149,7 @@ function seb32Decode($str) {
     $exploded = explode("-", $str);
     $str = $exploded[0];
     $pattern = base64_decode(hex2bin($exploded[1]));
-    for ($i=0;$i<strlen($str);$i++) {
-        $str[$i] = decryptLetter($str[$i], $pattern);
-    }
-    return $str;
+    return decodeWithPattern(getPattern($pattern)["changed"], $str, allLetters());
 }
 
 /**
