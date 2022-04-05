@@ -5,7 +5,7 @@ session_start();
 ?>
 <html lang="de">
 <head>
-    <title>Projects | <?php echo(projectData(basename(__DIR__))["name"]); ?></title>
+    <title>Projekte | <?php echo(projectData(basename(__DIR__))["name"]); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

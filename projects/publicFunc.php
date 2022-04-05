@@ -15,9 +15,11 @@ function reformatBIgInts($count) {
     return $count;
 }
 
+/*
 function getYtIdPossible() {
     return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_1234567890";
 }
+*/
 
 function dateFromMySQL($mysql) {
     $datesplits = explode("-", explode(" ", $mysql)[0]);

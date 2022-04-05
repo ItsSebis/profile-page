@@ -8,7 +8,7 @@ $user = accountData($_SESSION["id"]);
 ?>
 <html lang="de">
 <head>
-    <title>Projects | <?php echo(projectData(basename(__DIR__))["name"]); ?></title>
+    <title>Projekte | <?php echo(projectData(basename(__DIR__))["name"]); ?></title>
     <meta charset="utf-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -86,10 +86,7 @@ if (!isset($_GET["c"]) || chairData($_GET["c"]) === false) {
 ";
         }
 
-    echo "
-    </div>";
-
-} else {
+        } else {
     $chair = chairData($_GET["c"]);
     ?>
     <a style="position: absolute; top: 10px; left: 10px;" href="./">← Back</a>
@@ -123,9 +120,9 @@ if (!isset($_GET["c"]) || chairData($_GET["c"]) === false) {
         </div>";
             }
     }
-    echo "
-    </div>";
 }
+echo "
+</div>";
 ?>
 </body>
 </html>

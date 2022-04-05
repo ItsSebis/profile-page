@@ -209,7 +209,7 @@ elseif (isset($_POST["urskip"])) {
     exit();
 }
 
-$title = "Projects | ".basename(__DIR__);
+$title = "Projekte | ".projectData(basename(__DIR__))["name"];
 
 if (!isset($_SESSION["gameid"])) {
     try {
