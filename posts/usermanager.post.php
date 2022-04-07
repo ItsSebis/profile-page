@@ -5,8 +5,15 @@ session_start();
 
 if (isset($_POST["register"])) {
 
+    $urlExtensions = "";
+    if (count($_GET) > 0) {
+        foreach ($_GET as $key => $value) {
+            $urlExtensions.=$key."=".$value."&";
+        }
+    }
+
     if (empty($_POST["usr"]) || empty($_POST["pw"]) || empty($_POST["pwr"]) || empty($_POST["email"])) {
-        header("location: ../login.php?error=emptyf&register");
+        header("location: ../login.php?error=emptyf&register&".$urlExtensions);
         exit();
     }
 

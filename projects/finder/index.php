@@ -98,7 +98,7 @@ if (!isset($_SESSION["waldo"]) || !is_array($_SESSION["waldo"])) {
 if (!isset($_SESSION["id"]) || accountData($_SESSION["id"]) === false) {
     echo '<div class="stats">
     <p>Melde dich an um später deine Statistiken zu sehen.</p><br>
-    <a href="../../login.php">-> Login <-</a>
+    <a href="../../login.php?path=../projects/finder">-> Login <-</a>
 </div>';
 } else {
     echo '<div class="stats">

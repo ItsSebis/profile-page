@@ -252,10 +252,14 @@ function accountDataByName($acc) {
 }
 
 function login($id) {
+    $path = "../";
+    if (isset($_GET["path"])) {
+        $path = $_GET["path"];
+    }
     $data = accountData($id);
     $_SESSION["id"] = $data["id"];
     #setcookie("login", $data["token"], time()+60*60*24*30, "/");
-    header("location: ../?error=0");
+    header("location: ".$path."?error=0");
     exit();
 }
 
