@@ -7,6 +7,8 @@ if (!isset($_POST["login"])) {
     exit();
 }
 
+sleep(2);
+
 if (empty($_POST["usr"]) || empty($_POST["pw"])) {
     header("location: ../login.php?error=emptyf");
     exit();

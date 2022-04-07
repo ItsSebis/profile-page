@@ -56,7 +56,7 @@ if (isset($_GET["logout"]) && isset($_SESSION["id"])) {
         height: 100%;
         background: url("img/fingerPrint_02.png");
         background-size: 300px;
-        animation: animate 3s ease-in-out infinite;
+        animation: animate 2s ease-in-out infinite;
     }
 
     @keyframes animate {
@@ -79,7 +79,7 @@ if (isset($_GET["logout"]) && isset($_SESSION["id"])) {
         filter: drop-shadow(0 0 20px #3fefef) drop-shadow(0 0 60px #3fefef);
         background: #3fefef;
         background-size: 300px;
-        animation: animate_line 3s ease-in-out infinite;
+        animation: animate_line 2s ease-in-out infinite;
     }
 
     @keyframes animate_line {
