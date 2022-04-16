@@ -94,7 +94,7 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
                         <div class="job" style="color: grey">Keine Rolle</div>
                     </div>
                 </div>
-                <a href="../login.php?logout&path=../lobbynerdz"><i class="bx bx-log-in" id="log_out"></i></a>
+                <a href="../login.php?path=../lobbynerdz"><i class="bx bx-log-in" id="log_out"></i></a>
             </div>
         </div>
     <?php
