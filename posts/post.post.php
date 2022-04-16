@@ -1,4 +1,6 @@
 <?php
+require_once "../lobbynerdz/functions.inc.php";
+session_start();
 
 if (!isset($_POST["post"])) {
     header("location: ../");
@@ -6,11 +8,16 @@ if (!isset($_POST["post"])) {
 }
 
 if (!isset($_SESSION["id"]) || accountData($_SESSION["id"]) === false) {
-    header("location: ../login.php?path=./lobbynerdz/");
+    header("location: ../login.php?path=../lobbynerdz/");
     exit();
 }
 
 $content = $_POST["content"];
+
+if (empty($content)) {
+    header("location: ../lobbynerdz/");
+    exit();
+}
 
 $content = str_replace("<script>", "script->", $content);
 $content = str_replace("</script>", "<-script", $content);
@@ -30,8 +37,6 @@ if($num_found = preg_match_all($pattern, $content, $out)) {
 
 #echo $content;
 
-require_once "../lobbynerdz/functions.inc.php";
-session_start();
 post($content);
 
 header("location: ../lobbynerdz/");

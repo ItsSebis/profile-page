@@ -24,8 +24,8 @@ function postArray($offset, $limit) {
     $sql = "SELECT * FROM posts ORDER BY `released` DESC LIMIT $offset, $limit;";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        #header("location: ../?error=1&part=postsArray");
-        #exit();
+        header("location: ../?error=1&part=postsArray");
+        exit();
     }
 
     mysqli_stmt_execute($stmt);
