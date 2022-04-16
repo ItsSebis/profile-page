@@ -5,7 +5,11 @@ if (isset($_GET["logout"]) && isset($_SESSION["id"])) {
     setUserSeen($_SESSION["id"]);
     session_unset();
     session_destroy();
-    header("location: ./");
+    $path = "./";
+    if (isset($_GET["path"])) {
+        $path = $_GET["path"];
+    }
+    header("location: ".$path);
     exit();
 } elseif (isset($_SESSION["id"])) {
     $path = "./";
