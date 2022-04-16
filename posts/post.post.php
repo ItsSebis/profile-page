@@ -6,7 +6,7 @@ if (!isset($_POST["post"])) {
 }
 
 if (!isset($_SESSION["id"]) || accountData($_SESSION["id"]) === false) {
-    header("location: ../login.php?logout&path=../lobbynerdz/");
+    header("location: ../login.php?path=../lobbynerdz/");
     exit();
 }
 
