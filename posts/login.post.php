@@ -27,7 +27,7 @@ $data = accountDataByName($usr);
 $check = password_verify($pw, $data["pw"]);
 
 if ($check === false) {
-    header("location: ../login.php?error=wrongpw");
+    header("location: ../login.php?error=wrongid");
     exit();
 }
 

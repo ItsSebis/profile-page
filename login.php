@@ -126,7 +126,7 @@ if (!isset($_GET["register"])) {
     if (isset($_GET['error'])) {
         echo "<br>";
         if ($_GET['error'] == 'wrongid') {
-            echo '<p style="margin-top: 10px;">Dieser Account existiert nicht!</p>';
+            echo '<p style="margin-top: 10px;">Falsche Anmeldedaten!</p>';
         }
         else if ($_GET['error'] == 'wrongpw') {
             echo '<p style="margin-top: 10px;">Falsches Passwort</p>';
