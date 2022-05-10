@@ -70,6 +70,9 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
 </thead>
 ";
     foreach (allProjects() as $project) {
+        if ($project["hidden"]) {
+            continue;
+        }
         $user = $project["user"];
         if (accountData($user) !== false) {
             $link = "<a href='../users.php?user=".$user."' style='color: ".roleData(accountData($user)['role'])['color']."'>".accountData($user)['username']."</a>";

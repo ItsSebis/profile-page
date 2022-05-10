@@ -12,6 +12,10 @@ if (isset($_POST["valve"]) && $_POST["valve"] === "correct✅" && isset($_SESSIO
     setUserStat($_SESSION["id"], "foundit", 0);
     header("location: ./");
     exit();
+} elseif (isset($_POST["valve"]) && $_POST["valve"] === "correct✅" && (!isset($_SESSION["id"]) || accountData($_SESSION["id"]) === false)) {
+    unset($_SESSION["waldo"]);
+    header("location: ./");
+    exit();
 }
 
 
@@ -111,8 +115,15 @@ if (!isset($_SESSION["id"]) || accountData($_SESSION["id"]) === false) {
 ?>
 <form action="./" method="post">
     <?php
-    for ($i=0;$i<60;$i++) {
-        echo '<button type="submit" style="visibility: hidden" name="valve" value="correct"><></button>';
+    for ($i=0;$i<1000;$i++) {
+        try {
+            $top = random_int(1, 98000000) / 1000000;
+            $left = random_int(1, 99000000) / 1000000;
+        } catch (Exception $e) {
+            $top = 50;
+            $left = 50;
+        }
+        echo '<button type="submit" style="visibility: hidden; top: '.$top.'%; left: '.$left.'%" name="valve" value="correct"><></button>';
     }
     #<img src="imgs/wenda.png" alt="wenda" style="height: 32px; width: auto">
     ?>
