@@ -218,3 +218,11 @@ function pattCount() {
     setStat("seb32patterns", $count);
     return $count;
 }
+
+function encodeWithPw($text, $encryption_key) {
+    $ciphering = "AES-128-CTR";
+    $option = 0;
+    $encryption_iv = "1234567890123457";
+
+    return openssl_encrypt($text, $ciphering, $encryption_key, $option, $encryption_iv);
+}
