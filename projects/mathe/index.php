@@ -54,7 +54,7 @@ if (isset($_POST["calc"])) {
         $calced = array();
         $Y=1;
 
-        if (isset($_SESSION["id"]) && roleData(accountData($_SESSION["id"])["role"])["debugs"] && accountData($_SESSION["id"])["sdebug"]) {
+        if (isset($_SESSION["id"]) && userHasPerm($_SESSION["id"], "debugs") && accountData($_SESSION["id"])["sdebug"]) {
             echo "<br>Posts: " . $_POST['X'] . " | " . $_POST['Y'];
             echo "<br>X isset: " . (isset($sX));
             echo "<br>Y isset: " . (isset($sY));
