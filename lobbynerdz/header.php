@@ -31,7 +31,7 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
 </head>
 <body>
 
-<div class="nav active">
+<div class="navigation active">
     <div class="logo_content">
         <div class="logo">
             <i class='bx bxs-microphone' ></i>
@@ -40,7 +40,7 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
         <i class='bx bx-menu' id="btn"></i>
     </div>
 
-    <ul class="nav_list">
+    <ul class="navigation_list">
         <li>
             <i class='bx bx-search' ></i>
             <input type="text" placeholder="Suchen...">
@@ -104,7 +104,7 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
 
 <script>
     let btn = document.querySelector("#btn");
-    let sidebar = document.querySelector(".nav");
+    let sidebar = document.querySelector(".navigation");
     let search = document.querySelector(".bx-search");
 
     btn.onclick = function () {

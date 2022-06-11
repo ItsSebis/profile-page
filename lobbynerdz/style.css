@@ -83,7 +83,7 @@ i {
 /* Custom Classes */
 
 /* Navi */
-.nav {
+.navigation {
     position: fixed;
     height: 100%;
     width: 58px;
@@ -93,10 +93,10 @@ i {
     padding: 6px 14px;
     transition: all 0.5s ease;
 }
-.nav.active {
+.navigation.active {
     width: 240px;
 }
-.nav .logo_content .logo {
+.navigation .logo_content .logo {
     margin-top: 3px;
     color: #fff;
     display: flex;
@@ -106,20 +106,20 @@ i {
     opacity: 0;
     pointer-events: none;
 }
-.nav.active .logo_content .logo {
+.navigation.active .logo_content .logo {
     opacity: 1;
     pointer-events: none;
     transition: all 0.4s ease;
 }
-.nav .logo_content .logo i {
+.navigation .logo_content .logo i {
     font-size: 28px;
     margin-right: 5px;
 }
-.nav .logo_content .logo .logo_name {
+.navigation .logo_content .logo .logo_name {
     font-size: 20px;
     font-weight: 400;
 }
-.nav #btn {
+.navigation #btn {
     color: #fff;
     position: absolute;
     top: 0;
@@ -132,24 +132,24 @@ i {
     transform: translateX(-50%);
     cursor: pointer;
 }
-.nav.active #btn {
+.navigation.active #btn {
     left: 90%;
 }
-.nav ul {
+.navigation ul {
     margin-top: 20px;
     margin-left: -40px;
 }
-.nav ul li {
+.navigation ul li {
     position: relative;
     height: 50px;
     margin: 0 5px;
     list-style: none;
     line-height: 50px;
 }
-.nav.active ul li {
+.navigation.active ul li {
     min-width: 50px;
 }
-.nav ul li .tooltip {
+.navigation ul li .tooltip {
     position: absolute;
     left: 0;
     top: 50%;
@@ -166,15 +166,15 @@ i {
     pointer-events: none;
     display: block;
 }
-.nav.active ul li .tooltip {
+.navigation.active ul li .tooltip {
     display: none;
 }
-.nav ul li:hover .tooltip {
+.navigation ul li:hover .tooltip {
     transition: all 0.5s ease;
     left: 50px;
     opacity: 1;
 }
-.nav ul li input {
+.navigation ul li input {
     position: absolute;
     height: 100%;
     width: 80%;
@@ -190,10 +190,10 @@ i {
     opacity: 0;
     transition: all 0.4s ease;
 }
-.nav.active ul li input {
+.navigation.active ul li input {
     opacity: 1;
 }
-.nav ul li .bx-search {
+.navigation ul li .bx-search {
     position: absolute;
     z-index: 99;
     color: #fff;
@@ -201,11 +201,11 @@ i {
     cursor: pointer;
     transition: all 0.5s ease;
 }
-.nav ul li .bx-search:hover {
+.navigation ul li .bx-search:hover {
     background-color: #fff;
     color: black;
 }
-.nav ul li a {
+.navigation ul li a {
     color: #fff;
     display: flex;
     align-items: center;
@@ -214,11 +214,11 @@ i {
     border-radius: 12px;
     white-space: nowrap;
 }
-.nav ul li a:hover {
+.navigation ul li a:hover {
     color: #11101d;
     background-color: #fff;
 }
-.nav ul li i {
+.navigation ul li i {
     height: 50px;
     font-size: 20px;
     min-width: 50px;
@@ -226,56 +226,56 @@ i {
     line-height: 50px;
     text-align: center;
 }
-.nav .links_name {
+.navigation .links_name {
     opacity: 0;
     pointer-events: none;
     transition: all 0.4s ease;
 }
-.nav.active .links_name {
+.navigation.active .links_name {
     opacity: 1;
     pointer-events: auto;
 }
-.nav .profile_content {
+.navigation .profile_content {
     position: absolute;
     bottom: 0;
     color: #fff;
     left: 0;
     width: 100%;
 }
-.nav .profile_content .profile {
+.navigation .profile_content .profile {
     position: relative;
     padding: 10px 6px;
     height: 60px;
     background-color: #13afef;
 }
-.nav .profile_content .profile .profile_details {
+.navigation .profile_content .profile .profile_details {
     display: flex;
     align-items: center;
     opacity: 0;
     pointer-events: none;
     transition: all 0.4s ease;
 }
-.nav.active .profile .profile_details {
+.navigation.active .profile .profile_details {
     opacity: 1;
     pointer-events: auto;
 }
-.nav .profile_content img {
+.navigation .profile_content img {
     height: 45px;
     width: 45px;
     object-fit: cover;
     border-radius: 12px;
 }
-.nav .profile_content .profile .profile_details .name_job {
+.navigation .profile_content .profile .profile_details .name_job {
     margin-left: 10px;
 }
-.nav .profile_content .profile .profile_details .name {
+.navigation .profile_content .profile .profile_details .name {
     font-size: 15px;
     font-weight: 400;
 }
-.nav .profile_content .profile .profile_details .job {
+.navigation .profile_content .profile .profile_details .job {
     font-size: 12px;
 }
-.nav .profile_content .profile #log_out {
+.navigation .profile_content .profile #log_out {
     bottom: 20px;
     position: absolute;
     left: 50%;
@@ -287,7 +287,7 @@ i {
     cursor: pointer;
     text-align: center;
 }
-.nav.active .profile #log_out {
+.navigation.active .profile #log_out {
     left: 88%;
 }
 .content {
@@ -295,22 +295,22 @@ i {
     left: 58px;
     width: calc(100% - 58px);
 }
-.nav.active ~ .content {
+.navigation.active ~ .content {
     left: 240px;
     width: calc(100% - 240px);
 }
-.navlinks {
+.navigationlinks {
     text-decoration: none;
     color: white;
     transition: 250ms;
     width: fit-content;
     margin: 0 5px 0 5px;
 }
-.navlinks:hover {
+.navigationlinks:hover {
     border-bottom: 1px solid white;
     color: white;
 }
-.navlinks:active {
+.navigationlinks:active {
     color: red;
 }
 
