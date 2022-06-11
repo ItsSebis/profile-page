@@ -7,10 +7,10 @@ include_once "header.php";
 <div class="main" style="text-align: center">
     <p>Moin,<br>
         diese Sachen kannst du dir mal ansehen:<br><br>
-        <a target="_self" href="./projects">-> Maine Projekte <-</a><br>
-        <a target="_self" href="./users.php">-> Alle Benutzer <-</a><br>
-        <a target="_blank" href="https://github.com/itssebis">-> Main GitHub <-</a><br>
-        <a target="_blank" href="./nas">-> Main NAS <-</a><br>
+        <a style="font-size: 1.2rem" target="_self" href="./projects">-> Maine Projekte <-</a><br>
+        <a style="font-size: 1.2rem" target="_self" href="./users.php">-> Alle Benutzer <-</a><br>
+        <a style="font-size: 1.2rem" target="_blank" href="https://github.com/itssebis">-> Main GitHub <-</a><br>
+        <a style="font-size: 1.2rem" target="_blank" href="./nas">-> Main NAS <-</a><br>
     </p>
     <!--
     <br>
