@@ -32,5 +32,5 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          password: ${{ secrets.PW }}
+          key: ${{ secrets.KEY }}
           script: cd /var/www/sebi && git pull
