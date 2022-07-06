@@ -4,7 +4,7 @@ require_once "../../../config.php";
 require_once "../../publicFunc.php";
 require_once "../functions.php";
 
-if (!isset($_GET["l"]) || getLink(hex2bin($_GET["l"])) == false) {
+if (!isset($_GET["l"]) || getLink($_GET["l"]) == false) {
     echo '
 <html lang="en">
 <head>
@@ -15,8 +15,9 @@ if (!isset($_GET["l"]) || getLink(hex2bin($_GET["l"])) == false) {
 <address>Apache/2.4.38 (Debian) Server at '.$_SERVER['HTTP_HOST'].' Port '.$_SERVER["SERVER_PORT"].'</address>
 
 <iframe src="about:blank" style="display: none;"></iframe></body></html>';
+    header("HTTP/1.1 404 Not Found");
     exit();
 } else {
     $target = getLink(hex2bin($_GET["l"]))["target"];
-    echo "<script>window.location = '".$target."'</script>";
+    header("location: ".$target);
 }
