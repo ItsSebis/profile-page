@@ -26,7 +26,6 @@ if (!isset($_GET["l"]) || getLinkByLid($_GET["l"]) == false) {
 
 <iframe src="about:blank" style="display: none;"></iframe></body></html>';
     header("HTTP/1.1 404 Not Found");
-    exit();
 } else {
     $target = getLinkByLid($_GET["l"])["target"];
     addView($_GET["l"]);
@@ -34,5 +33,5 @@ if (!isset($_GET["l"]) || getLinkByLid($_GET["l"]) == false) {
     sleep(3);
     echo "<script>window.location.replace('".$target."');</script>";
     header("location: ".$target);
-    exit();
 }
+exit();
