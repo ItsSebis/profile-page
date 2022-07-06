@@ -12,9 +12,13 @@ if (isset($_POST["create"]) && isset($_POST["target"])) {
     $owner = null;
     if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
         $owner = $_SESSION["id"];
+        #echo "Set \$owner";
     }
+    #echo $_SESSION["id"]."<br>";
+    #echo $owner."<br>";
+    #echo $uri."<br>";
     $short = createLink($uri, $owner);
     header("location: ./?error=0&uri=".$short);
 } else {
-    header("location: ./error=notFromSubmit");
+    header("location: ./?error=notFromSubmit");
 }

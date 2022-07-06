@@ -4,7 +4,7 @@ require_once "../../../config.php";
 require_once "../../publicFunc.php";
 require_once "../functions.php";
 
-if (!isset($_GET["l"]) || getLink($_GET["l"]) == false) {
+if (!isset($_GET["l"]) || getLinkByLid($_GET["l"]) == false) {
     echo '
 <html lang="en">
 <head>
@@ -18,6 +18,7 @@ if (!isset($_GET["l"]) || getLink($_GET["l"]) == false) {
     header("HTTP/1.1 404 Not Found");
     exit();
 } else {
-    $target = getLink($_GET["l"])["target"];
+    $target = getLinkByLid($_GET["l"])["target"];
+    addView($_GET["l"]);
     header("location: ".$target);
 }
