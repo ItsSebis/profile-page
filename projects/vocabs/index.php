@@ -9,9 +9,11 @@ if (!isset($_SESSION["id"])) {
 $user = accountData($_SESSION["id"]);
 $last = "";
 if (isset($_SESSION["vocabs"])) {
-    $last = $_SESSION["vocabs"]["last"];
+    $last = $_SESSION["vocabs"]["last"] ?? null;
+    $collection = $_SESSION["vocabs"]["col"] ?? 1;
 } else {
     $_SESSION["vocabs"] = array();
+    $collection = 1;
 }
 
 if (isset($_POST["finish"])) {
@@ -21,9 +23,9 @@ if (isset($_POST["finish"])) {
     $_SESSION["vocabs"]["last"] = $_POST["vocab"];
 }
 
-function vocabArray() {
+function vocabArray($collection) {
     $con = con();
-    $sql = "SELECT * FROM vocabs WHERE `old` = ? ORDER BY `done` ASC;";
+    $sql = "SELECT * FROM vocabs WHERE `old` = ? AND `col` = ? ORDER BY `done` ASC;";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../?error=1&part=vocabArray");
@@ -32,7 +34,7 @@ function vocabArray() {
 
     $null = 0;
 
-    mysqli_stmt_bind_param($stmt, "i", $null);
+    mysqli_stmt_bind_param($stmt, "ii", $null, $collection);
     mysqli_stmt_execute($stmt);
     $rs = mysqli_stmt_get_result($stmt);
 
@@ -85,13 +87,14 @@ function vocabFinish($vocab, $correct) {
     mysqli_stmt_close($stmt);
 }
 
-$currentVocab = rngArray(vocabArray());
-
-$correct = 0;
-$incorrect = 0;
-if ($currentVocab["done"] > 0) {
-    $correct = round($currentVocab["correct"]/$currentVocab["done"]*100, 2);
-    $incorrect = (100-round($currentVocab["correct"]/$currentVocab["done"]*100, 2));
+if ($collection !== null) {
+    $currentVocab = rngArray(vocabArray($collection));
+    $correct = 0;
+    $incorrect = 0;
+    if ($currentVocab["done"] > 0) {
+        $correct = round($currentVocab["correct"]/$currentVocab["done"]*100, 2);
+        $incorrect = (100-round($currentVocab["correct"]/$currentVocab["done"]*100, 2));
+    }
 }
 ?>
 <html lang="de">
@@ -120,17 +123,22 @@ if ($currentVocab["done"] > 0) {
 ?>
 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: max-content; max-height: 75%; max-width: 75%;
 overflow: hidden; overflow-y: initial; width: 60%; background-color: #262626; border: 9px solid #262626; border-radius: 20px">
-    <h1><?php echo $currentVocab["shown"]; ?></h1><br>
+    <?php
+    if (isset($currentVocab) && $collection !== null && isset($correct) && isset($incorrect)) {
+        echo '    
+    <h1>'.$currentVocab["shown"].'; ?></h1><br>
     <button id="sol-btn">Lösung</button>
 
     <div class="sol invisible">
-        <h3 style="margin-top: 20px"><?php echo $currentVocab["hidden"]; ?></h3><br>
+        <h3 style="margin-top: 20px">'.$currentVocab["hidden"].'</h3><br>
         <form action="./" method="post">
-            <input type="hidden" name="vocab" value="<?php echo $currentVocab['id'] ?>">
-            <button type="submit" name="finish" value="1">Richtig <span style="color: lime"><?php echo $correct; ?>%</span></button>
-            <button type="submit" name="finish" value="0">Falsch <span style="color: red"><?php echo $incorrect; ?>%</span></button>
+            <input type="hidden" name="vocab" value="'.$currentVocab["id"].'">
+            <button type="submit" name="finish" value="1">Richtig <span style="color: lime">'.$correct.'; ?>%</span></button>
+            <button type="submit" name="finish" value="0">Falsch <span style="color: red">'.$incorrect.'%</span></button>
         </form>
-    </div>
+    </div>';
+    }
+    ?>
 </div>
 </body>
 </html>
