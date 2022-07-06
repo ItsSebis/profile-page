@@ -31,6 +31,7 @@ if (!isset($_GET["l"]) || getLinkByLid($_GET["l"]) == false) {
     $target = getLinkByLid($_GET["l"])["target"];
     addView($_GET["l"]);
     print_r(getLinkByLid($_GET["l"]));
+    echo "<script>window.location.replace('".$target."');</script>";
     header("location: ".$target);
     exit();
 }
