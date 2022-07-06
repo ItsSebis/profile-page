@@ -108,7 +108,7 @@ function addView($lid) {
         exit();
     }
 
-    $views = getLinkByLid($lid);
+    $views = getLinkByLid($lid)["views"];
     $views++;
 
     mysqli_stmt_bind_param($stmt, "ss", $views, $lid);
