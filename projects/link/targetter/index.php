@@ -1,5 +1,16 @@
-<?php
+<html lang="en">
+<head>
+    <title>Sebis.net</title>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+    <link rel="icon" href="../../img/title-bar.png">
+    <link rel="stylesheet" href="../style.css">
+</head>
+</html>
 
+<?php
 require_once "../../../config.php";
 require_once "../../publicFunc.php";
 require_once "../functions.php";
