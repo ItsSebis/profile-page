@@ -8,7 +8,6 @@
     <link rel="icon" href="../../img/title-bar.png">
     <link rel="stylesheet" href="../style.css">
 </head>
-</html>
 
 <?php
 require_once "../../../config.php";
