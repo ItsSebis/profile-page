@@ -18,6 +18,6 @@ if (!isset($_GET["l"]) || getLink($_GET["l"]) == false) {
     header("HTTP/1.1 404 Not Found");
     exit();
 } else {
-    $target = getLink(hex2bin($_GET["l"]))["target"];
+    $target = getLink($_GET["l"])["target"];
     header("location: ".$target);
 }
