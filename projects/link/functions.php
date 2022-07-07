@@ -24,6 +24,8 @@ function linksArray($user) {
     return $array;
 }
 
+# Depracted
+/*
 function getLink($id) {
     $con = con();
     $sql = "SELECT * FROM links WHERE `id` = ?;";
@@ -45,6 +47,7 @@ function getLink($id) {
         return false;
     }
 }
+*/
 
 function getLinkByLid($lid) {
     $con = con();
@@ -84,16 +87,16 @@ function createLink($target, $owner) {
     return $lid;
 }
 
-function delLink($id) {
+function delLink($lid) {
     $con = con();
-    $qry = "DELETE FROM links WHERE id=?;";
+    $qry = "DELETE FROM links WHERE lid=?;";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $qry)) {
         header("location: ../?error=1");
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "s", $id);
+    mysqli_stmt_bind_param($stmt, "s", $lid);
     mysqli_stmt_execute($stmt);
 
     mysqli_stmt_close($stmt);

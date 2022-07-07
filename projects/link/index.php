@@ -51,7 +51,7 @@ flex-shrink: 100000"><a href="https://lnk.sebis.net?l='.$link["lid"].'" target="
 <p style="margin: auto auto; right: 10px; overflow-x: hidden; overflow-y: hidden; max-height: 28pt">Views: '.$link["views"].'</p>
 
 <form action="delete.php" method="post"><button style="border: none; width: unset; float: right; cursor: pointer; 
-right: 10px; align-self: flex-end; color: orangered" type="submit" name="delete" value="'.$link["id"].'">delete</button></form>
+right: 10px; align-self: flex-end; color: orangered" type="submit" name="delete" value="'.$link["lid"].'">delete</button></form>
 
 </div>
 ';

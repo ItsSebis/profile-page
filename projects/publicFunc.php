@@ -269,7 +269,7 @@ function login($id) {
     $data = accountData($id);
     $_SESSION["id"] = $data["id"];
     #setcookie("login", $data["token"], time()+60*60*24*30, "/");
-    header("location: ".$path."?error=0");
+    header("location: ".$path."?error=loggedin");
     exit();
 }
 
