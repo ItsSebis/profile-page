@@ -30,8 +30,22 @@ if (!isset($_GET["l"]) || getLinkByLid($_GET["l"]) == false) {
     $target = getLinkByLid($_GET["l"])["target"];
     addView($_GET["l"]);
     print_r(getLinkByLid($_GET["l"]));
-    sleep(3);
-    echo "<script>window.location.replace('".$target."');</script>";
+    echo "
+<script>
+function sleep(milliseconds) {
+  let start = new Date().getTime();
+  for (let i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+sleep(2000)
+window.location.replace('" .$target."');
+setTimeout(function() {
+}, 2000);
+</script>
+";
     header("location: ".$target);
 }
 exit();
