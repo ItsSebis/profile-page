@@ -3,7 +3,7 @@ session_start();
 
 function linksArray($user) {
     $con = con();
-    $sql = "SELECT * FROM links WHERE `owner` = ? ORDER BY `target` DESC;";
+    $sql = "SELECT * FROM links WHERE `owner` = ? ORDER BY `added` DESC, `target` ASC;";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../?error=1&part=linksArray");
