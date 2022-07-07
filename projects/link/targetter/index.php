@@ -29,8 +29,9 @@ if (!isset($_GET["l"]) || getLinkByLid($_GET["l"]) == false) {
 } else {
     $target = getLinkByLid($_GET["l"])["target"];
     addView($_GET["l"]);
-    print_r(getLinkByLid($_GET["l"]));
+    //print_r(getLinkByLid($_GET["l"]));
     echo "
+    Redirecting...
 <script>
 function sleep(milliseconds) {
   let start = new Date().getTime();
