@@ -2,98 +2,40 @@
 session_start();
 require_once "../../config.php";
 require_once "../publicFunc.php";
-if (!isset($_SESSION["id"])) {
-    header("location: ../../?error=notSignedIn");
-    exit();
-}
-$user = accountData($_SESSION["id"]);
+require_once "functions.php";
 $last = "";
 if (isset($_SESSION["vocabs"])) {
     $last = $_SESSION["vocabs"]["last"] ?? null;
-    $collection = $_SESSION["vocabs"]["col"] ?? 1;
+    $collection = $_SESSION["vocabs"]["col"] ?? 0;
 } else {
     $_SESSION["vocabs"] = array();
-    $collection = 1;
+    $collection = 0;
+}
+
+if (isset($_GET["col"])) {
+    if (colData($_GET["col"]) !== false && count(vocabArray($_GET["col"])) > 0) {
+        $collection = $_GET["col"];
+        $_SESSION["vocabs"]["col"] = $collection;
+    } elseif ($_GET["col"] == 0) {
+        unset($_SESSION["vocabs"]["col"]);
+        $collection = 0;
+    }
 }
 
 if (isset($_POST["finish"])) {
-    if ($last != $_POST["vocab"]) {
-        vocabFinish($_POST["vocab"], mirrorBoolInInts($_POST["finish"]));
+    if ($last != $_POST["vocab"] && isset($_SESSION["id"]) && accountData($_SESSION["id"])) {
+        vocabFinish($_POST["vocab"], mirrorBoolInInts($_POST["finish"]), $_SESSION["id"]);
     }
     $_SESSION["vocabs"]["last"] = $_POST["vocab"];
 }
 
-function vocabArray($collection) {
-    $con = con();
-    $sql = "SELECT * FROM vocabs WHERE `old` = ? AND `col` = ? ORDER BY `done` ASC;";
-    $stmt = mysqli_stmt_init($con);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../?error=1&part=vocabArray");
-        exit();
-    }
-
-    $null = 0;
-
-    mysqli_stmt_bind_param($stmt, "ii", $null, $collection);
-    mysqli_stmt_execute($stmt);
-    $rs = mysqli_stmt_get_result($stmt);
-
-    $array = array();
-    if ($rs->num_rows > 0) {
-        while ($row = $rs->fetch_assoc()) {
-            $array[] = $row;
-        }
-    }
-    mysqli_stmt_close($stmt);
-    return $array;
-}
-
-function vocabData($id) {
-    $con = con();
-    $sql = "SELECT * FROM vocabs WHERE id = ?;";
-    $stmt = mysqli_stmt_init($con);
-    if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../?error=1&part=vocabData");
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmt, "s", $id);
-    mysqli_stmt_execute($stmt);
-
-    $resultData = mysqli_stmt_get_result($stmt);
-
-    if ($row = mysqli_fetch_assoc($resultData)) {
-        return $row;
-    }
-    else {
-        return false;
-    }
-}
-
-function vocabFinish($vocab, $correct) {
-    $con = con();
-    $qry = "UPDATE vocabs SET done=?, correct=? WHERE id=?";
-    $stmt = mysqli_stmt_init($con);
-    if (!mysqli_stmt_prepare($stmt, $qry)) {
-        header("location: ./?error=1&part=setUserStat");
-        exit();
-    }
-
-    $correct = vocabData($vocab)["correct"]+mirrorBoolInInts($correct);
-    $done = vocabData($vocab)["done"]+1;
-
-    mysqli_stmt_bind_param($stmt, "sss", $done, $correct, $vocab);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
-}
-
-if ($collection !== null) {
+if ($collection !== 0) {
     $currentVocab = rngArray(vocabArray($collection));
     $correct = 0;
     $incorrect = 0;
-    if ($currentVocab["done"] > 0) {
-        $correct = round($currentVocab["correct"]/$currentVocab["done"]*100, 2);
-        $incorrect = (100-round($currentVocab["correct"]/$currentVocab["done"]*100, 2));
+    if (isset($_SESSION["id"]) && vusrData($currentVocab["id"], $_SESSION["id"]) !== false && vusrData($currentVocab["id"], $_SESSION["id"])["done"] > 0) {
+        $correct = round(vusrData($currentVocab["id"], $_SESSION["id"])["correct"] / vusrData($currentVocab["id"], $_SESSION["id"])["done"] * 100, 2);
+        $incorrect = (100 - round(vusrData($currentVocab["id"], $_SESSION["id"])["correct"] / vusrData($currentVocab["id"], $_SESSION["id"])["done"] * 100, 2));
     }
 }
 ?>
@@ -112,43 +54,77 @@ if ($collection !== null) {
     .sol {
         visibility: visible;
     }
+
     .sol.invisible {
         visibility: hidden;
+    }
+
+    .col {
+        display: flex;
+        cursor: pointer;
+        background-color: #333333;
+        padding: 10px;
+        margin: 5px;
+        align-items: center;
+        justify-content: center;
+        height: 140px;
+        width: 100px;
+        border: 4px solid #333;
+        border-radius: 20px;
     }
 </style>
 <body>
 <a style="position: absolute; top: 10px; left: 10px;" href="..">← Back</a>
-<?php
-#echo print_r(vocabArray());
-?>
 <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); height: max-content; max-height: 75%; max-width: 75%;
 overflow: hidden; overflow-y: initial; width: 60%; background-color: #262626; border: 9px solid #262626; border-radius: 20px">
     <?php
-    if (isset($currentVocab) && $collection !== null && isset($correct) && isset($incorrect)) {
-        echo '    
-    <h1>'.$currentVocab["shown"].'; ?></h1><br>
+    if ($collection != 0 && colData($collection) !== false) {
+        if (isset($currentVocab) && $collection !== null && isset($correct) && isset($incorrect)) {
+            echo '
+
+        <a style="position: absolute; top: 10px; left: 10px;" href="./?col=0">← Menu</a>
+    <h1>' . $currentVocab["shown"] . '</h1><br>
     <button id="sol-btn">Lösung</button>
 
     <div class="sol invisible">
-        <h3 style="margin-top: 20px">'.$currentVocab["hidden"].'</h3><br>
+        <h3 style="margin-top: 20px">' . $currentVocab["hidden"] . '</h3><br>
         <form action="./" method="post">
-            <input type="hidden" name="vocab" value="'.$currentVocab["id"].'">
-            <button type="submit" name="finish" value="1">Richtig <span style="color: lime">'.$correct.'; ?>%</span></button>
-            <button type="submit" name="finish" value="0">Falsch <span style="color: red">'.$incorrect.'%</span></button>
+            <input type="hidden" name="vocab" value="' . $currentVocab["id"] . '">
+            <button type="submit" name="finish" value="1">Richtig <span style="color: lime">' . $correct . '%</span></button>
+            <button type="submit" name="finish" value="0">Falsch <span style="color: red">' . $incorrect . '%</span></button>
         </form>
-    </div>';
+    </div>
+    <script>
+        let btn = document.querySelector("#sol-btn");
+        let sol = document.querySelector(".sol");
+
+        btn.onclick = function () {
+            sol.classList.toggle("invisible")
+            btn.setAttribute("disabled", "")
+        }
+    </script>
+';
+        }
+    } else {?>
+
+        <div style="display: flex; width: 100%; height: 100%; min-height: 400px; flex-wrap: wrap; align-items: center; justify-content: center">
+            <?php
+            foreach (colArray() as $col) {
+                if (count(vocabArray($col["id"])) > 0) {
+                    echo '
+                    <div class="col" onclick="window.location.href = \'./?col='.$col["id"].'\'">
+                        <h2>'.$col["name"].'</h2>
+                    </div>
+                    ';
+                }
+            }
+            ?>
+        </div>
+
+    <?php
     }
     ?>
 </div>
 </body>
 </html>
 
-<script>
-    let btn = document.querySelector("#sol-btn");
-    let sol = document.querySelector(".sol");
-
-    btn.onclick = function () {
-        sol.classList.toggle("invisible")
-        btn.setAttribute("disabled", "")
-    }
-</script>

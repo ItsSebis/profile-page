@@ -89,6 +89,9 @@ function rngByPerCent($percent) {
 }
 
 function rngArray($array) {
+    if (count($array) == 0) {
+        return null;
+    }
     try {
         return $array[random_int(0, count($array)-1)];
     } catch (Exception $e) {
