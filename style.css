@@ -212,12 +212,8 @@ ul li:hover ul {
     border-radius: 10px;
     background-color: #555;
     margin: 5px;
-    width: auto;
-    height: 400px;
-}
-.gallery-container img {
     width: 300px;
-    height: auto;
+    height: 400px;
 }
 .gallery-container a div {
     border-radius: 10px 10px 0 0;
@@ -225,7 +221,6 @@ ul li:hover ul {
     background-size: auto 100%;
     background-position: center;
     padding: 5px;
-    overflow-x: hidden;
     height: 80%;
 }
 
