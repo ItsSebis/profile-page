@@ -10,6 +10,8 @@ body {
 }
 h1 {
     text-align: center;
+    font-size: 3rem;
+    margin-top: 60px;
 }
 a {
     text-decoration: none;
@@ -87,6 +89,49 @@ textarea {
     max-width: 60%;
     min-width: 60%;
 }
+ul {
+    list-style: none;
+    justify-items: center;
+    padding: 0;
+    margin: 0;
+}
+ul li {
+    display: inline;
+}
+ul li a {
+    font-size: 20px;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+}
+ul li ul {
+    float: none;
+    background: #424242;
+    position: fixed;
+    right: 0;
+    left: 0;
+    align-self: start;
+    text-align: center;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+    display: none;
+}
+ul li ul li {
+    float: none;
+    display: block;
+    margin-top: 10px;
+}
+ul li ul li a {
+    float: none;
+    width: 150px;
+    display: inline-block;
+    font-size: 20px;
+    padding: 5px;
+    font-weight: bold;
+}
+ul li:hover ul {
+    display: block;
+}
 
 /* Custom Classes */
 .nav {
@@ -115,6 +160,7 @@ textarea {
 .navlinks:active {
     color: red;
 }
+
 .main {
     width: 60%;
     background-color: #262626;
@@ -140,6 +186,42 @@ textarea {
     background-color: #485a52;
     border: 20px solid transparent;
     border-radius: 24px;
+}
+.gallery-links {
+    float: none;
+    margin-top: 100px;
+}
+.gallery-container {
+    margin: 20px auto 0;
+    padding: 0;
+    border-radius: 10px;
+    width: max-content;
+    max-width: 65%;
+    background: none;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+    align-content: space-evenly;
+}
+.gallery-container a {
+    border-radius: 10px;
+    background-color: #555;
+    margin: 5px;
+    width: 256px;
+    height: auto;
+}
+.gallery-container img {
+    width: 256px;
+    height: auto;
+}
+.gallery-upload {
+    background-color: #424242;
+    margin: 0;
+}
+.gallery-upload input {
+    background-color: #363636;
 }
 
 /* width */

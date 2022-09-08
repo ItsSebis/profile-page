@@ -824,5 +824,5 @@ function getPerms() {
     return array("admin" => "Zugriff auf Management", "respw" => "Passwörter zurücksetzten", "delusrs" => "Benutzer löschen",
         "grantroles" => "Benutzer Rollen hinzufügen", "editroles" => "Rollen bearbeiten", "debugs" => "Debugs anzeigen",
         "wertests" => "Werwolf Testspiele", "chairs" => "Beichträume erstellen", "managechairs" => "Beichträume verwalten",
-        "seesays" => "Immer alle Beichten sehen");
+        "seesays" => "Immer alle Beichten sehen", "photoAdmin" => "Verwaltet die Startgallerie");
 }
