@@ -25,7 +25,7 @@ include_once "header.php";
 
                 while ($row = mysqli_fetch_assoc($rs)) {
                     echo '
-                    <a href="#">
+                    <a href="img/gallery/'.$row["imgName"].'">
                         <div style=\'background-image: url("img/gallery/'.$row["imgName"].'")\'></div>
                         <h3>'.$row["title"].'</h3>
                         <p>'.$row["desc"].'</p>
