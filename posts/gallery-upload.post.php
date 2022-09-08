@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-require_once "config.php";
-require_once "projects/publicFunc.php";
+require_once "../config.php";
+require_once "../projects/publicFunc.php";
 
 if (isset($_POST["submit"])) {
     $newFileName = $_POST["filename"];
@@ -37,23 +37,24 @@ if (isset($_POST["submit"])) {
         exit();
     }
 
-    if ($fileSize > 200000) {
+    if ($fileSize > 20000000) {
         echo "Your file is too long!";
         exit();
     }
 
     $imageFullName = $newFileName . "-" . uniqid("p", true) . "." . $fileActualExt;
-    $fileDest = "img/gallery/".$imageFullName;
+    $fileDest = "../img/gallery/".$imageFullName;
 
     if (empty($imageTitle) || empty($imageDesc)) {
         echo "You forgot to fill in some fields! Please go back :D";
         exit();
     }
 
+    $con = con();
     $qry = "SELECT * FROM gallery;";
-    $st = mysqli_stmt_init(con());
+    $st = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($st, $qry)) {
-        echo "Sql failed!";
+        echo "Sql failed 1!";
         exit();
     }
     mysqli_stmt_execute($st);
@@ -63,7 +64,7 @@ if (isset($_POST["submit"])) {
 
     $qry = "INSERT INTO gallery (title, `desc`, imgName, `order`) VALUES (?, ?, ?, ?);";
     if (!mysqli_stmt_prepare($st, $qry)) {
-        echo "Sql failed!";
+        echo "Sql failed 2!";
         exit();
     }
     mysqli_stmt_bind_param($st, "ssss", $imageTitle, $imageDesc, $imageFullName, $setImageOrder);

@@ -11,14 +11,17 @@ include_once "header.php";
                 
                 <?php
 
-                $qry = "SELECT * FROM gallery ORDER BY `order` DESC;";
-                $st = mysqli_stmt_init(con());
+                $con = con();
+                $qry = "SELECT * FROM `gallery` ORDER BY `order` DESC;";
+                $st = mysqli_stmt_init($con);
                 if (!mysqli_stmt_prepare($st, $qry)) {
                     echo "Sql failed!";
                     exit();
                 }
-                mysqli_stmt_execute($st);
+                $st->execute();
                 $rs = mysqli_stmt_get_result($st);
+
+                #<img src="img/gallery/'.$row["imgName"].'" alt="'.$row["imgName"].'">
 
                 while ($row = mysqli_fetch_assoc($rs)) {
                     echo '

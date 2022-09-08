@@ -206,16 +206,29 @@ ul li:hover ul {
     align-content: space-evenly;
 }
 .gallery-container a {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     border-radius: 10px;
     background-color: #555;
     margin: 5px;
-    width: 256px;
-    height: auto;
+    width: auto;
+    height: 400px;
 }
 .gallery-container img {
-    width: 256px;
+    width: 300px;
     height: auto;
 }
+.gallery-container a div {
+    border-radius: 10px 10px 0 0;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: center;
+    padding: 5px;
+    overflow-x: hidden;
+    height: 80%;
+}
+
 .gallery-upload {
     background-color: #424242;
     margin: 0;
