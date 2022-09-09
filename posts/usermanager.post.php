@@ -5,9 +5,6 @@ session_start();
 
 if (isset($_POST["register"])) {
 
-    header("location: ../");
-    exit();
-
     $urlExtensions = "";
     if (count($_GET) > 0) {
         foreach ($_GET as $key => $value) {
