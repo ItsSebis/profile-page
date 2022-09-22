@@ -120,7 +120,7 @@ if (!isset($_GET["register"])) {
         <input type='text' name='usr' placeholder='User/Email...'><br>
         <input type='password' name='pw' placeholder='Passwort...'><br>
         <button type='submit' name='login' onclick="scan()">Login</button><br>
-        <p style="font-size: medium; color: #fa3">Noch kein Benutzer? <br><a href="login.php?register&--><?php //echo($urlExtensions); ?><!--">Hier registrieren!</a></p>
+        <p style="font-size: medium; color: #fa3">Noch kein Benutzer? <br><a href="login.php?register&<?php //echo($urlExtensions); ?>">Hier registrieren!</a></p>
     </form>
     <?php
     if (isset($_GET['error'])) {
