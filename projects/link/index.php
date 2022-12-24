@@ -46,7 +46,7 @@ if (isset($_SESSION["id"]) && accountData($_SESSION["id"]) !== false) {
 flex-shrink: 100000"><a href="'.$link["target"].'" target="_blank">'.$link["target"].'</a></p>
 
 <p style="margin: auto auto; max-width: 50%; left: 10px; overflow-x: hidden; overflow-y: hidden; max-height: 28pt; 
-flex-shrink: 100000"><a href="https://lnk.sebis.net?l='.$link["lid"].'" target="_blank">'.$link["lid"].'</a></p>
+flex-shrink: 100000"><a href="https://sebis.net/lnk/?l='.$link["lid"].'" target="_blank">'.$link["lid"].'</a></p>
 
 <p style="margin: auto auto; right: 10px; overflow-x: hidden; overflow-y: hidden; max-height: 28pt">Views: '.$link["views"].'</p>
 

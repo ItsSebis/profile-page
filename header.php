@@ -46,7 +46,7 @@
             <a target="_self" href="#" class="navlinks other" id="login"><i style="color: #199061" class='bx bx-chevrons-right bx-chevrons-down'></i></a>
             <ul class="navi-hidden">
                 <li><a target="_self" href="projects" class="navlinks" style="color: #00a7ff">Projects</a></li>
-                <li><a target="_blank" href="https://sebis.net/nas" class="navlinks" style="color: #41d0ff">NAS</a></li>
+<!--                <li><a target="_blank" href="https://sebis.net/nas" class="navlinks" style="color: #41d0ff">NAS</a></li>-->
                 <li><a target="_blank" href="https://github.com/ItsSebis" class="navlinks" style="color: #4f64b1">GitHub</a></li>
                 <li><a target="_blank" href="https://pwd.sebis.net/" class="navlinks" style="color: #444ad3">Bitwarden</a></li>
             </ul>
