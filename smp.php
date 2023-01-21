@@ -16,6 +16,8 @@ if (!isset($_GET["api"])) {
     require_once "header.php";
 } else {
     echo $json_stats;
+    echo "<br><br>";
+    print_r($stats);
     exit();
 }
 
