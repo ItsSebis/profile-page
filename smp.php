@@ -33,10 +33,10 @@ $all_statistics = json_decode($all_json_statistics, true);
         echo "<tr>";
         echo "<td>".$player['IGN']."</td>";
         $totalSecs = $player["minecraft:play_one_minute"]["value"] / 20;
-        $days = $totalSecs / 86400;
-        $hours = ($totalSecs % 86400) / 3600;
-        $minutes = (($totalSecs % 86400) % 3600) / 60;
-        $seconds = $totalSecs % 60;
+        $days = floor($totalSecs / 86400);
+        $hours = floor(($totalSecs % 86400) / 3600);
+        $minutes = floor((($totalSecs % 86400) % 3600) / 60);
+        $seconds = floor($totalSecs % 60);
         $timeStr = "";
         if ($days > 0) {
             $timeStr .= $days."d ";
