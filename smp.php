@@ -3,8 +3,10 @@
 $all_players_json_stats_files = scandir("/opt/mc/java/server/stats/");
 $stats = array();
 foreach ($all_players_json_stats_files as $players_json_stats_file) {
-    if ($players_json_stats_file == "*.json") {
+    if (pathinfo($players_json_stats_file, PATHINFO_EXTENSION) == "json") {
         $stats[pathinfo($players_json_stats_file, PATHINFO_FILENAME)] = file_get_contents("/opt/mc/java/server/".$players_json_stats_file);
+    } else {
+        echo pathinfo($players_json_stats_file, PATHINFO_EXTENSION);
     }
 }
 
@@ -12,6 +14,7 @@ if (!isset($_GET["api"])) {
     require_once "header.php";
 } else {
     echo json_encode($stats);
+    print_r($stats);
     exit();
 }
 
