@@ -1,13 +1,17 @@
 <?php
 
-$json_stats = file_get_contents("/opt/mc/java/server/stats_TrackMe.json");
-
-$stats = json_decode($json_stats, true);
+$all_players_json_stats_files = scandir("/opt/mc/java/server/stats/");
+$stats = array();
+foreach ($all_players_json_stats_files as $players_json_stats_file) {
+    if ($players_json_stats_file == "*.json") {
+        $json_stats[pathinfo($players_json_stats_file, PATHINFO_FILENAME)] = file_get_contents("/opt/mc/java/server/".$players_json_stats_file);
+    }
+}
 
 if (!isset($_GET["api"])) {
     require_once "header.php";
 } else {
-    echo $json_stats;
+    echo json_encode($stats);
     exit();
 }
 
@@ -21,6 +25,7 @@ $all_statistics = json_decode($all_json_statistics, true);
     <thead>
     <tr>
         <th>Player</th>
+        <th>Playtime</th>
         <?php
         foreach ($display as $key => $value) {
             echo "<th>".$key."</th>";
@@ -32,6 +37,7 @@ $all_statistics = json_decode($all_json_statistics, true);
     foreach ($stats as $player) {
         echo "<tr>";
         echo "<td>".$player['IGN']."</td>";
+
         $totalSecs = $player["minecraft:play_one_minute"]["value"] / 20;
         $days = floor($totalSecs / 86400);
         $hours = floor(($totalSecs % 86400) / 3600);
@@ -51,6 +57,7 @@ $all_statistics = json_decode($all_json_statistics, true);
             $timeStr .= $seconds."s";
         }
         echo "<td>".$timeStr."</td>";
+
         foreach ($player as $stat) {
             if (in_array($stat["name"], $display)) {
                 // display stat
