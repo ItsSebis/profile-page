@@ -13,7 +13,8 @@ foreach ($all_players_json_stats_files as $players_json_stats_file) {
 if (!isset($_GET["api"])) {
     require_once "header.php";
 } else {
-    echo json_encode($stats);
+    //echo json_encode($stats);
+    print_r($stats);
     exit();
 }
 
