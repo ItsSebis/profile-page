@@ -39,9 +39,7 @@ $all_statistics = json_decode($all_json_statistics, true);
     </thead>
     <?php
     foreach ($all_players_json_stats_files as $players_file) {
-        $player = json_decode(file_get_contents($players_file));
-        print_r($player);
-        exit();
+        $player = json_decode(file_get_contents("/opt/mc/java/server/stats/".$players_file));
         echo "<tr>";
         echo "<td>".$player['IGN']."</td>";
 
