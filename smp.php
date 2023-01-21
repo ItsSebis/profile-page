@@ -19,6 +19,11 @@ $display = array("Playtime" => "PLAY_ONE_MINUTE");
     <thead>
     <tr>
         <th>Player</th>
+        <?php
+        foreach ($display as $key => $value) {
+            echo "<th>".$key."</th>";
+        }
+        ?>
     </tr>
     </thead>
     <?php
