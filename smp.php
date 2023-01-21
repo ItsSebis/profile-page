@@ -10,7 +10,7 @@ foreach ($all_players_json_stats_files as $players_json_stats_file) {
     }
 }
 $json_stats .= "}";
-$stats = json_decode($json_stats);
+$stats = json_decode($json_stats, true);
 
 if (!isset($_GET["api"])) {
     require_once "header.php";
