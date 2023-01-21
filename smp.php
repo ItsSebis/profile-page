@@ -13,7 +13,7 @@ if (!isset($_GET["api"])) {
 
 ?>
 
-<table>
+<table class="table">
     <thead>
     <tr>
         <th>Player</th>
