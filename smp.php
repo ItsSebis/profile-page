@@ -2,10 +2,10 @@
 
 $all_players_json_stats_files = array_diff(scandir("/opt/mc/java/server/stats/"), array(".", ".."));
 $json_stats = "{";
-foreach ($all_players_json_stats_files as $key => $players_json_stats_file) {
+foreach ($all_players_json_stats_files as $players_json_stats_file) {
     $json_stats .= "\"".pathinfo($players_json_stats_file, PATHINFO_FILENAME)."\":";
     $json_stats .= file_get_contents("/opt/mc/java/server/stats/".$players_json_stats_file);
-    if ($key !== count($all_players_json_stats_files)-1) {
+    if ($players_json_stats_file !== end($all_players_json_stats_files)) {
         $json_stats .= ",";
     }
 }
