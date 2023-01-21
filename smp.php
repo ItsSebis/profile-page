@@ -1,15 +1,15 @@
 <?php
 
 $all_players_json_stats_files = array_diff(scandir("/opt/mc/java/server/stats/"), array(".", ".."));
-$stats = array();
-foreach ($all_players_json_stats_files as $players_json_stats_file) {
-    if (pathinfo($players_json_stats_file, PATHINFO_EXTENSION) == "json") {
-        $stats[pathinfo($players_json_stats_file, PATHINFO_FILENAME)] = json_decode(file_get_contents("/opt/mc/java/server/stats/".$players_json_stats_file));
-    } else {
-        echo pathinfo($players_json_stats_file, PATHINFO_EXTENSION);
+$json_stats = "{";
+foreach ($all_players_json_stats_files as $key => $players_json_stats_file) {
+    $json_stats .= "\"".pathinfo($players_json_stats_file, PATHINFO_FILENAME)."\":";
+    $json_stats .= file_get_contents("/opt/mc/java/server/stats/".$players_json_stats_file);
+    if ($key !== count($all_players_json_stats_files)-1) {
+        $json_stats .= ",";
     }
 }
-$json_stats = json_encode($stats);
+$json_stats .= "}";
 $stats = json_decode($json_stats);
 
 if (!isset($_GET["api"])) {
@@ -38,8 +38,7 @@ $all_statistics = json_decode($all_json_statistics, true);
     </tr>
     </thead>
     <?php
-    foreach ($all_players_json_stats_files as $players_file) {
-        $player = json_decode(file_get_contents("/opt/mc/java/server/stats/".$players_file));
+    foreach ($stats as $player) {
         echo "<script>console.log('".print_r($player, true)."')</script>";
         echo "<tr>";
         echo "<td>".$player['IGN']."</td>";
