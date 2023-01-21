@@ -37,6 +37,20 @@ $all_statistics = json_decode($all_json_statistics, true);
         $hours = ($totalSecs % 86400) / 3600;
         $minutes = (($totalSecs % 86400) % 3600) / 60;
         $seconds = $totalSecs % 60;
+        $timeStr = "";
+        if ($days > 0) {
+            $timeStr .= $days."d ";
+        }
+        if ($hours > 0) {
+            $timeStr .= $hours."h ";
+        }
+        if ($minutes > 0) {
+            $timeStr .= $minutes."m ";
+        }
+        if ($seconds > 0) {
+            $timeStr .= $seconds."s";
+        }
+        echo "<td>".$timeStr."</td>";
         foreach ($player as $stat) {
             if (in_array($stat["name"], $display)) {
                 // display stat
