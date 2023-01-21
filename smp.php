@@ -11,6 +11,8 @@ if (!isset($_GET["api"])) {
     exit();
 }
 
+$display = array("Playtime" => "PLAY_ONE_MINUTE");
+
 ?>
 <h1 style="margin-top: 70px">SMP Stats</h1>
 <table class="table">
@@ -24,7 +26,7 @@ if (!isset($_GET["api"])) {
         echo "<tr>";
         echo "<td>".$player['IGN']."</td>";
         foreach ($player as $stat) {
-            if (is_array($stat)) {
+            if (in_array($stat["name"], $display)) {
                 // display stat
                 echo "<td>".$stat['value']."</td>";
             }
