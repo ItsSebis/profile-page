@@ -12,7 +12,7 @@ if (!isset($_GET["api"])) {
 }
 
 ?>
-<h1 style="margin-top: 50px">SMP Stats</h1>
+<h1 style="margin-top: 70px">SMP Stats</h1>
 <table class="table">
     <thead>
     <tr>
@@ -26,6 +26,7 @@ if (!isset($_GET["api"])) {
         foreach ($player as $stat) {
             if (is_array($stat)) {
                 // display stat
+                echo "<td>".$stat['value']."</td>";
             }
         }
         echo "</tr>";
