@@ -559,7 +559,7 @@ function userList() {
     $sql = "SELECT * FROM users ORDER BY `username` ASC, `role` ASC;";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: index.php?error=1");
+        header("location: smp.php?error=1");
         exit();
     }
 

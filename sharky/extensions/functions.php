@@ -30,7 +30,7 @@ function extractedCounter($sql)
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../index.php?error=1");
+        header("location: ../smp.php?error=1");
         exit();
     }
 
@@ -98,7 +98,7 @@ function toggleGuildPremium($id) {
     $qry = "UPDATE guilds SET premium=? WHERE id=?";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $qry)) {
-        header("location: ../index.php?error=1");
+        header("location: ../smp.php?error=1");
         exit();
     }
 
@@ -119,7 +119,7 @@ function guilds() {
     $qry = "SELECT * FROM guilds ORDER BY `premium` DESC, `name` ASC;";
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $qry)) {
-        header("location: ../index.php?error=1");
+        header("location: ../smp.php?error=1");
         exit();
     }
     mysqli_stmt_execute($stmt);
@@ -149,7 +149,7 @@ function usersGuildData($usrId, $guildId) {
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../index.php?error=1&part=usrData");
+        header("location: ../smp.php?error=1&part=usrData");
         exit();
     }
 
@@ -171,7 +171,7 @@ function usersArray($guild) {
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../index.php?error=1");
+        header("location: ../smp.php?error=1");
         exit();
     }
 
@@ -193,7 +193,7 @@ function allUsersArray() {
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../index.php?error=1");
+        header("location: ../smp.php?error=1");
         exit();
     }
 
@@ -214,7 +214,7 @@ function allWordsArray() {
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../index.php?error=1");
+        header("location: ../smp.php?error=1");
         exit();
     }
 
@@ -235,7 +235,7 @@ function counterArray() {
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../index.php?error=1");
+        header("location: ../smp.php?error=1");
         exit();
     }
 
@@ -314,7 +314,7 @@ function guildDivs() {
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../lbs/index.php?error=1&part=makeQuery");
+        header("location: ../lbs/smp.php?error=1&part=makeQuery");
         exit();
     }
 
@@ -334,7 +334,7 @@ function echoGuild($id) {
     $con = con();
     $stmt = mysqli_stmt_init($con);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../lbs/index.php?error=1&part=echoGuild");
+        header("location: ../lbs/smp.php?error=1&part=echoGuild");
         exit();
     }
 
