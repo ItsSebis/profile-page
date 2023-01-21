@@ -1,6 +1,6 @@
 <?php
 
-$all_players_json_stats_files = scandir("/opt/mc/java/server/stats/");
+$all_players_json_stats_files = array_diff(scandir("/opt/mc/java/server/stats/"), array(".", ".."));
 $stats = array();
 foreach ($all_players_json_stats_files as $players_json_stats_file) {
     if (pathinfo($players_json_stats_file, PATHINFO_EXTENSION) == "json") {
