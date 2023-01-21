@@ -12,7 +12,7 @@ if (!isset($_GET["api"])) {
 }
 
 ?>
-
+<h1 style="margin-top: 50px">SMP Stats</h1>
 <table class="table">
     <thead>
     <tr>
