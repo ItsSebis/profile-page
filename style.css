@@ -1,3 +1,8 @@
+:root {
+    --table-odd: #3c3c3c;
+    --table-even: #4a4a4a;
+}
+
 /* Pre defined */
 * {
     color: white;
@@ -133,7 +138,48 @@ ul li:hover ul {
     display: block;
 }
 
+table {
+     align-items: center;
+     float: none;
+     margin: 0 auto;
+     font-size: larger;
+     border-collapse: collapse;
+     background-color: var(--table-even);
+     border-radius: 12px;
+ }
+
+th {
+    padding: 10px;
+}
+
+td {
+    padding: 10px 3px;
+}
+
+tbody tr:nth-child(even) td {
+    border-left: 1px solid var(--table-odd);
+    border-right: 1px solid var(--table-odd);
+}
+tbody tr:nth-child(odd) td {
+    border-left: 1px solid var(--table-even);
+    border-right: 1px solid var(--table-even);
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--table-even);
+}
+table tbody tr:nth-child(odd) {
+    background-color: var(--table-odd);
+}
+
 /* Custom Classes */
+
+.table td,.table th{
+    padding:12px 15px;
+    text-align: center;
+    font-size:16px;
+}
+
 .nav {
     float: top;
     position: fixed;
@@ -256,4 +302,31 @@ ul li:hover ul {
 ::-webkit-scrollbar-thumb:hover {
     border-color: #555;
     background: #555;
+}
+
+@media(max-width: 850px) {
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+    .table tr {
+        margin-bottom:15px;
+    }
+    .table td {
+        position: relative;
+    }
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left:0;
+        width: 50%;
+        padding-left:15px;
+        font-size:15px;
+        font-weight: bold;
+        text-align: left;
+    }
 }
