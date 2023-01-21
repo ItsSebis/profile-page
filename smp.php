@@ -15,6 +15,8 @@ $stats = json_decode($json_stats);
 if (!isset($_GET["api"])) {
     require_once "header.php";
 } else {
+    print_r($all_players_json_stats_files);
+    echo "<br><br>";
     echo $json_stats;
     echo "<br><br>";
     print_r($stats);
