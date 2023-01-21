@@ -9,12 +9,13 @@ foreach ($all_players_json_stats_files as $players_json_stats_file) {
         echo pathinfo($players_json_stats_file, PATHINFO_EXTENSION);
     }
 }
+$json_stats = json_encode($stats);
+$stats = json_decode($json_stats);
 
 if (!isset($_GET["api"])) {
     require_once "header.php";
 } else {
-    //echo json_encode($stats);
-    print_r($stats);
+    echo $json_stats;
     exit();
 }
 
