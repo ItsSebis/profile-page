@@ -4,7 +4,7 @@ $all_players_json_stats_files = scandir("/opt/mc/java/server/stats/");
 $stats = array();
 foreach ($all_players_json_stats_files as $players_json_stats_file) {
     if ($players_json_stats_file == "*.json") {
-        $json_stats[pathinfo($players_json_stats_file, PATHINFO_FILENAME)] = file_get_contents("/opt/mc/java/server/".$players_json_stats_file);
+        $stats[pathinfo($players_json_stats_file, PATHINFO_FILENAME)] = file_get_contents("/opt/mc/java/server/".$players_json_stats_file);
     }
 }
 
