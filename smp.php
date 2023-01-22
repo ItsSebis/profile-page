@@ -11,15 +11,18 @@ foreach ($all_players_json_stats_files as $players_json_stats_file) {
 }
 $json_stats .= "}";
 $stats = json_decode($json_stats, true);
+$display = array("Playtime" => array("PLAY_ONE_MINUTE", "/20/60/60", "h"));
 
 if (!isset($_GET["api"])) {
     require_once "header.php";
+} elseif (isset($_GET["display"])) {
+    echo json_encode($display);
+    exit();
 } else {
     echo $json_stats;
     exit();
 }
 
-$display = array("Playtime" => "PLAY_ONE_MINUTE");
 $all_json_statistics = file_get_contents("/opt/mc/java/server/statistics.list");
 $all_statistics = json_decode($all_json_statistics, true);
 
@@ -38,7 +41,7 @@ $all_statistics = json_decode($all_json_statistics, true);
     </tr>
     </thead>
     <?php
-    foreach ($stats as $player) {
+    foreach ($stats as $uuid => $player) {
         echo "<tr>";
         echo "<td>".$player['IGN']."</td>";
 
@@ -60,12 +63,12 @@ $all_statistics = json_decode($all_json_statistics, true);
         if ($seconds > 0) {
             $timeStr .= $seconds."s";
         }
-        echo "<td id='time-td'>".$timeStr."</td>";
+        echo "<td id='time-td' uuid='".$uuid."'>".$timeStr."</td>";
 
         foreach ($player as $stat) {
             if (in_array($stat["name"], $display)) {
                 // display stat
-                echo "<td>".$stat['value']."</td>";
+                //echo "<td>".$stat['value']."</td>";
             }
         }
         echo "</tr>";
@@ -80,8 +83,11 @@ $all_statistics = json_decode($all_json_statistics, true);
             // your code here
 
             i++;
-            let playtime = document.getElementById("time-td");
-            playtime.innerText = "Test "+i
+            let players_playtimes = document.getElementsByClassName("time-tds");
+            for (let playtime of players_playtimes) {
+                playtime.innerText = "Test "+i
+                console.log("Updated playtime for player with UUID: "+playtime.getAttribute("uuid"))
+            }
 
             myLoop();             // again which will trigger another
         }, 1000)
