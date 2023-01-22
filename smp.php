@@ -63,7 +63,7 @@ $all_statistics = json_decode($all_json_statistics, true);
         if ($seconds > 0) {
             $timeStr .= $seconds."s";
         }
-        echo "<td id='time-td' uuid='".$uuid."'>".$timeStr."</td>";
+        echo "<td class='time-td' uuid='".$uuid."'>".$timeStr."</td>";
 
         foreach ($player as $stat) {
             if (in_array($stat["name"], $display)) {
