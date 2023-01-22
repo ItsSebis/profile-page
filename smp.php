@@ -66,7 +66,7 @@ foreach ($all_players_json_stats_files as $players_json_stats_file) {
 }
 $json_stats .= "}";
 $stats = json_decode($json_stats, true);
-$display = array("Playtime" => array("key" => "minecraft:play_one_minute", "name" => "PLAY_ONE_MINUTE", "factor" => "/20/60/60", "symbol" => "h"), "Distance Walked" => array("key" => "minecraft:leave_game", "name" => "LEAVE_GAME", "factor" => "", "symbol" => ""));
+$display = array("Games quit" => array("key" => "minecraft:leave_game", "name" => "LEAVE_GAME", "factor" => "", "symbol" => ""));
 
 if (isset($_GET["api"])) {
     echo $json_stats;
@@ -140,8 +140,6 @@ $all_statistics = json_decode($all_json_statistics, true);
         return xmlHttp.responseText;
     }
 
-    let i = 0
-
     function myLoop() {         // create a loop function
         setTimeout(function() {   // call a 3s setTimeout when the loop is called
             // your code here
@@ -149,7 +147,6 @@ $all_statistics = json_decode($all_json_statistics, true);
             // update playtime
             let json_data = httpGet("https://sebis.net/smp.php?api");
             let data = JSON.parse(json_data);
-            i++;
             let players_playtimes = document.getElementsByClassName("time-td");
             for (let playtime of players_playtimes) {
                 let uuid = playtime.getAttribute("uuid");
@@ -160,7 +157,12 @@ $all_statistics = json_decode($all_json_statistics, true);
             let json_display = httpGet("https://sebis.net/smp.php?display");
             let display = JSON.parse(json_display);
             for (let stat of Object.keys(display)) {
-
+                let tds = document.getElementsByClassName(stat["key"]);
+                for (let td of tds) {
+                    let uuid = td.getAttribute("uuid");
+                    let value = parseFloat(data[uuid][stat["key"]]["value"]+stat["factor"]);
+                    td.innerText = value+stat["symbol"];
+                }
             }
 
             myLoop();             // again which will trigger another
