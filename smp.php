@@ -150,7 +150,25 @@ $all_statistics = json_decode($all_json_statistics, true);
             let players_playtimes = document.getElementsByClassName("time-td");
             for (let playtime of players_playtimes) {
                 let uuid = playtime.getAttribute("uuid");
-                playtime.innerText = data[uuid]["minecraft:play_one_minute"]["value"];
+                let totalSecs = data[uuid]["minecraft:play_one_minute"]["value"]/20;
+                let days = Math.floor(totalSecs/86400);
+                let hours = Math.floor((totalSecs % 86400)/3600);
+                let minutes = Math.floor((totalSecs % 86400)%3600)/60)
+                let seconds = Math.floor(totalSecs%60)
+                let timeStr = "";
+                if (days > 0) {
+                    timeStr += days+"d "
+                }
+                if (hours > 0) {
+                    timeStr += hours+"h "
+                }
+                if (minutes > 0) {
+                    timeStr += minutes+"m "
+                }
+                if (seconds > 0) {
+                    timeStr += seconds+"s"
+                }
+                playtime.innerText = timeStr;
             }
 
             // update other stats
