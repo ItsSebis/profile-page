@@ -123,9 +123,6 @@ $all_statistics = json_decode($all_json_statistics, true);
         foreach ($display as $stat) {
             $namespace_key = $stat["key"];
             $data = $player[$namespace_key];
-            print_r($player);
-            echo $namespace_key;
-            print_r($data);
             $Cal = new Field_calculate();
             $value = round($Cal->calculate($data["value"].$stat["factor"]), 2);
             echo "<td class='".$namespace_key."' uuid='".$uuid."'>".$value.$stat["symbol"]."</td>";
