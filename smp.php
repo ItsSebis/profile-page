@@ -83,7 +83,7 @@ $all_statistics = json_decode($all_json_statistics, true);
             // your code here
 
             i++;
-            let players_playtimes = document.getElementsByClassName("time-tds");
+            let players_playtimes = document.getElementsByClassName("time-td");
             for (let playtime of players_playtimes) {
                 playtime.innerText = "Test "+i
                 console.log("Updated playtime for player with UUID: "+playtime.getAttribute("uuid"))
