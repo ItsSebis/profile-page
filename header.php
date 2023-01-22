@@ -48,7 +48,7 @@
                 <li><a target="_self" href="projects" class="navlinks" style="color: #00a7ff">Projects</a></li>
 <!--                <li><a target="_blank" href="https://sebis.net/nas" class="navlinks" style="color: #41d0ff">NAS</a></li>-->
                 <li><a target="_blank" href="https://github.com/ItsSebis" class="navlinks" style="color: #4f64b1">GitHub</a></li>
-                <li><a target="_blank" href="smp.php" class="navlinks" style="color: #444ad3">Minecraft SMP</a></li>
+                <li><a target="_self" href="smp.php" class="navlinks" style="color: #444ad3">Minecraft SMP</a></li>
             </ul>
         </li>
     </ul>
