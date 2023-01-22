@@ -157,6 +157,7 @@ $all_statistics = json_decode($all_json_statistics, true);
             let json_display = httpGet("https://sebis.net/smp.php?display");
             let display = JSON.parse(json_display);
             for (let stat of Object.keys(display)) {
+                console.log(stat)
                 let tds = document.getElementsByClassName(stat["key"]);
                 for (let td of tds) {
                     let uuid = td.getAttribute("uuid");
