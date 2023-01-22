@@ -65,11 +65,10 @@ $all_statistics = json_decode($all_json_statistics, true);
         }
         echo "<td class='time-td' uuid='".$uuid."'>".$timeStr."</td>";
 
-        foreach ($player as $stat) {
-            if (in_array($stat["name"], $display)) {
-                // display stat
-                //echo "<td>".$stat['value']."</td>";
-            }
+        foreach ($display as $namespace_key => $stat) {
+            $data = $player[$namespace_key];
+            $value = round(eval("return ".$data['value'].$stat[1].";"), 2);
+            echo "<td class='".$namespace_key."' uuid='".$uuid."'>".$value.$stat[2]."</td>";
         }
         echo "</tr>";
     }
@@ -96,7 +95,6 @@ $all_statistics = json_decode($all_json_statistics, true);
             for (let playtime of players_playtimes) {
                 let uuid = playtime.getAttribute("uuid");
                 playtime.innerText = data[uuid]["minecraft:play_one_minute"]["value"];
-                console.log("Updated playtime for player with UUID: "+uuid)
             }
 
             myLoop();             // again which will trigger another
