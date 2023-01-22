@@ -154,7 +154,7 @@ $all_statistics = json_decode($all_json_statistics, true);
                 let days = Math.floor(totalSecs/86400);
                 let hours = Math.floor((totalSecs % 86400)/3600);
                 let minutes = Math.floor(((totalSecs % 86400)%3600)/60);
-                let seconds = Math.floor(totalSecs%60)
+                let seconds = Math.floor(totalSecs%60);
                 let timeStr = "";
                 if (days > 0) {
                     timeStr += days+"d "
@@ -186,7 +186,7 @@ $all_statistics = json_decode($all_json_statistics, true);
             }
 
             myLoop();             // again which will trigger another
-        }, 1000)
+        }, 500)
     }
 
     myLoop();                   // start the loop
