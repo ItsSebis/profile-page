@@ -68,14 +68,14 @@ $json_stats .= "}";
 $stats = json_decode($json_stats, true);
 $display = array("Playtime" => array("key" => "minecraft:play_one_minute", "name" => "PLAY_ONE_MINUTE", "factor" => "/20/60/60", "symbol" => "h"));
 
-if (!isset($_GET["api"])) {
-    require_once "header.php";
+if (isset($_GET["api"])) {
+    echo $json_stats;
+    exit();
 } elseif (isset($_GET["display"])) {
     echo json_encode($display);
     exit();
 } else {
-    echo $json_stats;
-    exit();
+    require_once "header.php";
 }
 
 $all_json_statistics = file_get_contents("/opt/mc/java/server/statistics.list");
@@ -149,6 +149,7 @@ $all_statistics = json_decode($all_json_statistics, true);
         setTimeout(function() {   // call a 3s setTimeout when the loop is called
             // your code here
 
+            // update playtime
             let json_data = httpGet("https://sebis.net/smp.php?api");
             let data = JSON.parse(json_data);
             i++;
@@ -156,6 +157,13 @@ $all_statistics = json_decode($all_json_statistics, true);
             for (let playtime of players_playtimes) {
                 let uuid = playtime.getAttribute("uuid");
                 playtime.innerText = data[uuid]["minecraft:play_one_minute"]["value"];
+            }
+
+            // update other stats
+            let json_display = httpGet("https://sebis.net/smp.php?display");
+            let display = JSON.parse(json_display);
+            for (let stat of display) {
+
             }
 
             myLoop();             // again which will trigger another
