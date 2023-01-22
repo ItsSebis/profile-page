@@ -161,6 +161,7 @@ $all_statistics = json_decode($all_json_statistics, true);
                 for (let td of tds) {
                     let uuid = td.getAttribute("uuid");
                     let value = parseFloat(data[uuid][stat["key"]]["value"]+stat["factor"]);
+                    console.log(value);
                     td.innerText = value+stat["symbol"];
                 }
             }
