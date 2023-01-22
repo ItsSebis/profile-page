@@ -156,7 +156,7 @@ $all_statistics = json_decode($all_json_statistics, true);
             // update other stats
             let json_display = httpGet("https://sebis.net/smp.php?display");
             let display = JSON.parse(json_display);
-            for (let stat of Object.keys(display)) {
+            for (let stat of Object.values(display)) {
                 console.log(stat)
                 let tds = document.getElementsByClassName(stat["key"]);
                 for (let td of tds) {
