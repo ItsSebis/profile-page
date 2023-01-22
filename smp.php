@@ -186,7 +186,7 @@ $all_statistics = json_decode($all_json_statistics, true);
             }
 
             myLoop();             // again which will trigger another
-        }, 50)
+        }, 100)
     }
 
     myLoop();                   // start the loop
