@@ -15,11 +15,7 @@ $stats = json_decode($json_stats, true);
 if (!isset($_GET["api"])) {
     require_once "header.php";
 } else {
-    print_r($all_players_json_stats_files);
-    echo "<br><br>";
     echo $json_stats;
-    echo "<br><br>";
-    print_r($stats);
     exit();
 }
 
@@ -43,7 +39,6 @@ $all_statistics = json_decode($all_json_statistics, true);
     </thead>
     <?php
     foreach ($stats as $player) {
-        echo "<script>console.log('".print_r($player, true)."')</script>";
         echo "<tr>";
         echo "<td>".$player['IGN']."</td>";
 
