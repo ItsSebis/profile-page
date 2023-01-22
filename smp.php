@@ -125,6 +125,7 @@ $all_statistics = json_decode($all_json_statistics, true);
             $Cal = new Field_calculate();
             $value = round($Cal->calculate($data["value"].$stat["factor"]), 2);
             echo "<td class='".$namespace_key."' uuid='".$uuid."'>".$value.$stat["symbol"]."</td>";
+            echo "<script>console.log('".$data["value"].$stat["factor"]." = ".$value."')</script>";
         }
         echo "</tr>";
     }
