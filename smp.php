@@ -1,7 +1,7 @@
 <?php
 
 class Field_calculate {
-    const PATTERN = '/(?:\-?\d+(?:\.?\d+)?[\+\-\*\/])+\-?\d+(?:\.?\d+)?/';
+    const PATTERN = '/(?:-?\d+(?:\.?\d+)?[+\-*\/])+-?\d+(?:\.?\d+)?/';
 
     const PARENTHESIS_DEPTH = 10;
 
@@ -9,12 +9,12 @@ class Field_calculate {
         if(strpos($input, '+') != null || strpos($input, '-') != null || strpos($input, '/') != null || strpos($input, '*') != null){
             //  Remove white spaces and invalid math chars
             $input = str_replace(',', '.', $input);
-            $input = preg_replace('[^0-9\.\+\-\*\/\(\)]', '', $input);
+            $input = preg_replace('[^0-9\.\+-\*/\(\)]', '', $input);
 
             //  Calculate each of the parenthesis from the top
             $i = 0;
             while(strpos($input, '(') || strpos($input, ')')){
-                $input = preg_replace_callback('/\(([^\(\)]+)\)/', 'self::callback', $input);
+                $input = preg_replace_callback('/\(([^()]+)\)/', 'self::callback', $input);
 
                 $i++;
                 if($i > self::PARENTHESIS_DEPTH){
@@ -122,6 +122,8 @@ $all_statistics = json_decode($all_json_statistics, true);
 
         foreach ($display as $namespace_key => $stat) {
             $data = $player[$namespace_key];
+            print_r($player);
+            print_r($data);
             $Cal = new Field_calculate();
             $value = round($Cal->calculate($data["value"].$stat["factor"]), 2);
             echo "<td class='".$namespace_key."' uuid='".$uuid."'>".$value.$stat["symbol"]."</td>";
