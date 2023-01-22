@@ -67,7 +67,7 @@ $all_statistics = json_decode($all_json_statistics, true);
 
         foreach ($display as $namespace_key => $stat) {
             $data = $player[$namespace_key];
-            $value = round(eval("return ".$data['value'].$stat[1].";"), 2);
+            $value = round(eval('return '.$data['value'].$stat[1].';'), 2);
             echo "<td class='".$namespace_key."' uuid='".$uuid."'>".$value.$stat[2]."</td>";
         }
         echo "</tr>";
