@@ -60,7 +60,7 @@ $all_statistics = json_decode($all_json_statistics, true);
         if ($seconds > 0) {
             $timeStr .= $seconds."s";
         }
-        echo "<td>".$timeStr."</td>";
+        echo "<td id='time-td'>".$timeStr."</td>";
 
         foreach ($player as $stat) {
             if (in_array($stat["name"], $display)) {
@@ -72,3 +72,20 @@ $all_statistics = json_decode($all_json_statistics, true);
     }
     ?>
 </table>
+<script>
+    let i = 0
+
+    function myLoop() {         // create a loop function
+        setTimeout(function() {   // call a 3s setTimeout when the loop is called
+            // your code here
+
+            i++;
+            let playtime = document.getElementById("time-td");
+            playtime.innerText = "Test "+i
+
+            myLoop();             // again which will trigger another
+        }, 1000)
+    }
+
+    myLoop();                   // start the loop
+</script>
