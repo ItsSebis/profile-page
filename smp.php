@@ -76,17 +76,27 @@ $all_statistics = json_decode($all_json_statistics, true);
     ?>
 </table>
 <script>
+    function httpGet(theUrl) {
+        let xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+
     let i = 0
 
     function myLoop() {         // create a loop function
         setTimeout(function() {   // call a 3s setTimeout when the loop is called
             // your code here
 
+            let json_data = httpGet("https://sebis.net/smp.php?api");
+            let data = JSON.parse(json_data);
             i++;
             let players_playtimes = document.getElementsByClassName("time-td");
             for (let playtime of players_playtimes) {
-                playtime.innerText = "Test "+i
-                console.log("Updated playtime for player with UUID: "+playtime.getAttribute("uuid"))
+                let uuid = playtime.getAttribute("uuid");
+                playtime.innerText = data[uuid]["minecraft:play_one_minute"]["value"];
+                console.log("Updated playtime for player with UUID: "+uuid)
             }
 
             myLoop();             // again which will trigger another
