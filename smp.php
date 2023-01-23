@@ -121,6 +121,7 @@ if (!isset($_GET["player"])) {
     $uuid = $_GET["player"];
     $player = $stats[$uuid];
     ?>
+<a style="position: absolute; top: 10px; left: 10px;" href="smp.php">← Back</a>
 <h1><?php echo $player["IGN"] ?></h1>
 <h2 class="time-td" id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h2>
 <table class="table" style="min-width: 80%">
