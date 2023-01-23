@@ -152,7 +152,7 @@ if (!isset($_GET["player"])) {
     ?>
 <h1><?php echo $player["IGN"] ?></h1>
 <h2 id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h2>
-<table class="table">
+<table class="table" style="min-width: 80%">
     <tbody>
     <?php
     foreach ($all_statistics as $key => $stat) {
