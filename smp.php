@@ -151,7 +151,8 @@ if (!isset($_GET["player"])) {
     $player = $stats[$uuid];
     ?>
 <h1><?php echo $player["IGN"] ?></h1>
-<h2 id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h2>
+<h2>Playtime:</h2>
+<h3 id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h3>
 
 <script>
 
