@@ -13,7 +13,7 @@ foreach ($all_players_json_stats_files as $players_json_stats_file) {
 }
 $json_stats .= "}";
 $stats = json_decode($json_stats, true);
-$display = array("minecraft:leave_game");
+$display = array("minecraft:leave_game", "minecraft:play_one_minute");
 $all_statistics = getStatistics();
 
 if (isset($_GET["api"])) {
