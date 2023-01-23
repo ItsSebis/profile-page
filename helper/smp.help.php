@@ -88,7 +88,7 @@ function getStatistics() {
         "minecraft:minecart_one_cm" =>                  array("name" => "Distance by Minecart", "factor" => "/100000", "symbol" => "km"),
         "minecraft:pig_one_cm" =>                       array("name" => "Distance by Pig", "factor" => "/100", "symbol" => "m"),
         "minecraft:strider_one_cm" =>                   array("name" => "Distance by Strider", "factor" => "/100", "symbol" => "m"),
-        "minecraft:inspect_dropper" =>                  array("name" => "Droppers Searched", "factor" => "", "symbol" => ""),
+        "minecraft:dropper_inspected" =>                array("name" => "Droppers Searched", "factor" => "", "symbol" => ""),
         "minecraft:enderchest_opened" =>                array("name" => "Ender Chests Opened", "factor" => "", "symbol" => ""),
         "minecraft:fish_caught" =>                      array("name" => "Fish Caught", "factor" => "", "symbol" => ""),
         "minecraft:leave_game" =>                       array("name" => "Games Quit", "factor" => "", "symbol" => ""),
