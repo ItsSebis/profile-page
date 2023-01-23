@@ -143,29 +143,29 @@ if (!isset($_GET["player"])) {
 ?>
 
 <script>
-    function updateLoop() { // create a loop function
+    
+    function updateLoop() {
+        // your code here
+        let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
+        let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
+
+        // update playtime
+        let players_playtimes = document.getElementsByClassName("time-td");
+        for (let playtime of players_playtimes) {
+            let uuid = playtime.getAttribute("uuid");
+            playtime.innerText = getPlayerTimeStr(uuid, data);
+        }
+
+        // update other stats
+        let tds = document.getElementsByClassName("other-stat");
+        for (let td of tds) {
+            let key = td.getAttribute("namespace_key");
+            let uuid = td.getAttribute("uuid");
+            let value = parseFloat(data[uuid][key]["value"]+all_statistics[key]["factor"]);
+            td.innerText = value+all_statistics[key]["symbol"];
+        }
         setTimeout(function() { // call a 3s setTimeout when the loop is called
-            // your code here
-            let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
-            let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
-
-            // update playtime
-            let players_playtimes = document.getElementsByClassName("time-td");
-            for (let playtime of players_playtimes) {
-                let uuid = playtime.getAttribute("uuid");
-                playtime.innerText = getPlayerTimeStr(uuid, data);
-            }
-
-            // update other stats
-            let tds = document.getElementsByClassName("other-stat");
-            for (let td of tds) {
-                let key = td.getAttribute("namespace_key");
-                let uuid = td.getAttribute("uuid");
-                let value = parseFloat(data[uuid][key]["value"]+all_statistics[key]["factor"]);
-                td.innerText = value+all_statistics[key]["symbol"];
-            }
-
-            updateLoop(); // again which will trigger another
+            updateLoop();
         }, 1000)
     }
 
