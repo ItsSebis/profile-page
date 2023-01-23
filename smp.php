@@ -147,10 +147,32 @@ if (!isset($_GET["player"])) {
         echo "<script>window.location.href = 'smp.php'</script>";
         exit();
     }
-    $player = $stats[$_GET["player"]]
+    $uuid = $_GET["player"];
+    $player = $stats[$uuid];
     ?>
-    
-    
-    
+<h1><?php echo $player["IGN"] ?></h1>
+<h2 id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h2>
+
+<script>
+
+    function updatePlayer() {
+        // updates
+        let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
+        let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
+
+        let playtime = document.getElementById("player-time");
+        let uuid = playtime.getAttribute("uuid");
+        playtime.innerText = getPlayerTimeStr(uuid, data);
+    }
+
+    function updatePlayerLoop() {
+        setTimeout(function () {
+            updatePlayer();
+        }, 1000)
+    }
+
+    updatePlayer();
+    updatePlayerLoop();
+</script>
 <?php
 }
