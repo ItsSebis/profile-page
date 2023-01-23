@@ -62,7 +62,7 @@ function getStatistics() {
         "minecraft:banner_cleaned" =>                   array("name" => "Banners Cleaned", "factor" => "", "symbol" => ""),
         "minecraft:open_barrel" =>                      array("name" => "Barrels Opened", "factor" => "", "symbol" => ""),
         "minecraft:bell_ring" =>                        array("name" => "Bells Rung", "factor" => "", "symbol" => ""),
-        "minecraft:eat_cake_slice" =>                   array("name" => "Cake Slices Eaten", "factor" => "", "symbol" => ""),
+        "minecraft:cake_slices_eaten" =>                array("name" => "Cake Slices Eaten", "factor" => "", "symbol" => ""),
         "minecraft:fill_cauldron" =>                    array("name" => "Cauldrons Filled", "factor" => "", "symbol" => ""),
         "minecraft:open_chest" =>                       array("name" => "Chests Opened", "factor" => "", "symbol" => ""),
         "minecraft:damage_absorbed" =>                  array("name" => "Damage Absorbed", "factor" => "", "symbol" => ""),
