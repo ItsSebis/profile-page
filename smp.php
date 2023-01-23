@@ -60,7 +60,10 @@ if (isset($_GET["api"])) {
         return timeStr;
     }
 </script>
-<div style="height: 80px"></div>
+<div style="height: 50px"></div>
+<?php
+if (!isset($_GET["player"])) {
+?>
 <h1>SMP Stats</h1>
 <table class="table">
     <thead>
@@ -77,7 +80,7 @@ if (isset($_GET["api"])) {
     <?php
     foreach ($stats as $uuid => $player) {
         echo "<tr>";
-        echo "<td>".$player['IGN']."</td>";
+        echo "<td><a target='_self' href='smp.php?user=".$uuid."'>".$player['IGN']."</a></td>";
 
         $totalSecs = $player["minecraft:play_one_minute"]["value"] / 20;
         $days = floor($totalSecs / 86400);
@@ -138,3 +141,16 @@ if (isset($_GET["api"])) {
 
     updateHomeLoop(); // start the loop
 </script>
+<?php
+} else {
+    if (!isset($stats[$_GET["player"]])) {
+        echo "<script>window.location.href = 'smp.php'</script>";
+        exit();
+    }
+    $player = $stats[$_GET["player"]]
+    ?>
+    
+    
+    
+<?php
+}
