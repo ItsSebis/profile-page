@@ -134,7 +134,3 @@ function getStatistics() {
         "minecraft:use_cauldron" =>                     array("name" => "Water Taken from Cauldron", "factor" => "", "symbol" => "")
     );
 }
-
-if (isset($_GET["statistics"])) {
-    echo json_encode(getStatistics());
-}
