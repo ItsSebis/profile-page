@@ -164,7 +164,7 @@ if (!isset($_GET["player"])) {
             let uuid = td.getAttribute("uuid");
             console.log(all_statistics[key])
             let valueStr = ""+data[uuid][key]["value"]+all_statistics[key]["factor"];
-            let value = Math.round(parseFloat(valueStr)*100)/100;
+            let value = Math.round(eval(valueStr)*100)/100;
             td.innerText = value+all_statistics[key]["symbol"];
         }
         setTimeout(function() { // call a 3s setTimeout when the loop is called
