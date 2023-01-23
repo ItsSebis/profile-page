@@ -37,12 +37,6 @@ if (isset($_GET["api"])) {
         xmlHttp.send( null );
         return xmlHttp.responseText;
     }
-    let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
-    let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
-
-    function getAllStatistics() {
-        return all_statistics;
-    }
 
     function getPlayerTimeStr(uuid, data) {
         let totalSecs = data[uuid]["minecraft:play_one_minute"]["value"]/20;
@@ -109,7 +103,6 @@ if (isset($_GET["api"])) {
             $Cal = new Field_calculate();
             $value = round($Cal->calculate($data["value"].$all_statistics[$stat]["factor"]), 2);
             echo "<td class='other-stat' namespace_key='".$stat."' uuid='".$uuid."'>".$value.$all_statistics[$stat]["symbol"]."</td>";
-            echo "<script>console.log('".$data["value"].$all_statistics[$stat]["factor"]." = ".$value."')</script>";
         }
         echo "</tr>";
     }
@@ -119,7 +112,8 @@ if (isset($_GET["api"])) {
     function updateHomeLoop() { // create a loop function
         setTimeout(function() { // call a 3s setTimeout when the loop is called
             // your code here
-            data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
+            let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
+            let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
 
             // update playtime
             let players_playtimes = document.getElementsByClassName("time-td");
@@ -133,7 +127,6 @@ if (isset($_GET["api"])) {
             for (let td of tds) {
                 let key = td.getAttribute("namespace_key")
                 let uuid = td.getAttribute("uuid");
-                let all_statistics = getAllStatistics();
                 let value = parseFloat(data[uuid][key]["value"]+all_statistics[key]["factor"]);
                 td.innerText = value+all_statistics[key]["symbol"];
             }
