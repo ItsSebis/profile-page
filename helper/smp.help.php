@@ -94,7 +94,7 @@ function getStatistics() {
         "minecraft:leave_game" =>                       array("name" => "Games Quit", "factor" => "", "symbol" => ""),
         "minecraft:hopper_inspected" =>                 array("name" => "Hoppers Searched", "factor" => "", "symbol" => ""),
         "minecraft:interact_with_anvil" =>              array("name" => "Interactions with Anvil", "factor" => "", "symbol" => ""),
-        "minecraft:interact_with_beacon" =>             array("name" => "Interactions with Beacon", "factor" => "", "symbol" => ""),
+        "minecraft:beacon_interaction" =>               array("name" => "Interactions with Beacon", "factor" => "", "symbol" => ""),
         "minecraft:interact_with_blast_furnace" =>      array("name" => "Interactions with Blast Furnace", "factor" => "", "symbol" => ""),
         "minecraft:interact_with_brewingstand" =>       array("name" => "Interactions with Brewing Stand", "factor" => "", "symbol" => ""),
         "minecraft:interact_with_campfire" =>           array("name" => "Interactions with Campfire", "factor" => "", "symbol" => ""),
