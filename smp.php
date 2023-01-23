@@ -163,6 +163,8 @@ if (!isset($_GET["player"])) {
         let playtime = document.getElementById("player-time");
         let uuid = playtime.getAttribute("uuid");
         playtime.innerText = getPlayerTimeStr(uuid, data);
+
+        updatePlayerLoop();
     }
 
     function updatePlayerLoop() {
@@ -172,7 +174,6 @@ if (!isset($_GET["player"])) {
     }
 
     updatePlayer();
-    updatePlayerLoop();
 </script>
 <?php
 }
