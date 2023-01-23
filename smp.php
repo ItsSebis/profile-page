@@ -14,6 +14,7 @@ foreach ($all_players_json_stats_files as $players_json_stats_file) {
 $json_stats .= "}";
 $stats = json_decode($json_stats, true);
 $display = array("minecraft:leave_game");
+$all_statistics = getStatistics();
 
 if (isset($_GET["api"])) {
     echo $json_stats;
@@ -22,12 +23,12 @@ if (isset($_GET["api"])) {
     echo json_encode($display);
     exit();
 } elseif (isset($_GET["statistics"])) {
-    echo json_encode(getStatistics());
+    echo json_encode($all_statistics);
+    exit();
 } else {
     require_once "header.php";
 }
 
-$all_statistics = getStatistics();
 ?>
 <script>
     function httpGet(theUrl) {
