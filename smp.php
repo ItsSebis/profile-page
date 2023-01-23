@@ -67,7 +67,7 @@ if (isset($_GET["api"])) {
         <th>Player</th>
         <th>Playtime</th>
         <?php
-        foreach ($display as $key => $value) {
+        foreach ($display as $key) {
             echo "<th>".$key."</th>";
         }
         ?>
