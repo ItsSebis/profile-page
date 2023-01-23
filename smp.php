@@ -38,6 +38,10 @@ if (isset($_GET["api"])) {
         return xmlHttp.responseText;
     }
 
+    function getAllStatistics() {
+        return all_statistics;
+    }
+
     function getPlayerTimeStr(uuid, data) {
         let totalSecs = data[uuid]["minecraft:play_one_minute"]["value"]/20;
         let days = Math.floor(totalSecs/86400);
@@ -62,6 +66,8 @@ if (isset($_GET["api"])) {
 
     let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
     let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
+    console.log(all_statistics)
+    console.log(getAllStatistics())
 </script>
 <h1 style="margin-top: 80px">SMP Stats</h1>
 <table class="table">
@@ -130,6 +136,9 @@ if (isset($_GET["api"])) {
             for (let td of tds) {
                 let key = td.getAttribute("namespace_key")
                 let uuid = td.getAttribute("uuid");
+                console.log(all_statistics);
+                console.log(getAllStatistics());
+                let all_statistics = getAllStatistics();
                 let value = parseFloat(data[uuid][key]["value"]+all_statistics[key]["factor"]);
                 td.innerText = value+all_statistics[key]["symbol"];
             }
