@@ -37,6 +37,8 @@ if (isset($_GET["api"])) {
         xmlHttp.send( null );
         return xmlHttp.responseText;
     }
+    let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
+    let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
 
     function getAllStatistics() {
         return all_statistics;
@@ -63,11 +65,6 @@ if (isset($_GET["api"])) {
         }
         return timeStr;
     }
-
-    let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
-    let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
-    console.log(all_statistics)
-    console.log(getAllStatistics())
 </script>
 <h1 style="margin-top: 80px">SMP Stats</h1>
 <table class="table">
@@ -136,8 +133,6 @@ if (isset($_GET["api"])) {
             for (let td of tds) {
                 let key = td.getAttribute("namespace_key")
                 let uuid = td.getAttribute("uuid");
-                console.log(all_statistics);
-                console.log(getAllStatistics());
                 let all_statistics = getAllStatistics();
                 let value = parseFloat(data[uuid][key]["value"]+all_statistics[key]["factor"]);
                 td.innerText = value+all_statistics[key]["symbol"];
