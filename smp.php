@@ -60,7 +60,8 @@ if (isset($_GET["api"])) {
         return timeStr;
     }
 </script>
-<h1 style="margin-top: 80px">SMP Stats</h1>
+<div style="height: 80px"></div>
+<h1>SMP Stats</h1>
 <table class="table">
     <thead>
     <tr>
