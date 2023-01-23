@@ -151,15 +151,28 @@ if (!isset($_GET["player"])) {
     $player = $stats[$uuid];
     ?>
 <h1><?php echo $player["IGN"] ?></h1>
-<h2>Playtime:</h2>
-<h3 id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h3>
+<h2 id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h2>
+<table class="table">
+    <tbody>
+    <?php
+    foreach ($all_statistics as $key => $stat) {
+        $data = $player[$key];
+        echo "<tr>";
+        echo "<td>".$stat['name']."</td>";
+        $Cal = new Field_calculate();
+        $value = round($Cal->calculate($data["value"].$stat["factor"]), 2);
+        echo "<td class='other-stat' namespace_key='".$key."' uuid='".$uuid."'>".$value.$stat["symbol"]."</td>";
+        echo "</tr>";
+    }
+    ?>
+    </tbody>
+</table>
 
 <script>
 
     function updatePlayer() {
         // updates
         let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
-        let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
 
         let playtime = document.getElementById("player-time");
         let uuid = playtime.getAttribute("uuid");
