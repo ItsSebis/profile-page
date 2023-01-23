@@ -162,6 +162,7 @@ if (!isset($_GET["player"])) {
         for (let td of tds) {
             let key = td.getAttribute("namespace_key");
             let uuid = td.getAttribute("uuid");
+            console.log(data[uuid][key])
             let value = parseFloat(data[uuid][key]["value"]+all_statistics[key]["factor"]);
             td.innerText = value+all_statistics[key]["symbol"];
         }
