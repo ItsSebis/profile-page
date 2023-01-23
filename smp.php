@@ -80,7 +80,7 @@ if (!isset($_GET["player"])) {
     <?php
     foreach ($stats as $uuid => $player) {
         echo "<tr>";
-        echo "<td><a target='_self' href='smp.php?user=".$uuid."'>".$player['IGN']."</a></td>";
+        echo "<td><a target='_self' href='smp.php?player=".$uuid."'>".$player['IGN']."</a></td>";
 
         $totalSecs = $player["minecraft:play_one_minute"]["value"] / 20;
         $days = floor($totalSecs / 86400);
