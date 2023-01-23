@@ -112,8 +112,38 @@ if (!isset($_GET["player"])) {
     }
     ?>
 </table>
+<?php
+} else {
+    if (!isset($stats[$_GET["player"]])) {
+        echo "<script>window.location.href = 'smp.php'</script>";
+        exit();
+    }
+    $uuid = $_GET["player"];
+    $player = $stats[$uuid];
+    ?>
+<h1><?php echo $player["IGN"] ?></h1>
+<h2 class="time-td" id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h2>
+<table class="table" style="min-width: 80%">
+    <tbody>
+    <?php
+    foreach ($all_statistics as $key => $stat) {
+        $data = $player[$key];
+        echo "<tr>";
+        echo "<td>".$stat['name']."</td>";
+        $Cal = new Field_calculate();
+        $value = round($Cal->calculate($data["value"].$stat["factor"]), 2);
+        echo "<td class='other-stat' namespace_key='".$key."' uuid='".$uuid."'>".$value.$stat["symbol"]."</td>";
+        echo "</tr>";
+    }
+    ?>
+    </tbody>
+</table>
+<?php
+}
+?>
+
 <script>
-    function updateHomeLoop() { // create a loop function
+    function updateLoop() { // create a loop function
         setTimeout(function() { // call a 3s setTimeout when the loop is called
             // your code here
             let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
@@ -135,59 +165,9 @@ if (!isset($_GET["player"])) {
                 td.innerText = value+all_statistics[key]["symbol"];
             }
 
-            updateHomeLoop(); // again which will trigger another
+            updateLoop(); // again which will trigger another
         }, 1000)
     }
 
-    updateHomeLoop(); // start the loop
+    updateLoop(); // start the loop
 </script>
-<?php
-} else {
-    if (!isset($stats[$_GET["player"]])) {
-        echo "<script>window.location.href = 'smp.php'</script>";
-        exit();
-    }
-    $uuid = $_GET["player"];
-    $player = $stats[$uuid];
-    ?>
-<h1><?php echo $player["IGN"] ?></h1>
-<h2 id="player-time" uuid="<?php echo $uuid ?>"><?php echo $player["IGN"] ?></h2>
-<table class="table" style="min-width: 80%">
-    <tbody>
-    <?php
-    foreach ($all_statistics as $key => $stat) {
-        $data = $player[$key];
-        echo "<tr>";
-        echo "<td>".$stat['name']."</td>";
-        $Cal = new Field_calculate();
-        $value = round($Cal->calculate($data["value"].$stat["factor"]), 2);
-        echo "<td class='other-stat' namespace_key='".$key."' uuid='".$uuid."'>".$value.$stat["symbol"]."</td>";
-        echo "</tr>";
-    }
-    ?>
-    </tbody>
-</table>
-
-<script>
-
-    function updatePlayer() {
-        // updates
-        let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
-
-        let playtime = document.getElementById("player-time");
-        let uuid = playtime.getAttribute("uuid");
-        playtime.innerText = getPlayerTimeStr(uuid, data);
-
-        updatePlayerLoop();
-    }
-
-    function updatePlayerLoop() {
-        setTimeout(function () {
-            updatePlayer();
-        }, 1000)
-    }
-
-    updatePlayer();
-</script>
-<?php
-}
