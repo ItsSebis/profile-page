@@ -68,7 +68,7 @@ if (isset($_GET["api"])) {
         <th>Playtime</th>
         <?php
         foreach ($display as $key) {
-            echo "<th>".$key."</th>";
+            echo "<th>".$all_statistics[$key]['name']."</th>";
         }
         ?>
     </tr>
