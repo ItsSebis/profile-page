@@ -1,4 +1,35 @@
-<script type="text/javascript">
+<?php
+
+require_once "helper/smp.help.php";
+
+$all_players_json_stats_files = array_diff(scandir("/opt/mc/java/server/stats/"), array(".", ".."));
+$json_stats = "{";
+foreach ($all_players_json_stats_files as $players_json_stats_file) {
+    $json_stats .= "\"".pathinfo($players_json_stats_file, PATHINFO_FILENAME)."\":";
+    $json_stats .= file_get_contents("/opt/mc/java/server/stats/".$players_json_stats_file);
+    if ($players_json_stats_file !== end($all_players_json_stats_files)) {
+        $json_stats .= ",";
+    }
+}
+$json_stats .= "}";
+$stats = json_decode($json_stats, true);
+$display = array("minecraft:leave_game");
+
+if (isset($_GET["api"])) {
+    echo $json_stats;
+    exit();
+} elseif (isset($_GET["display"])) {
+    echo json_encode($display);
+    exit();
+} elseif (isset($_GET["statistics"])) {
+    echo json_encode(getStatistics());
+} else {
+    require_once "header.php";
+}
+
+$all_statistics = getStatistics();
+?>
+<script>
     function httpGet(theUrl) {
         let xmlHttp = new XMLHttpRequest();
         xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
@@ -31,38 +62,6 @@
     let data = JSON.parse(httpGet("https://sebis.net/smp.php?api"));
     let all_statistics = JSON.parse(httpGet("https://sebis.net/smp.php?statistics"));
 </script>
-<?php
-
-require_once "helper/smp.help.php";
-
-$all_players_json_stats_files = array_diff(scandir("/opt/mc/java/server/stats/"), array(".", ".."));
-$json_stats = "{";
-foreach ($all_players_json_stats_files as $players_json_stats_file) {
-    $json_stats .= "\"".pathinfo($players_json_stats_file, PATHINFO_FILENAME)."\":";
-    $json_stats .= file_get_contents("/opt/mc/java/server/stats/".$players_json_stats_file);
-    if ($players_json_stats_file !== end($all_players_json_stats_files)) {
-        $json_stats .= ",";
-    }
-}
-$json_stats .= "}";
-$stats = json_decode($json_stats, true);
-$display = array("minecraft:leave_game");
-
-if (isset($_GET["api"])) {
-    echo $json_stats;
-    exit();
-} elseif (isset($_GET["display"])) {
-    echo json_encode($display);
-    exit();
-} elseif (isset($_GET["statistics"])) {
-    echo json_encode(getStatistics());
-} else {
-    require_once "header.php";
-}
-
-$all_statistics = getStatistics();
-
-?>
 <h1 style="margin-top: 80px">SMP Stats</h1>
 <table class="table">
     <thead>
